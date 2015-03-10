@@ -1,0 +1,33 @@
+{
+    "name": "jamesrezo/webhelper",
+    "description": "A Generic Httpd Configuration Helper",
+    "type": "composer-plugin",
+    "extra": {
+        "class": "JamesRezo\\WebHelper\\WebHelperPlugin"
+    },
+    "require": {
+        "composer-plugin-api": "1.0.0",
+        "twig/twig": "~1.18"
+    },
+    "require-dev": {
+        "composer/composer": "~1.0@dev",
+        "phpunit/phpunit": "~4.5"
+    },
+   "autoload": {
+        "psr-4": {
+            "JamesRezo\\WebHelper\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "JamesRezo\\WebHelper\\Test\\": "tests/"
+        }
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "James",
+            "email": "james@rezo.net"
+        }
+    ]
+}
