@@ -1,10 +1,6 @@
 {
     "name": "jamesrezo/webhelper",
     "description": "A Generic Httpd Configuration Helper",
-    "type": "composer-plugin",
-    "extra": {
-        "class": "JamesRezo\\WebHelper\\WebHelperPlugin"
-    },
     "require": {
         "composer-plugin-api": "1.0.0",
         "twig/twig": "~1.18"

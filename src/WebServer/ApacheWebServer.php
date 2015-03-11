@@ -2,7 +2,7 @@
 
 namespace JamesRezo\WebHelper\WebServer;
 
-class ApacheWebServer extends WebServerWithDirectives
+class ApacheWebServer extends WebServer
 {
     public function __construct($version = 0)
     {
