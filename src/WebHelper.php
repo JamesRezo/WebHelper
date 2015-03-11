@@ -21,7 +21,7 @@ class WebHelper
 {
     /**
      * Repository path
-     * @var string $resDir the repository attached to the helper
+     * @var string $resDir the repository related to the helper
      */
     private $resDir;
 
@@ -39,9 +39,10 @@ class WebHelper
     private $webserver = null;
 
     /**
-     * [__construct description]
-     * @param [type] $dir   [description]
-     * @param [type] $cache [description]
+     * Constructor
+     * 
+     * @param string $dir   Path of the related repository
+     * @param string $cache Path of Twig Cache directory
      */
     public function __construct($dir = null, $cache = null)
     {
@@ -61,8 +62,9 @@ class WebHelper
     }
 
     /**
-     * [getRepository description]
-     * @return [type] [description]
+     * Absolute path to the related repository
+     * 
+     * @return string Absolute path to the related repository
      */
     public function getRepository()
     {
@@ -70,8 +72,9 @@ class WebHelper
     }
 
     /**
-     * [getWebServer description]
-     * @return [type] [description]
+     * Get the current webserver to be configured
+     * 
+     * @return WebServerInterface $webserver the current webserver to be configured
      */
     public function getWebServer()
     {
@@ -79,7 +82,8 @@ class WebHelper
     }
 
     /**
-     * [setWebServer description]
+     * Sets the webserver to generate the directives statements
+     * 
      * @param WebServerInterface $webserver the webserver to generate the directives statements
      */
     public function setWebServer(WebServerInterface $webserver)
@@ -90,9 +94,10 @@ class WebHelper
     }
 
     /**
-     * [validateDirective description]
-     * @param  [type] $directive [description]
-     * @return [type]            [description]
+     * Validates a Directive
+     * 
+     * @param  string  $directive the directive to be tested
+     * @return boolean            TRUE if the $directive is known word
      */
     private function validateDirective($directive)
     {
@@ -100,9 +105,10 @@ class WebHelper
     }
 
     /**
-     * [findDirective description]
-     * @param  [type] $directive [description]
-     * @return [type]            [description]
+     * Looks for the best version of directive twig file
+     * 
+     * @param  string $directive the directive to be generated
+     * @return string            the relative pathname for the $directive
      */
     public function findDirective($directive)
     {
@@ -142,10 +148,11 @@ class WebHelper
     }
 
     /**
-     * [render description]
-     * @param  [type] $project [description]
-     * @param  [type] $models  [description]
-     * @return [type]          [description]
+     * Output the generated Directives statements
+     * 
+     * @param  array  $project Project Datas
+     * @param  array  $models  List of Twig files
+     * @return string          the statements
      */
     public function render($project, $models)
     {
