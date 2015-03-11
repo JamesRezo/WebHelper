@@ -3,3 +3,5 @@ composer.phar
 phpunit.xml
 /var/
 !/var/.gitkeep
+/build/
+!/build/.gitkeep

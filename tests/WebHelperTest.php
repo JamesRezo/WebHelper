@@ -1,4 +1,12 @@
 <?php
+/**
+ * This file is, guess what, part of WebHelper.
+ *
+ * (c) James <james@rezo.net>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace JamesRezo\WebHelper\Test;
 

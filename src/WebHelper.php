@@ -1,18 +1,48 @@
 <?php
+/**
+ * This file is, guess what, part of WebHelper.
+ *
+ * (c) James <james@rezo.net>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace JamesRezo\WebHelper;
 
 use JamesRezo\WebHelper\WebServer\WebServerInterface;
 use Symfony\Component\Finder\Finder;
 
+/**
+ * WebHelper 
+ * @package WebHelper
+ */
 class WebHelper
 {
+    /**
+     * Repository path
+     * @var string $resDir the repository attached to the helper
+     */
     private $resDir;
 
+    /**
+     * the twig engine
+     * 
+     * @var \Twig_Environment $Twig_Environment the twig engine
+     */
     private $Twig_Environment;
 
+    /**
+     * A webserver to generate the directives statements
+     * @var  WebServerInterface $webserver a webserver to generate the directives statements
+     */
     private $webserver = null;
 
+    /**
+     * [__construct description]
+     * @param [type] $dir   [description]
+     * @param [type] $cache [description]
+     */
     public function __construct($dir = null, $cache = null)
     {
         $resDir = is_null($dir) ? __DIR__.'/../res' : $dir;
@@ -30,16 +60,28 @@ class WebHelper
         }
     }
 
+    /**
+     * [getRepository description]
+     * @return [type] [description]
+     */
     public function getRepository()
     {
         return realpath($this->resDir);
     }
 
+    /**
+     * [getWebServer description]
+     * @return [type] [description]
+     */
     public function getWebServer()
     {
         return $this->webserver;
     }
 
+    /**
+     * [setWebServer description]
+     * @param WebServerInterface $webserver the webserver to generate the directives statements
+     */
     public function setWebServer(WebServerInterface $webserver)
     {
         $this->webserver = $webserver;
@@ -47,11 +89,21 @@ class WebHelper
         return $this;
     }
 
+    /**
+     * [validateDirective description]
+     * @param  [type] $directive [description]
+     * @return [type]            [description]
+     */
     private function validateDirective($directive)
     {
         return preg_match(',^[a-z]+$,', $directive);
     }
 
+    /**
+     * [findDirective description]
+     * @param  [type] $directive [description]
+     * @return [type]            [description]
+     */
     public function findDirective($directive)
     {
         if (!$this->validateDirective($directive) || is_null($this->webserver)) {
@@ -89,6 +141,12 @@ class WebHelper
         return $relativePathname;
     }
 
+    /**
+     * [render description]
+     * @param  [type] $project [description]
+     * @param  [type] $models  [description]
+     * @return [type]          [description]
+     */
     public function render($project, $models)
     {
         $text = '';
