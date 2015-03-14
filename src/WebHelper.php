@@ -14,33 +14,34 @@ use JamesRezo\WebHelper\WebServer\WebServerInterface;
 use Symfony\Component\Finder\Finder;
 
 /**
- * WebHelper 
- * @package WebHelper
+ * WebHelper.
  */
 class WebHelper
 {
     /**
-     * Repository path
-     * @var string $resDir the repository related to the helper
+     * Repository path.
+     *
+     * @var string the repository related to the helper
      */
     private $resDir;
 
     /**
-     * the twig engine
-     * 
-     * @var \Twig_Environment $Twig_Environment the twig engine
+     * the twig engine.
+     *
+     * @var \Twig_Environment the twig engine
      */
     private $Twig_Environment;
 
     /**
-     * A webserver to generate the directives statements
-     * @var  WebServerInterface $webserver a webserver to generate the directives statements
+     * A webserver to generate the directives statements.
+     *
+     * @var WebServerInterface a webserver to generate the directives statements
      */
     private $webserver = null;
 
     /**
-     * Constructor
-     * 
+     * Constructor.
+     *
      * @param string $dir   Path of the related repository
      * @param string $cache Path of Twig Cache directory
      */
@@ -62,8 +63,8 @@ class WebHelper
     }
 
     /**
-     * Absolute path to the related repository
-     * 
+     * Absolute path to the related repository.
+     *
      * @return string Absolute path to the related repository
      */
     public function getRepository()
@@ -72,8 +73,8 @@ class WebHelper
     }
 
     /**
-     * Get the current webserver to be configured
-     * 
+     * Get the current webserver to be configured.
+     *
      * @return WebServerInterface $webserver the current webserver to be configured
      */
     public function getWebServer()
@@ -82,8 +83,8 @@ class WebHelper
     }
 
     /**
-     * Sets the webserver to generate the directives statements
-     * 
+     * Sets the webserver to generate the directives statements.
+     *
      * @param WebServerInterface $webserver the webserver to generate the directives statements
      */
     public function setWebServer(WebServerInterface $webserver)
@@ -94,10 +95,11 @@ class WebHelper
     }
 
     /**
-     * Validates a Directive
-     * 
-     * @param  string  $directive the directive to be tested
-     * @return boolean            TRUE if the $directive is known word
+     * Validates a Directive.
+     *
+     * @param string $directive the directive to be tested
+     *
+     * @return boolean TRUE if the $directive is known word
      */
     private function validateDirective($directive)
     {
@@ -105,10 +107,11 @@ class WebHelper
     }
 
     /**
-     * Looks for the best version of directive twig file
-     * 
-     * @param  string $directive the directive to be generated
-     * @return string            the relative pathname for the $directive
+     * Looks for the best version of directive twig file.
+     *
+     * @param string $directive the directive to be generated
+     *
+     * @return string the relative pathname for the $directive
      */
     public function findDirective($directive)
     {
@@ -148,11 +151,12 @@ class WebHelper
     }
 
     /**
-     * Output the generated Directives statements
-     * 
-     * @param  array  $project Project Datas
-     * @param  array  $models  List of Twig files
-     * @return string          the statements
+     * Output the generated Directives statements.
+     *
+     * @param array $project Project Datas
+     * @param array $models  List of Twig files
+     *
+     * @return string the statements
      */
     public function render($project, $models)
     {

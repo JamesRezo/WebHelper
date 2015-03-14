@@ -16,30 +16,28 @@ namespace JamesRezo\WebHelper\WebServer;
  * name can be either apache, nginx, lighttpd, php or other webserver name
  *
  * @author james <james@rezo.net>
- * @package WebHelper\WebServer
  */
 abstract class WebServer implements WebServerInterface
 {
     /**
-     * the name of a webserver
-     * 
-     * @var string $name the name of a webserver
+     * the name of a webserver.
+     *
+     * @var string the name of a webserver
      */
     private $name;
 
     /**
-     * the version of a webserver
-     * 
-     * @var string $version the version of a webserver
+     * the version of a webserver.
+     *
+     * @var string the version of a webserver
      */
     private $version;
 
     /**
      * Constructor.
-     * 
+     *
      * @param string $name         the name of a webserver
      * @param string $version|null the version of a webserver
-     * 
      */
     public function __construct($name, $version = null)
     {
@@ -48,8 +46,8 @@ abstract class WebServer implements WebServerInterface
     }
 
     /**
-     * Get the name of a webserver
-     * 
+     * Get the name of a webserver.
+     *
      * @return string the name of the webserver
      */
     public function getName()
@@ -58,8 +56,8 @@ abstract class WebServer implements WebServerInterface
     }
 
     /**
-     * Get the version of a webserver
-     * 
+     * Get the version of a webserver.
+     *
      * @return string the version of the webserver
      */
     public function getVersion()

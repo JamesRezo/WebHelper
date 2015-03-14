@@ -14,18 +14,19 @@ namespace JamesRezo\WebHelper\WebServer;
  * WebServerInterface is the interface implemented by all webserver classes.
  *
  * @author James <james@rezo.net>
- * @package WebHelper\WebServer
  */
 interface WebServerInterface
 {
-	/**
-	 * Get the name of a webserver
-	 * @return string the name of the webserver
-	 */
+    /**
+     * Get the name of a webserver.
+     *
+     * @return string the name of the webserver
+     */
     public function getName();
 
     /**
-     * Get the version of a webserver
+     * Get the version of a webserver.
+     *
      * @return string the version of the webserver
      */
     public function getVersion();

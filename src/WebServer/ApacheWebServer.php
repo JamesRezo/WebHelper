@@ -11,18 +11,15 @@
 namespace JamesRezo\WebHelper\WebServer;
 
 /**
- * ApacheWebServer is the webserver class for apache httpd webserver
- * 
- * @package WebHelper\WebServer
+ * ApacheWebServer is the webserver class for apache httpd webserver.
  */
 class ApacheWebServer extends WebServer
 {
-	/**
-	 * Constructor
-	 * 
-	 * @param integer $version the version of the apache webserver
-	 * 
-	 */
+    /**
+     * Constructor.
+     *
+     * @param integer $version the version of the apache webserver
+     */
     public function __construct($version = 0)
     {
         parent::__construct('apache', $version);
