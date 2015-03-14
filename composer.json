@@ -1,6 +1,8 @@
 {
     "name": "jamesrezo/webhelper",
     "description": "A Generic Httpd Configuration Helper",
+    "homepage": "https://github.com/JamesRezo/WebHelper",
+    "keywords": ["httpd", "configuration", "apache", "webserver"],
     "require": {
         "twig/twig": "~1.18",
         "composer/composer": "~1.0@dev"
@@ -18,6 +20,7 @@
             "JamesRezo\\WebHelper\\Test\\": "tests/"
         }
     },
+    "bin": ["bin/wh"],
     "license": "MIT",
     "authors": [
         {
