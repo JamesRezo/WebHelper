@@ -122,6 +122,9 @@ class WebHelper
         $finder = new Finder();
         $name = $this->webserver->getName();
         $version = $this->webserver->getVersion();
+        if (is_null($version)) {
+            $version = 0;
+        }
         $finder->files()->path($name)->name($directive.'.twig')->in($this->getRepository());
         if (iterator_count($finder) == 0) {
             return '';

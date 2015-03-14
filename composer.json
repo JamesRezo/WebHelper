@@ -3,8 +3,7 @@
     "description": "A Generic Httpd Configuration Helper",
     "require": {
         "twig/twig": "~1.18",
-        "symfony/console": "~2.6",
-        "symfony/finder": "~2.6"
+        "composer/composer": "~1.0@dev"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.5"
