@@ -2,7 +2,7 @@
 A Generic Httpd Configuration Helper
 
 ## TODO
-* Make it work as a Composer Plugin
+* Make it work as a Symfony Console Application
 * Add Apache Directives
 * Add Nginx/Lighhtpd support
 * Perform Tests&QA with Travis CI

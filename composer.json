@@ -2,11 +2,11 @@
     "name": "jamesrezo/webhelper",
     "description": "A Generic Httpd Configuration Helper",
     "require": {
-        "composer-plugin-api": "1.0.0",
-        "twig/twig": "~1.18"
+        "twig/twig": "~1.18",
+        "symfony/console": "~2.6",
+        "symfony/finder": "~2.6"
     },
     "require-dev": {
-        "composer/composer": "~1.0@dev",
         "phpunit/phpunit": "~4.5"
     },
    "autoload": {
