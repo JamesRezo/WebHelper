@@ -4,6 +4,7 @@
     "homepage": "https://github.com/JamesRezo/WebHelper",
     "keywords": ["httpd", "configuration", "apache", "webserver"],
     "require": {
+        "php": ">=5.4.0",
         "twig/twig": "~1.18",
         "composer/composer": "~1.0@dev",
         "symfony/console": "2.6.* || ~3.0@dev"
