@@ -1,6 +1,8 @@
 # WebHelper
 A Generic Httpd Configuration Helper
 
+[![Build Status](https://api.travis-ci.org/JamesRezo/WebHelper.svg?branch=master)](https://travis-ci.org/JamesRezo/WebHelper)
+
 ## Installation
 
  Just add a dependency on `jamesrezo/webhelper` to your project's `composer.json` file because you obviously will use [Composer](https://getcomposer.org) to manage the dependencies of your project. For example:
@@ -24,7 +26,7 @@ Make sure you have `~/.composer/vendor/bin/` in your path.
 ```wh web:generate <webserver> <directive1>..<directiveN>```
 
 * `<webserver>` means actually **apache** and an optional version (see below)
-* `<directive>` can be a list of any configuration directive known by the webserver (for now *alias*, *vhost* and *direcotry*)
+* `<directive>` can be a list of any configuration directive known by the webserver (for now *alias*, *vhost* and *directory*)
 
 > Well, <webserver> syntax is weird... 
 > There is the webserver *name* and the webserver *version*, all attached.
@@ -42,9 +44,9 @@ This will output some text that you'll put into a httpd server configuration fil
 ...are welcome, of course ;-)
 
 ## TODO
+* Project Data Management
 * Add Apache Directives
 * Add Nginx/Lighhtpd/Openlightspeed support
-* Perform Tests&QA with Travis CI
 * Analyze WebServer local instances
 * Store informations for analyzed WebServers
 * Setup the webserver directly
