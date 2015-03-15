@@ -44,7 +44,6 @@ This will output some text that you'll put into a httpd server configuration fil
 ...are welcome, of course ;-)
 
 ## TODO
-* Project Data Management
 * Add Apache Directives
 * Add Nginx/Lighhtpd/Openlightspeed support
 * Analyze WebServer local instances
