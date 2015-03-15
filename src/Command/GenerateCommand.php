@@ -16,7 +16,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use JamesRezo\WebHelper\WebServer\WebServerFactory;
-use JamesRezo\WebHelper\Project\ProjectFactory;
+use JamesRezo\WebHelper\WebProject\WebProjectFactory;
 use JamesRezo\WebHelper\WebHelper;
 
 /**
@@ -81,7 +81,7 @@ EOT
         $extra = $this->getComposer()->getPackage()->getExtra();
         $alias = $vhost = preg_replace(',^[^\/]+\/,', '', $projectName);
 
-        $pjFactory = new ProjectFactory();
+        $pjFactory = new WebProjectFactory();
         $thisProject = $pjFactory->create('symfony', null);
         $thisProject->setData('documentroot', getcwd().'/'.$extra['webhelper']['webdir']);
         $thisProject->setData('aliasname', $extra['webhelper']['aliasname'] ?: $alias);

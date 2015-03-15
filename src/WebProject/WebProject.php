@@ -8,43 +8,43 @@
  * file that was distributed with this source code.
  */
 
-namespace JamesRezo\WebHelper\Project;
+namespace JamesRezo\WebHelper\WebProject;
 
 /**
- * Base class for Project classes.
+ * Base class for WebProject classes.
  *
  * name can be either symfony, drupal, wordpress or other project name
  *
  * @author james <james@rezo.net>
  */
-abstract class Project implements ProjectInterface
+abstract class WebProject implements WebProjectInterface
 {
     /**
-     * The name of a Project.
+     * The name of a project.
      *
-     * @var string the name of a Project
+     * @var string the name of a project
      */
     private $name;
 
     /**
-     * The version of a Project.
+     * The version of a project.
      *
-     * @var string the version of a Project
+     * @var string the version of a project
      */
     private $version;
 
     /**
-     * The datas of a Project.
+     * The datas of a project.
      *
-     * @var array the datas of a Project
+     * @var array the datas of a project
      */
     private $datas;
 
     /**
      * Constructor.
      *
-     * @param string $name         the name of a Project
-     * @param string $version|null the version of a Project
+     * @param string $name         the name of a WebProject
+     * @param string $version|null the version of a WebProject
      */
     public function __construct($name, $version = null)
     {
@@ -54,9 +54,9 @@ abstract class Project implements ProjectInterface
     }
 
     /**
-     * Get the name of a Project.
+     * Get the name of a WebProject.
      *
-     * @return string the name of the Project
+     * @return string the name of the WebProject
      */
     public function getName()
     {
@@ -64,9 +64,9 @@ abstract class Project implements ProjectInterface
     }
 
     /**
-     * Get the version of a Project.
+     * Get the version of a WebProject.
      *
-     * @return string the version of the Project
+     * @return string the version of the WebProject
      */
     public function getVersion()
     {
@@ -82,7 +82,7 @@ abstract class Project implements ProjectInterface
     }
 
     /**
-     * Set the datas to an empty project array.
+     * Set the datas to an empty WebProject array.
      * 
      * @return [type] [description]
      */
@@ -93,6 +93,11 @@ abstract class Project implements ProjectInterface
         );
     }
 
+    /**
+     * [setData description]
+     * @param [type] $name  [description]
+     * @param WebProject $value [description]
+     */
     public function setData($name, $value = '')
     {
         $this->datas['project'][$name] = $value;

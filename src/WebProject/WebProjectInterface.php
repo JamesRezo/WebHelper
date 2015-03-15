@@ -8,33 +8,33 @@
  * file that was distributed with this source code.
  */
 
-namespace JamesRezo\WebHelper\Project;
+namespace JamesRezo\WebHelper\WebProject;
 
 /**
- * ProjectInterface is the interface implemented by all Project classes.
+ * WebProjectInterface is the interface implemented by all WebProject classes.
  *
  * @author James <james@rezo.net>
  */
-interface ProjectInterface
+interface WebProjectInterface
 {
     /**
-     * Get the name of a Project.
+     * Get the name of a WebProject.
      *
-     * @return string the name of the Project
+     * @return string the name of the WebProject
      */
     public function getName();
 
     /**
-     * Get the version of a Project.
+     * Get the version of a WebProject.
      *
-     * @return string the version of the Project
+     * @return string the version of the WebProject
      */
     public function getVersion();
 
     /**
-     * Get the datas of a Project.
+     * Get the datas of a WebProject.
      *
-     * @return array the datas of the Project
+     * @return array the datas of the WebProject
      */
     public function getDatas();
 }

@@ -8,17 +8,17 @@
  * file that was distributed with this source code.
  */
 
-namespace JamesRezo\WebHelper\Project;
+namespace JamesRezo\WebHelper\WebProject;
 
 /**
- * SymfonyProject is the Project class for Symfony Project.
+ * SymfonyWebProject is the WebProject class for a Symfony project.
  */
-class SymfonyProject extends Project
+class SymfonyWebProject extends WebProject
 {
     /**
      * Constructor.
      *
-     * @param integer $version the version of the Symfony Project
+     * @param integer $version the version of the Symfony project
      */
     public function __construct($version = 0)
     {

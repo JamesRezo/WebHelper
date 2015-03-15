@@ -8,22 +8,22 @@
  * file that was distributed with this source code.
  */
 
-namespace JamesRezo\WebHelper\Project;
+namespace JamesRezo\WebHelper\WebProject;
 
 /**
- * Project Factory Class.
+ * WebProject Factory Class.
  *
  * @author James <james@rezo.net>
  */
-class ProjectFactory
+class WebProjectFactory
 {
     /**
-     * Create a ProjectInterface Object.
+     * Create a WebProjectInterface Object.
      *
      * @param string $name    a web server software name
      * @param string $version a web server software version
      *
-     * @return ProjectInterface a Project Object
+     * @return WebProjectInterface a WebProject Object
      */
     public function create($name, $version)
     {
@@ -31,7 +31,7 @@ class ProjectFactory
 
         switch ($name) {
             case 'symfony':
-                $project = new SymfonyProject($version);
+                $project = new SymfonyWebProject($version);
                 break;
         }
 
