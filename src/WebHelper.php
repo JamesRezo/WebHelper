@@ -69,7 +69,7 @@ class WebHelper
      */
     public function getRepository()
     {
-        return realpath($this->resDir);
+        return $this->resDir;
     }
 
     /**
@@ -103,7 +103,7 @@ class WebHelper
      */
     private function validateDirective($directive)
     {
-        return preg_match(',^[a-z]+$,', $directive);
+        return preg_match(',^[a-z]+$,i', $directive);
     }
 
     /**
@@ -131,10 +131,12 @@ class WebHelper
         }
 
         $sortByVersion = function (\SplFileInfo $a, \SplFileInfo $b) {
+            $va = basename($a->getRelativePath());
+            $vb = basename($b->getRelativePath());
             return version_compare(
-                basename($a->getRelativePathname()),
-                basename($b->getRelativePathname()),
-                '<'
+                $va == $this->webserver->getName() ? 0 : $va,
+                $vb == $this->webserver->getName() ? 0 : $vb,
+                '>='
             );
         };
         $finder->sort($sortByVersion);
