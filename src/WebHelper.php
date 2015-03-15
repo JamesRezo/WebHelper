@@ -133,6 +133,7 @@ class WebHelper
         $sortByVersion = function (\SplFileInfo $a, \SplFileInfo $b) {
             $va = basename($a->getRelativePath());
             $vb = basename($b->getRelativePath());
+
             return version_compare(
                 $va == $this->webserver->getName() ? 0 : $va,
                 $vb == $this->webserver->getName() ? 0 : $vb,

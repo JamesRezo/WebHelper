@@ -35,7 +35,11 @@ class GenerateCommand extends Command
             ->setDescription('Output a statement for a webserver')
             ->setDefinition(array(
                 new InputArgument('webserver', InputArgument::REQUIRED, 'The webserver to configure'),
-                new InputArgument('directive', InputArgument::IS_ARRAY | InputArgument::REQUIRED, 'Directives to generate'),
+                new InputArgument(
+                    'directive',
+                    InputArgument::IS_ARRAY | InputArgument::REQUIRED,
+                    'Directives to generate'
+                ),
             ))
             ->setHelp(<<<EOT
 The <info>web:generate</info> command creates one or many statements for the specified webserver.

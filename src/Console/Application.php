@@ -12,7 +12,6 @@ namespace JamesRezo\WebHelper\Console;
 
 //use Symfony\Component\Console\Application as BaseApplication;
 use Composer\Console\Application as BaseApplication;
-
 use JamesRezo\WebHelper\Command;
 
 /**
@@ -21,7 +20,7 @@ use JamesRezo\WebHelper\Command;
 class Application extends BaseApplication
 {
     /**
-     * Initializes all the WebHelper commands
+     * Initializes all the WebHelper commands.
      */
     protected function getDefaultCommands()
     {
