@@ -33,15 +33,6 @@ class WebServerFactory
             case 'apache':
                 $webserver = new ApacheWebServer($version);
                 break;
-            /*case 'nginx':
-                $webserver = new NginxWebServer($version);
-                break;
-            case 'lighttpd':
-                $webserver = new LighttpdWebServer($version);
-                break;
-            case 'openlightspped':
-                $webserver = new OpenlightspeedWebServer($version);
-                break;*/
         }
 
         return $webserver;
