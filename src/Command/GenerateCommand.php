@@ -10,6 +10,7 @@
 
 namespace JamesRezo\WebHelper\Command;
 
+use Composer\Cache;
 use Composer\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -55,6 +56,7 @@ EOT
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $version = null;
+        $io = $this->getIO();
 
         $name = $input->getArgument('webserver');
         if (preg_match(',([^\.\d]+)([\.\d]+)$,', $name, $matches)) {
@@ -66,8 +68,13 @@ EOT
 
         $wsFactory = new WebServerFactory();
         $webserver = $wsFactory->create($name, $version);
+        $cacheTwigDir = $this->getComposer()->getConfig()->get('cache-wh-twig-dir');
+        $cache = new Cache($io, $cacheTwigDir);
+        if (!$cache->isEnabled()) {
+            $io->writeError("<info>Cache is not enabled (cache-wh-twig-dir): $cacheTwigDir</info>");
+        }
 
-        $helper = new WebHelper();
+        $helper = new WebHelper(null, $cacheTwigDir);
         $helper->setWebServer($webserver);
 
         $statements = array();
