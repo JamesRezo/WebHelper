@@ -30,7 +30,7 @@ class WebHelper
      *
      * @var \Twig_Environment the twig engine
      */
-    private $Twig_Environment;
+    private $twigEnvironment;
 
     /**
      * A webserver to generate the directives statements.
@@ -56,7 +56,7 @@ class WebHelper
 
         if ($resDir && $cacheDir) {
             $loader = new \Twig_Loader_Filesystem($resDir);
-            $this->Twig_Environment = new \Twig_Environment($loader, array(
+            $this->twigEnvironment = new \Twig_Environment($loader, array(
                 'cache' => $cacheDir,
             ));
         }
@@ -130,13 +130,13 @@ class WebHelper
             return '';
         }
 
-        $sortByVersion = function (\SplFileInfo $a, \SplFileInfo $b) {
-            $va = basename($a->getRelativePath());
-            $vb = basename($b->getRelativePath());
+        $sortByVersion = function (\SplFileInfo $aFile, \SplFileInfo $bFile) {
+            $aVersion = basename($aFile->getRelativePath());
+            $bVersion = basename($bFile->getRelativePath());
 
             return version_compare(
-                $va == $this->webserver->getName() ? 0 : $va,
-                $vb == $this->webserver->getName() ? 0 : $vb,
+                $aVersion == $this->webserver->getName() ? 0 : $aVersion,
+                $bVersion == $this->webserver->getName() ? 0 : $bVersion,
                 '>='
             );
         };
@@ -144,11 +144,11 @@ class WebHelper
         $files = iterator_to_array($finder);
         $relativePathname = '';
         foreach ($files as $file) {
-            $file_version = basename($file->getRelativePath());
-            if ($file_version === $name) {
-                $file_version = 0;
+            $fileVersion = basename($file->getRelativePath());
+            if ($fileVersion === $name) {
+                $fileVersion = 0;
             }
-            if (version_compare($file_version, $version, '<=')) {
+            if (version_compare($fileVersion, $version, '<=')) {
                 $relativePathname = $file->getRelativePathname();
             }
         }
@@ -169,7 +169,7 @@ class WebHelper
         $text = '';
 
         foreach ($models as $model) {
-            $text .= $this->Twig_Environment->render($model, $project);
+            $text .= $this->twigEnvironment->render($model, $project);
         }
 
         return $text;
