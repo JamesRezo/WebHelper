@@ -11,7 +11,7 @@
 namespace JamesRezo\WebHelper\Command;
 
 use Composer\Command\Command;
-//use Symfony\Component\Console\Command\Command;
+use Composer\Package\Dumper\ArrayDumper;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -79,7 +79,11 @@ EOT
 
         $projectName = $this->getComposer()->getPackage()->getName();
         $extra = $this->getComposer()->getPackage()->getExtra();
+        $type = $this->getComposer()->getPackage()->getType();
         $alias = $vhost = preg_replace(',^[^\/]+\/,', '', $projectName);
+
+        $dump = new ArrayDumper();
+        var_dump($dump->dump($this->getComposer()->getPackage()));    
 
         $pjFactory = new WebProjectFactory();
         $thisProject = $pjFactory->create('symfony', null);

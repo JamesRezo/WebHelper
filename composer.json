@@ -29,5 +29,12 @@
             "name": "James",
             "email": "james@rezo.net"
         }
-    ]
+    ],
+    "extra": {
+        "webhelper": {
+            "webdir": "web",
+            "vhostdomain": ".domain.tld",
+            "aliasname": "test"
+        }
+    }
 }
