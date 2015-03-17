@@ -69,6 +69,7 @@ EOT
         $wsFactory = new WebServerFactory();
         $webserver = $wsFactory->create($name, $version);
         $cacheTwigDir = $this->getComposer()->getConfig()->get('cache-wh-twig-dir');
+        $cacheTwigDir = $cacheTwigDir ?: $this->getComposer()->getConfig()->get('cache-dir').'/webhelper/twig';
         $cache = new Cache($io, $cacheTwigDir);
         if (!$cache->isEnabled()) {
             $io->writeError("<info>Cache is not enabled (cache-wh-twig-dir): $cacheTwigDir</info>");
