@@ -10,10 +10,10 @@
 
 namespace JamesRezo\WebHelper\Command;
 
-use Composer\Cache;
 use Composer\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use JamesRezo\WebHelper\WebServer\WebServerFactory;
 use JamesRezo\WebHelper\WebHelper;
@@ -40,6 +40,7 @@ class GenerateCommand extends Command
                     InputArgument::IS_ARRAY | InputArgument::REQUIRED,
                     'Directives to generate'
                 ),
+                new InputOption('repository', false, InputOption::VALUE_REQUIRED, 'Write the archive to this directory', null),
             ))
             ->setHelp(<<<EOT
 The <info>web:generate</info> command creates one or many statements for the specified webserver.
@@ -56,33 +57,24 @@ EOT
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $version = null;
-        $io = $this->getIO();
-
         $name = $input->getArgument('webserver');
         if (preg_match(',([^\.\d]+)([\.\d]+)$,', $name, $matches)) {
             $version = $matches[2];
             $name = $matches[1];
         }
-
-        $directives = $input->getArgument('directive');
-
         $wsFactory = new WebServerFactory();
         $webserver = $wsFactory->create($name, $version);
-        $cacheTwigDir = $this->getComposer()->getConfig()->get('cache-wh-twig-dir');
-        $cacheTwigDir = $cacheTwigDir ?: $this->getComposer()->getConfig()->get('cache-dir').'/webhelper/twig';
-        $cache = new Cache($io, $cacheTwigDir);
-        if (!$cache->isEnabled()) {
-            $io->writeError("<info>Cache is not enabled (cache-wh-twig-dir): $cacheTwigDir</info>");
-        }
 
-        $helper = new WebHelper(null, $cacheTwigDir);
-        $helper->setWebServer($webserver);
+        $helper = new WebHelper($this->getComposer(), $this->getIO());
+        $helper->setWebServer($webserver)->setTwigEnvironment($input->getOption('repository'));
 
+        $directives = $input->getArgument('directive');
         $statements = array();
         foreach ($directives as $directive) {
             $statements[] = $helper->findDirective($directive);
         }
 
+        //Provides Project Properties
         $projectName = $this->getComposer()->getPackage()->getName();
         $alias = $vhost = preg_replace(',^[^\/]+\/,', '', $projectName);
         $project = array(

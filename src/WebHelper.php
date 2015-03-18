@@ -12,6 +12,11 @@ namespace JamesRezo\WebHelper;
 
 use JamesRezo\WebHelper\WebServer\WebServerInterface;
 use Symfony\Component\Finder\Finder;
+use Composer\Composer;
+use Composer\Factory;
+use Composer\Cache;
+use Composer\IO\IOInterface;
+use Composer\IO\NullIO;
 
 /**
  * WebHelper.
@@ -39,27 +44,45 @@ class WebHelper
      */
     private $webserver = null;
 
+    private $composer;
+
+    private $io;
+
     /**
      * Constructor.
-     *
-     * @param string $dir   Path of the related repository
-     * @param string $cache Path of Twig Cache directory
      */
-    public function __construct($dir = null, $cache = null)
+    public function __construct(Composer $composer = null, IOInterface $io = null)
     {
-        $resDir = is_null($dir) ? __DIR__.'/../res' : $dir;
-        $resDir = realpath(preg_replace(',\/*$,', '', $resDir));
-        $this->resDir = $resDir;
+        $this->io = $io ?: new NullIO();
+        $this->composer = $composer ?: Factory::create($this->io, getcwd().'/composer.json');
+    }
 
-        $cacheDir = is_null($cache) ? __DIR__.'/../var' : $cache;
-        $cacheDir = realpath(preg_replace(',\/*$,', '', $cacheDir));
+    /**
+     * Sets the Twig Environment.
+     *
+     * @param string $dir Path of the related repository
+     */
+    public function setTwigEnvironment($dir = null)
+    {
+        $dir = $dir ?: __DIR__.'/../res';
+        $this->resDir = realpath($dir);
 
-        if ($resDir && $cacheDir) {
-            $loader = new \Twig_Loader_Filesystem($resDir);
+        $cacheTwigDir = $this->composer->getConfig()->get('cache-wh-twig-dir');
+        $cacheTwigDir = $cacheTwigDir ?: $this->composer->getConfig()->get('cache-dir').'/webhelper/twig';
+        $cache = new Cache($this->io, $cacheTwigDir);
+        if (!$cache->isEnabled()) {
+            $this->io->writeError("<info>Cache is not enabled (cache-wh-twig-dir): $cacheTwigDir</info>");
+        }
+
+        $cacheDir = $cache->getRoot();
+        if ($this->resDir && $cacheDir) {
+            $loader = new \Twig_Loader_Filesystem($this->resDir);
             $this->twigEnvironment = new \Twig_Environment($loader, array(
                 'cache' => $cacheDir,
             ));
         }
+
+        return $this;
     }
 
     /**
