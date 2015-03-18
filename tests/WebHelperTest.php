@@ -26,14 +26,16 @@ class WebHelperTest extends PHPUnit_Framework_TestCase
 
     public function testSetWebHelper()
     {
-        $webhelper = new WebHelper(__DIR__.'/dummyrepo');
+        $webhelper = new WebHelper();
+        $webhelper->setTwigEnvironment(__DIR__.'/dummyrepo');
 
         $this->assertEquals($webhelper->getRepository(), __DIR__.'/dummyrepo');
     }
 
     public function testUnknownDirective()
     {
-        $webhelper = new WebHelper(__DIR__.'/dummyrepo');
+        $webhelper = new WebHelper();
+        $webhelper->setTwigEnvironment(__DIR__.'/dummyrepo');
         $myWebServer = new ApacheWebServer();
         $webhelper->setWebServer($myWebServer);
         $directory = $webhelper->findDirective('UnknownDirective');
@@ -43,7 +45,8 @@ class WebHelperTest extends PHPUnit_Framework_TestCase
 
     public function testLowestVersionWebHelper()
     {
-        $webhelper = new WebHelper(__DIR__.'/dummyrepo');
+        $webhelper = new WebHelper();
+        $webhelper->setTwigEnvironment(__DIR__.'/dummyrepo');
         $myWebServer = new ApacheWebServer();
         $webhelper->setWebServer($myWebServer);
         $directory = $webhelper->findDirective('directory');
@@ -56,7 +59,8 @@ class WebHelperTest extends PHPUnit_Framework_TestCase
 
     public function testVersion1WebHelper()
     {
-        $webhelper = new WebHelper(__DIR__.'/dummyrepo');
+        $webhelper = new WebHelper();
+        $webhelper->setTwigEnvironment(__DIR__.'/dummyrepo');
         $myWebServer = new ApacheWebServer('1');
         $webhelper->setWebServer($myWebServer);
         $directory = $webhelper->findDirective('directory');
@@ -69,7 +73,8 @@ class WebHelperTest extends PHPUnit_Framework_TestCase
 
     public function testPreciseVersion12WebHelper()
     {
-        $webhelper = new WebHelper(__DIR__.'/dummyrepo');
+        $webhelper = new WebHelper();
+        $webhelper->setTwigEnvironment(__DIR__.'/dummyrepo');
         $myWebServer = new ApacheWebServer('1.2.0');
         $webhelper->setWebServer($myWebServer);
         $directory = $webhelper->findDirective('directory');
@@ -82,7 +87,8 @@ class WebHelperTest extends PHPUnit_Framework_TestCase
 
     public function testVersion129WebHelper()
     {
-        $webhelper = new WebHelper(__DIR__.'/dummyrepo');
+        $webhelper = new WebHelper();
+        $webhelper->setTwigEnvironment(__DIR__.'/dummyrepo');
         $myWebServer = new ApacheWebServer('1.2.9');
         $webhelper->setWebServer($myWebServer);
         $directory = $webhelper->findDirective('directory');
@@ -95,7 +101,8 @@ class WebHelperTest extends PHPUnit_Framework_TestCase
 
     public function testAwesomeVersionWebHelper()
     {
-        $webhelper = new WebHelper(__DIR__.'/dummyrepo');
+        $webhelper = new WebHelper();
+        $webhelper->setTwigEnvironment(__DIR__.'/dummyrepo');
         $myWebServer = new ApacheWebServer('1.2.17');
         $webhelper->setWebServer($myWebServer);
         $directory = $webhelper->findDirective('directory');
@@ -108,7 +115,8 @@ class WebHelperTest extends PHPUnit_Framework_TestCase
 
     public function testLatestVersionWebHelper()
     {
-        $webhelper = new WebHelper(__DIR__.'/dummyrepo');
+        $webhelper = new WebHelper();
+        $webhelper->setTwigEnvironment(__DIR__.'/dummyrepo');
         $myWebServer = new ApacheWebServer('2');
         $webhelper->setWebServer($myWebServer);
         $directory = $webhelper->findDirective('directory');
@@ -117,5 +125,19 @@ class WebHelperTest extends PHPUnit_Framework_TestCase
             $directory,
             'apache/2/directory.twig'
         );
+    }
+
+    public function testRenderWebHelper()
+    {
+        $webhelper = new WebHelper();
+        $webhelper->setTwigEnvironment(__DIR__.'/dummyrepo');
+        $myWebServer = new ApacheWebServer('1.2.17');
+        $webhelper->setWebServer($myWebServer);
+        $directory = $webhelper->findDirective('directory');
+
+        $this->assertEquals(
+            $webhelper->render($this->project, array($directory)),
+            'Directory res/dummy/1/1.2/1.2.17'."\n"
+        );        
     }
 }
