@@ -66,7 +66,10 @@ EOT
         $webserver = $wsFactory->create($name, $version);
 
         $helper = new WebHelper($this->getComposer(), $this->getIO());
-        $helper->setWebServer($webserver)->setTwigEnvironment($input->getOption('repository'));
+        $helper
+            ->setWebServer($webserver)
+            ->setRepository($input->getOption('repository'))
+            ->setTwigEnvironment();
 
         $directives = $input->getArgument('directive');
         $statements = array();

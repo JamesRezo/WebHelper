@@ -55,6 +55,7 @@ class WebHelper
     {
         $this->io = $io ?: new NullIO();
         $this->composer = $composer ?: Factory::create($this->io, getcwd().'/composer.json');
+        $this->setRepository();
     }
 
     /**
@@ -62,11 +63,8 @@ class WebHelper
      *
      * @param string $dir Path of the related repository
      */
-    public function setTwigEnvironment($dir = null)
+    public function setTwigEnvironment()
     {
-        $dir = $dir ?: __DIR__.'/../res';
-        $this->resDir = realpath($dir);
-
         $cacheTwigDir = $this->composer->getConfig()->get('cache-wh-twig-dir');
         $cacheTwigDir = $cacheTwigDir ?: $this->composer->getConfig()->get('cache-dir').'/webhelper/twig';
         $cache = new Cache($this->io, $cacheTwigDir);
@@ -81,6 +79,22 @@ class WebHelper
                 'cache' => $cacheDir,
             ));
         }
+
+        return $this;
+    }
+
+    /**
+     * Sets the absolute path to the related repository.
+     *
+     * @param string $repo path to an alternative repository 
+     */
+    public function setRepository($repo = null)
+    {
+        if (is_null($repo)) {
+            $repo = $this->composer->getConfig()->get('wh-repo-path');
+            $repo = $repo ?: __DIR__.'/../res';
+        }
+        $this->resDir = realpath($repo);
 
         return $this;
     }
