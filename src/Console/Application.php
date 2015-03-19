@@ -10,7 +10,6 @@
 
 namespace JamesRezo\WebHelper\Console;
 
-//use Symfony\Component\Console\Application as BaseApplication;
 use Composer\Console\Application as BaseApplication;
 use JamesRezo\WebHelper\Command;
 

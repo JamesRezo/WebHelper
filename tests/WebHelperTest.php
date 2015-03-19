@@ -26,14 +26,16 @@ class WebHelperTest extends PHPUnit_Framework_TestCase
 
     public function testSetWebHelper()
     {
-        $webhelper = new WebHelper(__DIR__.'/dummyrepo');
+        $webhelper = new WebHelper();
+        $webhelper->setRepository(__DIR__.'/dummyrepo')->setTwigEnvironment();
 
-        $this->assertEquals($webhelper->getRepository(), __DIR__.'/dummyrepo');
+        $this->assertEquals($webhelper->getRepository(), $this->setWindowsPath(__DIR__.'/dummyrepo'));
     }
 
     public function testUnknownDirective()
     {
-        $webhelper = new WebHelper(__DIR__.'/dummyrepo');
+        $webhelper = new WebHelper();
+        $webhelper->setRepository(__DIR__.'/dummyrepo')->setTwigEnvironment();
         $myWebServer = new ApacheWebServer();
         $webhelper->setWebServer($myWebServer);
         $directory = $webhelper->findDirective('UnknownDirective');
@@ -43,79 +45,114 @@ class WebHelperTest extends PHPUnit_Framework_TestCase
 
     public function testLowestVersionWebHelper()
     {
-        $webhelper = new WebHelper(__DIR__.'/dummyrepo');
+        $webhelper = new WebHelper();
+        $webhelper->setRepository(__DIR__.'/dummyrepo')->setTwigEnvironment();
         $myWebServer = new ApacheWebServer();
         $webhelper->setWebServer($myWebServer);
         $directory = $webhelper->findDirective('directory');
 
         $this->assertEquals(
             $directory,
-            'apache/directory.twig'
+            $this->setWindowsPath('apache/directory.twig')
         );
     }
 
     public function testVersion1WebHelper()
     {
-        $webhelper = new WebHelper(__DIR__.'/dummyrepo');
+        $webhelper = new WebHelper();
+        $webhelper->setRepository(__DIR__.'/dummyrepo')->setTwigEnvironment();
         $myWebServer = new ApacheWebServer('1');
         $webhelper->setWebServer($myWebServer);
         $directory = $webhelper->findDirective('directory');
 
         $this->assertEquals(
             $directory,
-            'apache/directory.twig'
+            $this->setWindowsPath('apache/directory.twig')
         );
     }
 
     public function testPreciseVersion12WebHelper()
     {
-        $webhelper = new WebHelper(__DIR__.'/dummyrepo');
+        $webhelper = new WebHelper();
+        $webhelper->setRepository(__DIR__.'/dummyrepo')->setTwigEnvironment();
         $myWebServer = new ApacheWebServer('1.2.0');
         $webhelper->setWebServer($myWebServer);
         $directory = $webhelper->findDirective('directory');
 
         $this->assertEquals(
             $directory,
-            'apache/1/1.2/directory.twig'
+            $this->setWindowsPath('apache/1/1.2/directory.twig')
         );
     }
 
     public function testVersion129WebHelper()
     {
-        $webhelper = new WebHelper(__DIR__.'/dummyrepo');
+        $webhelper = new WebHelper();
+        $webhelper->setRepository(__DIR__.'/dummyrepo')->setTwigEnvironment();
         $myWebServer = new ApacheWebServer('1.2.9');
         $webhelper->setWebServer($myWebServer);
         $directory = $webhelper->findDirective('directory');
 
         $this->assertEquals(
             $directory,
-            'apache/1/1.2/directory.twig'
+            $this->setWindowsPath('apache/1/1.2/directory.twig')
         );
     }
 
     public function testAwesomeVersionWebHelper()
     {
-        $webhelper = new WebHelper(__DIR__.'/dummyrepo');
+        $webhelper = new WebHelper();
+        $webhelper->setRepository(__DIR__.'/dummyrepo')->setTwigEnvironment();
         $myWebServer = new ApacheWebServer('1.2.17');
         $webhelper->setWebServer($myWebServer);
         $directory = $webhelper->findDirective('directory');
 
         $this->assertEquals(
             $directory,
-            'apache/1/1.2/1.2.17/directory.twig'
+            $this->setWindowsPath('apache/1/1.2/1.2.17/directory.twig')
         );
     }
 
     public function testLatestVersionWebHelper()
     {
-        $webhelper = new WebHelper(__DIR__.'/dummyrepo');
+        $webhelper = new WebHelper();
+        $webhelper->setRepository(__DIR__.'/dummyrepo')->setTwigEnvironment();
         $myWebServer = new ApacheWebServer('2');
         $webhelper->setWebServer($myWebServer);
         $directory = $webhelper->findDirective('directory');
 
         $this->assertEquals(
             $directory,
-            'apache/2/directory.twig'
+            $this->setWindowsPath('apache/2/directory.twig')
         );
+    }
+
+    public function testRenderWebHelper()
+    {
+        $webhelper = new WebHelper();
+        $webhelper->setRepository(__DIR__.'/dummyrepo')->setTwigEnvironment();
+        $myWebServer = new ApacheWebServer('1.2.17');
+        $webhelper->setWebServer($myWebServer);
+        $directory = $webhelper->findDirective('directory');
+
+        $this->assertEquals(
+            $webhelper->render($this->project, array($directory)),
+            'Directory res/dummy/1/1.2/1.2.17'."\n"
+        );        
+    }
+
+    private function setWindowsPath($path)
+    {
+        static $isWindows = null;
+
+        if (is_null($isWindows)) {
+            $isWindows = preg_match(',^WIN,', PHP_OS);
+        }
+
+        if ($isWindows) {
+            $path = str_replace('/', '\\', $path);
+        }
+
+        return $path;
     }
 }

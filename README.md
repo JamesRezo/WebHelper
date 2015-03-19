@@ -42,11 +42,4 @@ This will output some text that you'll put into a httpd server configuration fil
 ## Contributions
 
 ...are welcome, of course ;-)
-
-## TODO
-* Add Apache Directives
-* Add Nginx/Lighhtpd/Openlightspeed support
-* Analyze WebServer local instances
-* Store informations for analyzed WebServers
-* Setup the webserver directly
-* Set a public repository of directives on a separate project
+  

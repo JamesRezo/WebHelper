@@ -12,6 +12,11 @@ namespace JamesRezo\WebHelper;
 
 use JamesRezo\WebHelper\WebServer\WebServerInterface;
 use Symfony\Component\Finder\Finder;
+use Composer\Composer;
+use Composer\Factory;
+use Composer\Cache;
+use Composer\IO\IOInterface;
+use Composer\IO\NullIO;
 
 /**
  * WebHelper.
@@ -30,7 +35,7 @@ class WebHelper
      *
      * @var \Twig_Environment the twig engine
      */
-    private $Twig_Environment;
+    private $twigEnvironment;
 
     /**
      * A webserver to generate the directives statements.
@@ -39,27 +44,59 @@ class WebHelper
      */
     private $webserver = null;
 
+    private $composer;
+
+    private $io;
+
     /**
      * Constructor.
-     *
-     * @param string $dir   Path of the related repository
-     * @param string $cache Path of Twig Cache directory
      */
-    public function __construct($dir = null, $cache = null)
+    public function __construct(Composer $composer = null, IOInterface $io = null)
     {
-        $resDir = is_null($dir) ? __DIR__.'/../res' : $dir;
-        $resDir = realpath(preg_replace(',\/*$,', '', $resDir));
-        $this->resDir = $resDir;
+        $this->io = $io ?: new NullIO();
+        $this->composer = $composer ?: Factory::create($this->io, getcwd().'/composer.json');
+        $this->setRepository();
+    }
 
-        $cacheDir = is_null($cache) ? __DIR__.'/../var' : $cache;
-        $cacheDir = realpath(preg_replace(',\/*$,', '', $cacheDir));
+    /**
+     * Sets the Twig Environment.
+     *
+     * @param string $dir Path of the related repository
+     */
+    public function setTwigEnvironment()
+    {
+        $cacheTwigDir = $this->composer->getConfig()->get('cache-wh-twig-dir');
+        $cacheTwigDir = $cacheTwigDir ?: $this->composer->getConfig()->get('cache-dir').'/webhelper/twig';
+        $cache = new Cache($this->io, $cacheTwigDir);
+        if (!$cache->isEnabled()) {
+            $this->io->writeError("<info>Cache is not enabled (cache-wh-twig-dir): $cacheTwigDir</info>");
+        }
 
-        if ($resDir && $cacheDir) {
-            $loader = new \Twig_Loader_Filesystem($resDir);
-            $this->Twig_Environment = new \Twig_Environment($loader, array(
+        $cacheDir = $cache->getRoot();
+        if ($this->resDir && $cacheDir) {
+            $loader = new \Twig_Loader_Filesystem($this->resDir);
+            $this->twigEnvironment = new \Twig_Environment($loader, array(
                 'cache' => $cacheDir,
             ));
         }
+
+        return $this;
+    }
+
+    /**
+     * Sets the absolute path to the related repository.
+     *
+     * @param string $repo path to an alternative repository 
+     */
+    public function setRepository($repo = null)
+    {
+        if (is_null($repo)) {
+            $repo = $this->composer->getConfig()->get('wh-repo-path');
+            $repo = $repo ?: __DIR__.'/../res';
+        }
+        $this->resDir = realpath($repo);
+
+        return $this;
     }
 
     /**
@@ -130,13 +167,13 @@ class WebHelper
             return '';
         }
 
-        $sortByVersion = function (\SplFileInfo $a, \SplFileInfo $b) {
-            $va = basename($a->getRelativePath());
-            $vb = basename($b->getRelativePath());
+        $sortByVersion = function (\SplFileInfo $aFile, \SplFileInfo $bFile) {
+            $aVersion = basename($aFile->getRelativePath());
+            $bVersion = basename($bFile->getRelativePath());
 
             return version_compare(
-                $va == $this->webserver->getName() ? 0 : $va,
-                $vb == $this->webserver->getName() ? 0 : $vb,
+                $aVersion == $this->webserver->getName() ? 0 : $aVersion,
+                $bVersion == $this->webserver->getName() ? 0 : $bVersion,
                 '>='
             );
         };
@@ -144,11 +181,11 @@ class WebHelper
         $files = iterator_to_array($finder);
         $relativePathname = '';
         foreach ($files as $file) {
-            $file_version = basename($file->getRelativePath());
-            if ($file_version === $name) {
-                $file_version = 0;
+            $fileVersion = basename($file->getRelativePath());
+            if ($fileVersion === $name) {
+                $fileVersion = 0;
             }
-            if (version_compare($file_version, $version, '<=')) {
+            if (version_compare($fileVersion, $version, '<=')) {
                 $relativePathname = $file->getRelativePathname();
             }
         }
@@ -169,7 +206,7 @@ class WebHelper
         $text = '';
 
         foreach ($models as $model) {
-            $text .= $this->Twig_Environment->render($model, $project);
+            $text .= $this->twigEnvironment->render($model, $project);
         }
 
         return $text;

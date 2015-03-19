@@ -14,6 +14,7 @@ use Composer\Command\Command;
 use Composer\Package\Dumper\ArrayDumper;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use JamesRezo\WebHelper\WebServer\WebServerFactory;
 use JamesRezo\WebHelper\WebProject\WebProjectFactory;
@@ -41,6 +42,7 @@ class GenerateCommand extends Command
                     InputArgument::IS_ARRAY | InputArgument::REQUIRED,
                     'Directives to generate'
                 ),
+                new InputOption('repository', false, InputOption::VALUE_REQUIRED, 'Write the archive to this directory', null),
             ))
             ->setHelp(<<<EOT
 The <info>web:generate</info> command creates one or many statements for the specified webserver.
@@ -57,26 +59,27 @@ EOT
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $version = null;
-
         $name = $input->getArgument('webserver');
         if (preg_match(',([^\.\d]+)([\.\d]+)$,', $name, $matches)) {
             $version = $matches[2];
             $name = $matches[1];
         }
-
-        $directives = $input->getArgument('directive');
-
         $wsFactory = new WebServerFactory();
         $webserver = $wsFactory->create($name, $version);
 
-        $helper = new WebHelper();
-        $helper->setWebServer($webserver);
+        $helper = new WebHelper($this->getComposer(), $this->getIO());
+        $helper
+            ->setWebServer($webserver)
+            ->setRepository($input->getOption('repository'))
+            ->setTwigEnvironment();
 
+        $directives = $input->getArgument('directive');
         $statements = array();
         foreach ($directives as $directive) {
             $statements[] = $helper->findDirective($directive);
         }
 
+        //Provides Project Properties
         $projectName = $this->getComposer()->getPackage()->getName();
         $extra = $this->getComposer()->getPackage()->getExtra();
         $type = $this->getComposer()->getPackage()->getType();

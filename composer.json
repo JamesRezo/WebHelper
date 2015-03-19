@@ -23,6 +23,9 @@
         }
     },
     "bin": ["bin/wh"],
+    "config": {
+        "cache-wh-twig-dir": "{$cache-dir}/webhelper/twig"
+    },
     "license": "MIT",
     "authors": [
         {
