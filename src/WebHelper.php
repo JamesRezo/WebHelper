@@ -86,7 +86,7 @@ class WebHelper
     /**
      * Sets the absolute path to the related repository.
      *
-     * @param string $repo path to an alternative repository 
+     * @param string $repo path to an alternative repository
      */
     public function setRepository($repo = null)
     {

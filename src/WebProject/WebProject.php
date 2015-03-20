@@ -83,8 +83,8 @@ abstract class WebProject implements WebProjectInterface
 
     /**
      * Set the datas to an empty WebProject array.
-     * 
-     * @return [type] [description]
+     *
+     * @return array empty project array
      */
     public function resetDatas()
     {
@@ -94,9 +94,10 @@ abstract class WebProject implements WebProjectInterface
     }
 
     /**
-     * [setData description]
-     * @param [type] $name  [description]
-     * @param WebProject $value [description]
+     * Sets a property to a value.
+     *
+     * @param string     $name  a property name
+     * @param WebProject the instance of the project
      */
     public function setData($name, $value = '')
     {

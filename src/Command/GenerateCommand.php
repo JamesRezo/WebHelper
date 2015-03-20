@@ -11,7 +11,6 @@
 namespace JamesRezo\WebHelper\Command;
 
 use Composer\Command\Command;
-use Composer\Package\Dumper\ArrayDumper;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -46,8 +45,6 @@ class GenerateCommand extends Command
             ))
             ->setHelp(<<<EOT
 The <info>web:generate</info> command creates one or many statements for the specified webserver.
-
-<info>bin/wh web:generate webserver directive1 ... [directiveN]</info>
 EOT
             )
         ;
@@ -79,21 +76,9 @@ EOT
             $statements[] = $helper->findDirective($directive);
         }
 
-        //Provides Project Properties
-        $projectName = $this->getComposer()->getPackage()->getName();
-        $extra = $this->getComposer()->getPackage()->getExtra();
-        $type = $this->getComposer()->getPackage()->getType();
-        $alias = $vhost = preg_replace(',^[^\/]+\/,', '', $projectName);
-
-        $dump = new ArrayDumper();
-        var_dump($dump->dump($this->getComposer()->getPackage()));    
-
         $pjFactory = new WebProjectFactory();
-        $thisProject = $pjFactory->create('symfony', null);
-        $thisProject->setData('documentroot', getcwd().'/'.$extra['webhelper']['webdir']);
-        $thisProject->setData('aliasname', $extra['webhelper']['aliasname'] ?: $alias);
-        $thisProject->setData('vhostname', isset($extra['webhelper']['vhostname']) ?: $vhost.$extra['webhelper']['vhostdomain']);
+        $project = $pjFactory->create($this->getComposer()->getPackage());
 
-        $output->writeln($helper->render($thisProject->getDatas(), $statements));
+        $output->writeln($helper->render($project->getDatas(), $statements));
     }
 }
