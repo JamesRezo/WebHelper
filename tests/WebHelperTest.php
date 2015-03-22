@@ -13,7 +13,7 @@ namespace JamesRezo\WebHelper\Test;
 use PHPUnit_Framework_TestCase;
 use JamesRezo\WebHelper\WebHelper;
 use JamesRezo\WebHelper\WebServer\ApacheWebServer;
-use JamesRezo\WebHelper\WebProject\StandardWebProject;
+use JamesRezo\WebHelper\WebProject\BaseWebProject;
 
 class WebHelperTest extends PHPUnit_Framework_TestCase
 {
@@ -126,7 +126,7 @@ class WebHelperTest extends PHPUnit_Framework_TestCase
         $webhelper->setRepository(__DIR__.'/dummyrepo')->setTwigEnvironment();
         $myWebServer = new ApacheWebServer('1.2.17');
         $webhelper->setWebServer($myWebServer);
-        $myWebProject = new StandardWebProject();
+        $myWebProject = new BaseWebProject();
         $webhelper->setWebProject($myWebProject);
         $directory = $webhelper->findDirective('directory');
 

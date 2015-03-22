@@ -10,6 +10,8 @@
 
 namespace JamesRezo\WebHelper\WebProject;
 
+use Composer\Package\PackageInterface;
+
 /**
  * WebProjectInterface is the interface implemented by all WebProject classes.
  *
@@ -18,18 +20,51 @@ namespace JamesRezo\WebHelper\WebProject;
 interface WebProjectInterface
 {
     /**
-     * Get the name of a WebProject.
+     * [setNeeds description].
      *
-     * @return string the name of the WebProject
+     * @param array $needs [description]
      */
-    public function getName();
+    public function setNeeds($needs);
+
+    /**
+     * [check description].
+     *
+     * @param PackageInterface $package [description]
+     *
+     * @return boolean [description]
+     */
+    public static function check(PackageInterface $package);
+
+    /**
+     * Get the web project type.
+     *
+     * Will be one of known Frameworks and/or Composer Installer plugins
+     * and/or CMS and/or self-made ones.
+     *
+     * @return string the kind of the WebProject
+     */
+    public function getProjectType();
 
     /**
      * Get the version of a WebProject.
      *
-     * @return string the version of the WebProject
+     * @return string the version of the project type
      */
     public function getVersion();
+
+    /**
+     * Sets the sub-directory to be exposed on the web.
+     *
+     * @param string $dir the sub-directory of the package that will be exposed on the web
+     */
+    public function setWebDir($dir);
+
+    /**
+     * Sets Files or directories the web server needs to write.
+     *
+     * @param string $dir the sub-directories or special files of the package that will be exposed on the web
+     */
+    public function setWriteables($dir);
 
     /**
      * Get the datas of a WebProject.

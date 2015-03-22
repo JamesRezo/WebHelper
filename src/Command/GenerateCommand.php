@@ -42,6 +42,7 @@ class GenerateCommand extends Command
                     'Directives to generate'
                 ),
                 new InputOption('repository', false, InputOption::VALUE_REQUIRED, 'Write the archive to this directory', null),
+                new InputOption('url', false, InputOption::VALUE_REQUIRED, 'The target url', null),
             ))
             ->setHelp(<<<EOT
 The <info>web:generate</info> command creates one or many statements for the specified webserver.
@@ -65,7 +66,7 @@ EOT
         $webserver = $wsFactory->create($name, $version);
 
         $pjFactory = new WebProjectFactory();
-        $project = $pjFactory->create($this->getComposer()->getPackage());
+        $project = $pjFactory->create($this->getComposer()->getPackage(), $input->getOption('url'));
 
         $helper = new WebHelper($this->getComposer(), $this->getIO());
         $helper

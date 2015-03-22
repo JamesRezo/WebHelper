@@ -10,10 +10,12 @@
 
 namespace JamesRezo\WebHelper\WebProject;
 
+use Composer\Package\PackageInterface;
+
 /**
  * StandardWebProject is the WebProject class for a Non specific project.
  */
-class StandardWebProject extends WebProject
+class BaseWebProject extends WebProject
 {
     /**
      * Constructor.
@@ -22,6 +24,23 @@ class StandardWebProject extends WebProject
      */
     public function __construct($version = 0)
     {
-        parent::__construct('standard', $version);
+        parent::__construct('base', $version);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setDirProperties()
+    {
+        $this->setWebDir('');
+        $this->setWriteables(array());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public static function check(PackageInterface $package)
+    {
+        return true;
     }
 }

@@ -13,54 +13,119 @@ namespace JamesRezo\WebHelper\WebProject;
 /**
  * Base class for WebProject classes.
  *
- * name can be either symfony, drupal, wordpress or other project name
+ * projectTypecan be either symfony, drupal, wordpress or other project projectType *
  *
  * @author james <james@rezo.net>
  */
 abstract class WebProject implements WebProjectInterface
 {
     /**
-     * The name of a project.
+     * The kind of a WebProject.
      *
-     * @var string the name of a project
+     * @var string the type of a project
      */
-    private $name;
+    private $kind;
 
     /**
-     * The version of a project.
+     * The version of the project kind.
      *
-     * @var string the version of a project
+     * @var string the version of the project kind
      */
     private $version;
 
     /**
-     * The datas of a project.
+     * The sub-directory to be exposed on the web.
      *
-     * @var array the datas of a project
+     * @var string the sub-directory to be exposed on the web
      */
-    private $datas;
+    private $webDir;
+
+    /**
+     * Files or directories the web server needs to write.
+     *
+     * @var array the list of files and directories the web server needs to write
+     */
+    private $writeables;
+
+    /**
+     * [$host description].
+     *
+     * @var string
+     */
+    private $host;
+
+    /**
+     * [$location description].
+     *
+     * @var string
+     */
+    private $location;
+
+    /**
+     * [$port description].
+     *
+     * @var int
+     */
+    private $port;
 
     /**
      * Constructor.
      *
-     * @param string $name         the name of a WebProject
+     * @param string $kind         the type of a WebProject
      * @param string $version|null the version of a WebProject
      */
-    public function __construct($name, $version = null)
+    public function __construct($kind, $version = null)
     {
-        $this->name = $name;
+        $this->kind = $kind;
         $this->version = $version;
-        $this->resetDatas();
     }
 
     /**
-     * Get the name of a WebProject.
+     * [setNeeds description].
      *
-     * @return string the name of the WebProject
+     * @param [type] $needs [description]
      */
-    public function getName()
+    public function setNeeds($needs)
     {
-        return $this->name;
+        $this->host = $needs['host'];
+        $this->location = $needs['location'];
+        $this->port = $needs['port'];
+
+        return $this;
+    }
+
+    /**
+     * [setWebDir description].
+     *
+     * @param [type] $dir [description]
+     */
+    public function setWebDir($dir)
+    {
+        $this->webDir = $dir;
+
+        return $this;
+    }
+
+    /**
+     * [setWriteables description].
+     *
+     * @param [type] $dir [description]
+     */
+    public function setWriteables($dir)
+    {
+        $this->writeables = $dir;
+
+        return $this;
+    }
+
+    /**
+     * Get the projectTypeof a WebProject.
+     *
+     * @return string the projectTypeof the WebProject
+     */
+    public function getProjectType()
+    {
+        return $this->kind;
     }
 
     /**
@@ -78,33 +143,18 @@ abstract class WebProject implements WebProjectInterface
      */
     public function getDatas()
     {
-        return $this->datas;
-    }
-
-    /**
-     * Set the datas to an empty WebProject array.
-     *
-     * @return array empty project array
-     */
-    public function resetDatas()
-    {
-        $this->datas = array(
-            'project' => array(),
+        return array(
+            'project' => array(
+                'documentroot' => realpath(getcwd()).$this->webDir,
+                'aliasname' => $this->location,
+                'vhostname' => $this->host,
+                'portnumber' => $this->port,
+            ),
         );
     }
 
     /**
-     * Sets a property to a value.
-     *
-     * @param string $name  a property name
-     * @param string $value a value for the property, an empty string by default
-     *
-     * @return WebProject the instance of the project
+     * [setDirProperties description].
      */
-    public function setData($name, $value = '')
-    {
-        $this->datas['project'][$name] = $value;
-
-        return $this;
-    }
+    abstract public function setDirProperties();
 }
