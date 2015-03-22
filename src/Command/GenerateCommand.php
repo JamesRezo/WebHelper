@@ -64,9 +64,13 @@ EOT
         $wsFactory = new WebServerFactory();
         $webserver = $wsFactory->create($name, $version);
 
+        $pjFactory = new WebProjectFactory();
+        $project = $pjFactory->create($this->getComposer()->getPackage());
+
         $helper = new WebHelper($this->getComposer(), $this->getIO());
         $helper
             ->setWebServer($webserver)
+            ->setWebProject($project)
             ->setRepository($input->getOption('repository'))
             ->setTwigEnvironment();
 
@@ -76,9 +80,6 @@ EOT
             $statements[] = $helper->findDirective($directive);
         }
 
-        $pjFactory = new WebProjectFactory();
-        $project = $pjFactory->create($this->getComposer()->getPackage());
-
-        $output->writeln($helper->render($project->getDatas(), $statements));
+        $output->writeln($helper->render($statements));
     }
 }

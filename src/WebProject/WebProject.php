@@ -96,8 +96,10 @@ abstract class WebProject implements WebProjectInterface
     /**
      * Sets a property to a value.
      *
-     * @param string     $name  a property name
-     * @param WebProject the instance of the project
+     * @param string $name  a property name
+     * @param string $value a value for the property, an empty string by default
+     *
+     * @return WebProject the instance of the project
      */
     public function setData($name, $value = '')
     {

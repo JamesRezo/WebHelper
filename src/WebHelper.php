@@ -11,6 +11,7 @@
 namespace JamesRezo\WebHelper;
 
 use JamesRezo\WebHelper\WebServer\WebServerInterface;
+use JamesRezo\WebHelper\WebProject\WebProjectInterface;
 use Symfony\Component\Finder\Finder;
 use Composer\Composer;
 use Composer\Factory;
@@ -44,8 +45,25 @@ class WebHelper
      */
     private $webserver = null;
 
+    /**
+     * A webproject to transmit the directives parameters.
+     *
+     * @var WebProjectInterface a webproject to transmit the directives parameters
+     */
+    private $webproject = null;
+
+    /**
+     * The Compsoer instance.
+     *
+     * @var Composer
+     */
     private $composer;
 
+    /**
+     * Th IO Interface.
+     *
+     * @var IOInterface
+     */
     private $io;
 
     /**
@@ -60,8 +78,6 @@ class WebHelper
 
     /**
      * Sets the Twig Environment.
-     *
-     * @param string $dir Path of the related repository
      */
     public function setTwigEnvironment()
     {
@@ -132,6 +148,28 @@ class WebHelper
     }
 
     /**
+     * Get the current webproject to be configured.
+     *
+     * @return WebProjectInterface $webproject the current webproject to be configured
+     */
+    public function getWebProject()
+    {
+        return $this->webproject;
+    }
+
+    /**
+     * Sets the webproject to generate the directives statements.
+     *
+     * @param WebProjectInterface $webproject the webproject to generate the directives statements
+     */
+    public function setWebProject(WebProjectInterface $webproject)
+    {
+        $this->webproject = $webproject;
+
+        return $this;
+    }
+
+    /**
      * Validates a Directive.
      *
      * @param string $directive the directive to be tested
@@ -196,17 +234,16 @@ class WebHelper
     /**
      * Output the generated Directives statements.
      *
-     * @param array $project Project Datas
-     * @param array $models  List of Twig files
+     * @param array $models List of Twig files
      *
      * @return string the statements
      */
-    public function render($project, $models)
+    public function render($models)
     {
         $text = '';
 
         foreach ($models as $model) {
-            $text .= $this->twigEnvironment->render($model, $project);
+            $text .= $this->twigEnvironment->render($model, $this->getWebProject()->getDatas());
         }
 
         return $text;
