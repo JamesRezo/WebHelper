@@ -16,6 +16,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use JamesRezo\WebHelper\WebServer\WebServerFactory;
+use JamesRezo\WebHelper\WebProject\WebProjectFactory;
 use JamesRezo\WebHelper\WebHelper;
 
 /**
@@ -41,11 +42,10 @@ class GenerateCommand extends Command
                     'Directives to generate'
                 ),
                 new InputOption('repository', false, InputOption::VALUE_REQUIRED, 'Write the archive to this directory', null),
+                new InputOption('url', false, InputOption::VALUE_REQUIRED, 'The target url', null),
             ))
             ->setHelp(<<<EOT
 The <info>web:generate</info> command creates one or many statements for the specified webserver.
-
-<info>bin/wh web:generate webserver directive1 ... [directiveN]</info>
 EOT
             )
         ;
@@ -65,9 +65,13 @@ EOT
         $wsFactory = new WebServerFactory();
         $webserver = $wsFactory->create($name, $version);
 
+        $pjFactory = new WebProjectFactory();
+        $project = $pjFactory->create($this->getComposer()->getPackage(), $input->getOption('url'));
+
         $helper = new WebHelper($this->getComposer(), $this->getIO());
         $helper
             ->setWebServer($webserver)
+            ->setWebProject($project)
             ->setRepository($input->getOption('repository'))
             ->setTwigEnvironment();
 
@@ -77,17 +81,6 @@ EOT
             $statements[] = $helper->findDirective($directive);
         }
 
-        //Provides Project Properties
-        $projectName = $this->getComposer()->getPackage()->getName();
-        $alias = $vhost = preg_replace(',^[^\/]+\/,', '', $projectName);
-        $project = array(
-            'project' => array(
-                'documentroot' => getcwd(),
-                'aliasname' => $alias,
-                'vhostname' => $vhost.'.domain.tld',
-            ),
-        );
-
-        $output->writeln($helper->render($project, $statements));
+        $output->writeln($helper->render($statements));
     }
 }

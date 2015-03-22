@@ -42,4 +42,4 @@ This will output some text that you'll put into a httpd server configuration fil
 ## Contributions
 
 ...are welcome, of course ;-)
-
+  

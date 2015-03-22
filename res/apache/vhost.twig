@@ -1,4 +1,4 @@
-<VirtualHost *:80>
+<VirtualHost *:{{ project.portnumber }}>
     DocumentRoot "{{ project.documentroot }}"
     ServerName {{ project.vhostname }}
 </VirtualHost>
