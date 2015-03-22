@@ -50,7 +50,7 @@ abstract class WebProject implements WebProjectInterface
     {
         $this->name = $name;
         $this->version = $version;
-        $this->datas = $this->resetDatas();
+        $this->resetDatas();
     }
 
     /**
