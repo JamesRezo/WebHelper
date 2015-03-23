@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "84cf9eb53aca511b89d359b328db0c41",
+    "hash": "7488fef2d00e5852d3bacea3bd6e744c",
     "packages": [
         {
             "name": "composer/composer",
@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/composer.git",
-                "reference": "829199c0530ea131262c804924f921447c71d4e8"
+                "reference": "ab3622dff1db71024f327387408250208c139a0d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/composer/zipball/829199c0530ea131262c804924f921447c71d4e8",
-                "reference": "829199c0530ea131262c804924f921447c71d4e8",
+                "url": "https://api.github.com/repos/composer/composer/zipball/ab3622dff1db71024f327387408250208c139a0d",
+                "reference": "ab3622dff1db71024f327387408250208c139a0d",
                 "shasum": ""
             },
             "require": {
@@ -72,7 +72,7 @@
                 "dependency",
                 "package"
             ],
-            "time": "2015-03-16 13:11:02"
+            "time": "2015-03-23 11:56:30"
         },
         {
             "name": "justinrainbow/json-schema",
@@ -193,12 +193,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Console.git",
-                "reference": "53f86497ccd01677e22435cfb7262599450a90d1"
+                "reference": "c5735dc28fec8117a686bbe6db71e3bb6de2a0a1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Console/zipball/53f86497ccd01677e22435cfb7262599450a90d1",
-                "reference": "53f86497ccd01677e22435cfb7262599450a90d1",
+                "url": "https://api.github.com/repos/symfony/Console/zipball/c5735dc28fec8117a686bbe6db71e3bb6de2a0a1",
+                "reference": "c5735dc28fec8117a686bbe6db71e3bb6de2a0a1",
                 "shasum": ""
             },
             "require": {
@@ -242,7 +242,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "http://symfony.com",
-            "time": "2015-03-13 17:37:22"
+            "time": "2015-03-22 16:55:57"
         },
         {
             "name": "symfony/finder",
