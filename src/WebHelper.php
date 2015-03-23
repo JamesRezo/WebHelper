@@ -118,7 +118,7 @@ class WebHelper
     public function setRepository($repo = null)
     {
         if (is_null($repo)) {
-            $repo = $this->composer->getConfig()->get('wh-repo-path');
+            $repo = $this->composer->getConfig()->get('webhelper-repository-path');
             $repo = $repo ?: __DIR__.'/../res';
         }
         $this->resDir = realpath($repo);
