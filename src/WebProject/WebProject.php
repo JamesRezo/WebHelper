@@ -48,23 +48,23 @@ abstract class WebProject implements WebProjectInterface
     private $writeables;
 
     /**
-     * [$host description].
+     * The host part of an url.
      *
-     * @var string
+     * @var string the host part of an url
      */
     private $host;
 
     /**
-     * [$location description].
+     * The path part of an url.
      *
-     * @var string
+     * @var string the path part of an url
      */
     private $location;
 
     /**
-     * [$port description].
+     * The port the webserver is listening to.
      *
-     * @var int
+     * @var int the port the webserver is listening to
      */
     private $port;
 
@@ -81,9 +81,11 @@ abstract class WebProject implements WebProjectInterface
     }
 
     /**
-     * [setNeeds description].
+     * Sets host, location and port.
      *
-     * @param [type] $needs [description]
+     * @param Array $needs host, location and port to configure
+     *
+     * @return WebProject this WebProject Instance
      */
     public function setNeeds($needs)
     {
@@ -95,9 +97,11 @@ abstract class WebProject implements WebProjectInterface
     }
 
     /**
-     * [setWebDir description].
+     * Sets the dir to be exposed by webserver.
      *
-     * @param [type] $dir [description]
+     * @param string $dir the sub-directory to complete a directory access Directove
+     *
+     * @return WebProject this WebProject Instance
      */
     public function setWebDir($dir)
     {
@@ -107,9 +111,9 @@ abstract class WebProject implements WebProjectInterface
     }
 
     /**
-     * [setWriteables description].
+     * Sets the directories to be written by webserver.
      *
-     * @param [type] $dir [description]
+     * @param Array $dir List of writeables directories
      */
     public function setWriteables($dir)
     {
@@ -119,9 +123,9 @@ abstract class WebProject implements WebProjectInterface
     }
 
     /**
-     * Get the projectTypeof a WebProject.
+     * Get the kind of a WebProject.
      *
-     * @return string the projectTypeof the WebProject
+     * @return string the kind of the WebProject
      */
     public function getProjectType()
     {
@@ -154,7 +158,9 @@ abstract class WebProject implements WebProjectInterface
     }
 
     /**
-     * [setDirProperties description].
+     * Sets webDir and writeables.
+     *
+     * @return WebProject this WebProject Instance
      */
     abstract public function setDirProperties();
 }

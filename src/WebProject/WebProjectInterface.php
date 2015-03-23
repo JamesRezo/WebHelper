@@ -19,19 +19,21 @@ use Composer\Package\PackageInterface;
  */
 interface WebProjectInterface
 {
-    /**
-     * [setNeeds description].
-     *
-     * @param array $needs [description]
-     */
-    public function setNeeds($needs);
+     /**
+      * Sets host, location and port.
+      *
+      * @param Array $needs host, location and port to configure
+      *
+      * @return WebProject this WebProject Instance
+      */
+     public function setNeeds($needs);
 
     /**
-     * [check description].
+     * Says if a Package is kind of a WebProject.
      *
-     * @param PackageInterface $package [description]
+     * @param PackageInterface $package The Package to check
      *
-     * @return boolean [description]
+     * @return boolean true if the Package is kind of the concrete class WebProject
      */
     public static function check(PackageInterface $package);
 

@@ -134,8 +134,7 @@ class WebHelper
                 $this->io->writeError("<info>Cache is not enabled (webhelper-cache-dir): $cacheRepoDir</info>");
             }
             $repo = $cacheRepoDir;
-        }
-        else {
+        } else {
             if (!file_exists($repo)) {
                 $this->io->writeError('<error>Repository not found: '.$repo.'</error>');
 
