@@ -18,6 +18,7 @@ use Composer\Factory;
 use Composer\Cache;
 use Composer\IO\IOInterface;
 use Composer\IO\NullIO;
+use Composer\Util\RemoteFilesystem;
 
 /**
  * WebHelper.
@@ -96,7 +97,7 @@ class WebHelper
         $cacheTwigDir = $this->getcacheDir().'/twig';
         $cache = new Cache($this->io, $cacheTwigDir);
         if (!$cache->isEnabled()) {
-            $this->io->writeError("<info>Cache is not enabled (webhelper-cache-dir): $cacheDir</info>");
+            $this->io->writeError("<info>Cache is not enabled (webhelper-cache-dir): $cacheTwigDir</info>");
         }
 
         $cacheDir = $cache->getRoot();
@@ -121,11 +122,26 @@ class WebHelper
             $repo = $this->composer->getConfig()->get('webhelper-repository-path');
             $repo = $repo ?: __DIR__.'/../res';
         }
-        if (!file_exists($repo)) {
-            $output->writeln('<error>Repository not found: '.$repo.'</error>');
+        if (preg_match('{^https?://}i', $repo)) {
+            $rfs = new RemoteFilesystem($this->io);
+            $contents = $rfs->getContents(parse_url($repo, PHP_URL_HOST), $repo.'/webhelper.json', false);
 
-            //throw something
-            return;
+            //feed the cache
+
+            $cacheRepoDir = $this->getcacheDir().'/res';
+            $cache = new Cache($this->io, $cacheRepoDir);
+            if (!$cache->isEnabled()) {
+                $this->io->writeError("<info>Cache is not enabled (webhelper-cache-dir): $cacheRepoDir</info>");
+            }
+            $repo = $cacheRepoDir;
+        }
+        else {
+            if (!file_exists($repo)) {
+                $this->io->writeError('<error>Repository not found: '.$repo.'</error>');
+
+                throw new \RuntimeException('Repository not found');
+                exit(1);
+            }
         }
         $this->resDir = realpath($repo);
 
