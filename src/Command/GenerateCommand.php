@@ -41,7 +41,7 @@ class GenerateCommand extends Command
                     InputArgument::IS_ARRAY | InputArgument::REQUIRED,
                     'Directives to generate'
                 ),
-                new InputOption('repository', false, InputOption::VALUE_REQUIRED, 'Write the archive to this directory', null),
+                new InputOption('repository', false, InputOption::VALUE_REQUIRED, 'Directory or url of a WebHelper Repository', null),
                 new InputOption('url', false, InputOption::VALUE_REQUIRED, 'The target url', null),
             ))
             ->setHelp(<<<EOT
