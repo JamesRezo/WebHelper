@@ -33,6 +33,15 @@ class Application extends BaseApplication
     }
 
     /**
+     * [getIO description]
+     * @return [type] [description]
+     */
+    public function getIO()
+    {
+        return $this->io;
+    }
+
+    /**
      * {@inheritDoc}
      */
     public function doRun(InputInterface $input, OutputInterface $output)

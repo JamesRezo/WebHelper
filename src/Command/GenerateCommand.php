@@ -66,7 +66,7 @@ EOT
             $name = $matches[1];
         }
 
-        $io = $this->getIO();
+        $io = $this->getApplication()->getIO();
         $io->loadConfiguration($this->getConfiguration());
         $file = new JsonFile('./composer.json');
         if (!$file->exists()) {
