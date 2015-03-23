@@ -11,6 +11,9 @@
 namespace JamesRezo\WebHelper\Command;
 
 use Composer\Command\Command;
+use Composer\Json\JsonFile;
+use Composer\Config;
+use Composer\Config\JsonConfigSource;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -62,13 +65,25 @@ EOT
             $version = $matches[2];
             $name = $matches[1];
         }
+
+        $io = $this->getIO();
+        $io->loadConfiguration($this->getConfiguration());
+        $file = new JsonFile('./composer.json');
+        if (!$file->exists()) {
+            $output->writeln('<error>File not found: '.$configFile.'</error>');
+
+            return 1;
+        }
+        $config = $file->read();
+        $composer = $this->getApplication()->getComposer(true, $config);
+
         $wsFactory = new WebServerFactory();
         $webserver = $wsFactory->create($name, $version);
 
         $pjFactory = new WebProjectFactory();
-        $project = $pjFactory->create($this->getComposer()->getPackage(), $input->getOption('url'));
+        $project = $pjFactory->create($composer->getPackage(), $input->getOption('url'));
 
-        $helper = new WebHelper($this->getComposer(), $this->getIO());
+        $helper = new WebHelper($composer, $io);
         $helper
             ->setWebServer($webserver)
             ->setWebProject($project)
@@ -82,5 +97,48 @@ EOT
         }
 
         $output->writeln($helper->render($statements));
+    }
+
+    /**
+     * @return Config
+     */
+    private function getConfiguration()
+    {
+        $config = new Config();
+
+        // add dir to the config
+        $config->merge(array('config' => array('home' => $this->getComposerHome())));
+
+        // load global auth file
+        $file = new JsonFile($config->get('home').'/auth.json');
+        if ($file->exists()) {
+            $config->merge(array('config' => $file->read()));
+        }
+        $config->setAuthConfigSource(new JsonConfigSource($file, true));
+        return $config;
+    }
+
+    /**
+     * @return string
+     * @throws \RuntimeException
+     */
+    private function getComposerHome()
+    {
+        $home = getenv('COMPOSER_HOME');
+        if (!$home) {
+            if (defined('PHP_WINDOWS_VERSION_MAJOR')) {
+                if (!getenv('APPDATA')) {
+                    throw new \RuntimeException('The APPDATA or COMPOSER_HOME environment variable must be set for composer to run correctly');
+                }
+                $home = strtr(getenv('APPDATA'), '\\', '/') . '/Composer';
+            } else {
+                if (!getenv('HOME')) {
+                    throw new \RuntimeException('The HOME or COMPOSER_HOME environment variable must be set for composer to run correctly');
+                }
+                $home = rtrim(getenv('HOME'), '/') . '/.composer';
+            }
+        }
+
+        return $home;
     }
 }
