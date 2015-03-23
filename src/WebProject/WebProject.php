@@ -13,7 +13,7 @@ namespace JamesRezo\WebHelper\WebProject;
 /**
  * Base class for WebProject classes.
  *
- * projectTypecan be either symfony, drupal, wordpress or other project projectType *
+ * kind can be either symfony, drupal, wordpress ...
  *
  * @author james <james@rezo.net>
  */
