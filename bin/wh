@@ -27,5 +27,5 @@ if ((!$loader = includeIfExists(__DIR__.'/../vendor/autoload.php')) && (!$loader
 
 use JamesRezo\WebHelper\Console\Application;
 
-$application = new Application('WebHelper', '0.1');
+$application = new Application();
 $application->run();

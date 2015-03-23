@@ -10,22 +10,67 @@
 
 namespace JamesRezo\WebHelper\Console;
 
-use Composer\Console\Application as BaseApplication;
+use Symfony\Component\Console\Application as BaseApplication;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use JamesRezo\WebHelper\Command;
+use Composer\IO\ConsoleIO;
+use Composer\Factory;
+use Composer\Util\ErrorHandler;
 
 /**
- *
+ * @author James Hautot <james@rezo.net>
  */
 class Application extends BaseApplication
 {
-    /**
-     * Initializes all the WebHelper commands.
-     */
-    protected function getDefaultCommands()
-    {
-        $commands = parent::getDefaultCommands();
-        $commands[] = new Command\GenerateCommand();
+    protected $io;
+    protected $composer;
 
-        return $commands;
+    public function __construct()
+    {
+        parent::__construct('WebHelper', '0.1');
+        ErrorHandler::register();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function doRun(InputInterface $input, OutputInterface $output)
+    {
+        $this->registerCommands();
+        
+        $styles = Factory::createAdditionalStyles();
+        foreach ($styles as $name => $style) {
+            $output->getFormatter()->setStyle($name, $style);
+        }
+
+        $this->io = new ConsoleIO($input, $output, $this->getHelperSet());
+
+        return parent::doRun($input, $output);
+    }
+
+    /**
+     * @return Composer
+     */
+    public function getComposer($required = true, $config = null)
+    {
+        if (null === $this->composer) {
+            try {
+                $this->composer = Factory::create($this->io, $config);
+            } catch (\InvalidArgumentException $e) {
+                $this->io->write($e->getMessage());
+                exit(1);
+            }
+        }
+
+        return $this->composer;
+    }
+
+    /**
+     * Initializes all the composer commands
+     */
+    protected function registerCommands()
+    {
+        $this->add(new Command\GenerateCommand());
     }
 }
