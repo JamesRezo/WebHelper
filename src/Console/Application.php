@@ -33,8 +33,9 @@ class Application extends BaseApplication
     }
 
     /**
-     * [getIO description]
-     * @return [type] [description]
+     * Returns the IO Interface.
+     *
+     * @return ConsoleIO the Application IO Interface
      */
     public function getIO()
     {
