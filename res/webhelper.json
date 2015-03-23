@@ -1,10 +1,10 @@
 {
-	"api": "0.1",
-	"files": [
-		"./apache/2.4/directory.twig",
-		"./apache/alias.twig",
-		"./apache/directory.twig",
-		"./apache/vhost.twig"
-	]
+    "api": "0.1",
+    "files": [
+        "apache/2.4/directory.twig",
+        "apache/alias.twig",
+        "apache/directory.twig",
+        "apache/vhost.twig"
+    ]
 }
 

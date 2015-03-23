@@ -19,6 +19,7 @@ use Composer\Cache;
 use Composer\IO\IOInterface;
 use Composer\IO\NullIO;
 use Composer\Util\RemoteFilesystem;
+use Composer\Json\JsonFile;
 
 /**
  * WebHelper.
@@ -123,16 +124,23 @@ class WebHelper
             $repo = $repo ?: __DIR__.'/../res';
         }
         if (preg_match('{^https?://}i', $repo)) {
-            $rfs = new RemoteFilesystem($this->io);
-            $contents = $rfs->getContents(parse_url($repo, PHP_URL_HOST), $repo.'/webhelper.json', false);
-
-            //feed the cache
-
             $cacheRepoDir = $this->getcacheDir().'/res';
-            $cache = new Cache($this->io, $cacheRepoDir);
+            $cache = new Cache($this->io, $cacheRepoDir, 'a-z0-9./');
             if (!$cache->isEnabled()) {
                 $this->io->writeError("<info>Cache is not enabled (webhelper-cache-dir): $cacheRepoDir</info>");
             }
+
+            $rfs = new RemoteFilesystem($this->io);
+            $contents = $rfs->getContents(parse_url($repo, PHP_URL_HOST), $repo.'/webhelper.json', false);
+            $config = JsonFile::parseJson($contents, $repo.'/webhelper.json');
+
+            //feed the cache
+            foreach ($config['files'] as $file) {
+                $contents = $rfs->getContents(parse_url($repo, PHP_URL_HOST), $repo.'/'.$file, false);
+                @mkdir($cache->getRoot().dirname($file), 0777, true);
+                $cache->write($file, $contents);
+            }
+
             $repo = $cacheRepoDir;
         } else {
             if (!file_exists($repo)) {
