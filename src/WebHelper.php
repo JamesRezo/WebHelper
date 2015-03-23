@@ -60,7 +60,7 @@ class WebHelper
     private $composer;
 
     /**
-     * Th IO Interface.
+     * The IO Interface.
      *
      * @var IOInterface
      */
