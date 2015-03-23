@@ -76,16 +76,27 @@ class WebHelper
         $this->setRepository();
     }
 
+    private function getcacheDir()
+    {
+        $cacheDir = $this->composer->getConfig()->get('webhelper-cache-dir');
+        $cacheDir = $cacheDir ?: $this->composer->getConfig()->get('cache-dir').'/webhelper';
+        $cache = new Cache($this->io, $cacheDir);
+        if (!$cache->isEnabled()) {
+            $this->io->writeError("<info>Cache is not enabled (webhelper-cache-dir): $cacheDir</info>");
+        }
+
+        return $cache->getRoot();
+    }
+
     /**
      * Sets the Twig Environment.
      */
     public function setTwigEnvironment()
     {
-        $cacheTwigDir = $this->composer->getConfig()->get('cache-wh-twig-dir');
-        $cacheTwigDir = $cacheTwigDir ?: $this->composer->getConfig()->get('cache-dir').'/webhelper/twig';
+        $cacheTwigDir = $this->getcacheDir().'/twig';
         $cache = new Cache($this->io, $cacheTwigDir);
         if (!$cache->isEnabled()) {
-            $this->io->writeError("<info>Cache is not enabled (cache-wh-twig-dir): $cacheTwigDir</info>");
+            $this->io->writeError("<info>Cache is not enabled (webhelper-cache-dir): $cacheDir</info>");
         }
 
         $cacheDir = $cache->getRoot();
