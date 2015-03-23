@@ -29,10 +29,22 @@ class WebProjectFactory
      */
     public function create(PackageInterface $package, $url)
     {
-        $project = $this->detectKind($package);
+        $kind = $this->detectKind($package);
         $needs = $this->setUrlNeeds($url);
 
-        $project->setNeeds($needs);
+        switch ($kind) {
+            case 'symfony':
+                $project = new SymfonyWebProject($package->getVersion());
+                break;
+            case 'base':
+            default:
+                $project = new BaseWebProject($package->getVersion());
+                break;
+        }
+
+        $project
+            ->setDirProperties()
+            ->setNeeds($needs);
 
         return $project;
     }
@@ -41,22 +53,15 @@ class WebProjectFactory
     {
         $kind = '';
         $project = null;
-        $version = $package->getVersion();
 
         if (SymfonyWebProject::check($package)) {
             $kind = 'symfony';
         }
-        switch ($kind) {
-            case 'symfony':
-                $project = new SymfonyWebProject($version);
-                break;
-            default:
-                $project = new BaseWebProject($version);
-                break;
+        if (BaseWebProject::check($package)) {
+            $kind = 'base';
         }
-        $project->setDirProperties();
 
-        return $project;
+        return $kind;
     }
 
     protected function setUrlNeeds($url)

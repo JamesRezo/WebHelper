@@ -34,6 +34,8 @@ class BaseWebProject extends WebProject
     {
         $this->setWebDir('');
         $this->setWriteables(array());
+
+        return $this;
     }
 
     /**

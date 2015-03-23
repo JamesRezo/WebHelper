@@ -37,6 +37,8 @@ class SymfonyWebProject extends WebProject
             array('/var') :
             array('/app/cache', '/app/logs')
         );
+
+        return $this;
     }
 
     /**
