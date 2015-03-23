@@ -38,7 +38,7 @@ class Application extends BaseApplication
     public function doRun(InputInterface $input, OutputInterface $output)
     {
         $this->registerCommands();
-        
+
         $styles = Factory::createAdditionalStyles();
         foreach ($styles as $name => $style) {
             $output->getFormatter()->setStyle($name, $style);
@@ -67,7 +67,7 @@ class Application extends BaseApplication
     }
 
     /**
-     * Initializes all the composer commands
+     * Initializes all the composer commands.
      */
     protected function registerCommands()
     {

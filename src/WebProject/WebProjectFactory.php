@@ -72,6 +72,9 @@ class WebProjectFactory
         if ($parsedUrl['scheme'] === 'https') {
             $parsedUrl['port'] = 443;
         }
+        if (!isset($parsedUrl['path'])) {
+            $parsedUrl['path'] = '/';
+        }
 
         return array('host' => $parsedUrl['host'], 'location' => $parsedUrl['path'], 'port' => $parsedUrl['port']);
     }
