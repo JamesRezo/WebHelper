@@ -4,7 +4,9 @@
         "apache/2.4/directory.twig",
         "apache/alias.twig",
         "apache/directory.twig",
-        "apache/vhost.twig"
+        "apache/vhost.twig",
+        "nginx/location.twig",
+        "nginx/server.twig"
     ]
 }
 
