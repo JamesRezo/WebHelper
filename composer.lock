@@ -12,16 +12,16 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/composer.git",
-                "reference": "ab3622dff1db71024f327387408250208c139a0d"
+                "reference": "c5cd184767001f34177da99e91f7a6dcf8ad27f6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/composer/zipball/ab3622dff1db71024f327387408250208c139a0d",
-                "reference": "ab3622dff1db71024f327387408250208c139a0d",
+                "url": "https://api.github.com/repos/composer/composer/zipball/c5cd184767001f34177da99e91f7a6dcf8ad27f6",
+                "reference": "c5cd184767001f34177da99e91f7a6dcf8ad27f6",
                 "shasum": ""
             },
             "require": {
-                "justinrainbow/json-schema": "~1.3",
+                "justinrainbow/json-schema": "~1.4",
                 "php": ">=5.3.2",
                 "seld/jsonlint": "~1.0",
                 "symfony/console": "~2.5",
@@ -72,20 +72,20 @@
                 "dependency",
                 "package"
             ],
-            "time": "2015-03-23 11:56:30"
+            "time": "2015-03-24 01:36:30"
         },
         {
             "name": "justinrainbow/json-schema",
-            "version": "1.3.7",
+            "version": "1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/justinrainbow/json-schema.git",
-                "reference": "87b54b460febed69726c781ab67462084e97a105"
+                "reference": "680d026082c3aa234b2d8617c50e9c73999913ba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/justinrainbow/json-schema/zipball/87b54b460febed69726c781ab67462084e97a105",
-                "reference": "87b54b460febed69726c781ab67462084e97a105",
+                "url": "https://api.github.com/repos/justinrainbow/json-schema/zipball/680d026082c3aa234b2d8617c50e9c73999913ba",
+                "reference": "680d026082c3aa234b2d8617c50e9c73999913ba",
                 "shasum": ""
             },
             "require": {
@@ -138,7 +138,7 @@
                 "json",
                 "schema"
             ],
-            "time": "2014-08-25 02:48:14"
+            "time": "2015-03-23 20:38:38"
         },
         {
             "name": "seld/jsonlint",
