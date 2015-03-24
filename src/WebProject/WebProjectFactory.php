@@ -36,6 +36,9 @@ class WebProjectFactory
             case 'symfony':
                 $project = new SymfonyWebProject($package->getVersion());
                 break;
+            case 'laravel':
+                $project = new LaravelWebProject($package->getVersion());
+                break;
             case 'base':
             default:
                 $project = new BaseWebProject($package->getVersion());
@@ -56,6 +59,9 @@ class WebProjectFactory
 
         if (SymfonyWebProject::check($package)) {
             $kind = 'symfony';
+        }
+        if (LaravelWebProject::check($package)) {
+            $kind = 'laravel';
         }
         if (BaseWebProject::check($package)) {
             $kind = 'base';
