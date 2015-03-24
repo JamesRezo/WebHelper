@@ -33,6 +33,9 @@ class WebServerFactory
             case 'apache':
                 $webserver = new ApacheWebServer($version);
                 break;
+            case 'nginx':
+                $webserver = new NginxWebServer($version);
+                break;
         }
 
         return $webserver;
