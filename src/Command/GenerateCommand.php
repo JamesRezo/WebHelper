@@ -44,10 +44,17 @@ class GenerateCommand extends Command
                     InputArgument::IS_ARRAY | InputArgument::REQUIRED,
                     'Directives to generate'
                 ),
-                new InputOption('repository', false, InputOption::VALUE_REQUIRED, 'Directory or url of a WebHelper Repository', null),
+                new InputOption(
+                    'repository',
+                    false,
+                    InputOption::VALUE_REQUIRED,
+                    'Directory or url of a WebHelper Repository',
+                    null
+                ),
                 new InputOption('url', false, InputOption::VALUE_REQUIRED, 'The target url', null),
             ))
-            ->setHelp(<<<EOT
+            ->setHelp(
+<<<EOT
 The <info>web:generate</info> command creates one or many statements for the specified webserver.
 EOT
             )
@@ -130,12 +137,16 @@ EOT
         if (!$home) {
             if (defined('PHP_WINDOWS_VERSION_MAJOR')) {
                 if (!getenv('APPDATA')) {
-                    throw new \RuntimeException('The APPDATA or COMPOSER_HOME environment variable must be set for composer to run correctly');
+                    throw new \RuntimeException(
+                        'The APPDATA or COMPOSER_HOME environment variable must be set for composer to run correctly'
+                    );
                 }
                 $home = strtr(getenv('APPDATA'), '\\', '/').'/Composer';
             } else {
                 if (!getenv('HOME')) {
-                    throw new \RuntimeException('The HOME or COMPOSER_HOME environment variable must be set for composer to run correctly');
+                    throw new \RuntimeException(
+                        'The HOME or COMPOSER_HOME environment variable must be set for composer to run correctly'
+                    );
                 }
                 $home = rtrim(getenv('HOME'), '/').'/.composer';
             }

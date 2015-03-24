@@ -33,7 +33,8 @@ class SymfonyWebProject extends WebProject
     public function setDirProperties()
     {
         $this->setWebDir('/web');
-        $this->setWriteables(version_compare($this->getVersion(), '3', '>=') ?
+        $this->setWriteables(
+            version_compare($this->getVersion(), '3', '>=') ?
             array('/var') :
             array('/app/cache', '/app/logs')
         );
