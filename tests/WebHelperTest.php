@@ -133,7 +133,7 @@ class WebHelperTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(
             $webhelper->render(array($directory)),
             'Directory res/dummy/1/1.2/1.2.17'."\n"
-        );        
+        );
     }
 
     private function setWindowsPath($path)

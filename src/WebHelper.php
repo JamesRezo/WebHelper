@@ -138,7 +138,7 @@ class WebHelper
                 $config = null;
                 $rfs = new RemoteFilesystem($this->io);
                 $contents = $rfs->getContents($host, $repo.'/webhelper.json', false);
-                if ($contents) {
+                if (is_string($contents)) {
                     $config = JsonFile::parseJson($contents, $repo.'/webhelper.json');
                 }
 
@@ -152,8 +152,7 @@ class WebHelper
                         $cache->write($file, $contents);
                     }
                 }
-            }
-            else {
+            } else {
                 $this->io->writeError("<info>Bad URL: $repo</info>");
             }
 
