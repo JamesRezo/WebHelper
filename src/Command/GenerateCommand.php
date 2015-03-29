@@ -66,7 +66,7 @@ EOT
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $version = null;
+        $version = '';
         $name = $input->getArgument('webserver');
         if (preg_match(',([^\.\d]+)([\.\d]+)$,', $name, $matches)) {
             $version = $matches[2];
