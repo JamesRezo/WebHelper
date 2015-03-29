@@ -37,7 +37,7 @@ abstract class WebServer implements WebServerInterface
      * Constructor.
      *
      * @param string $name         the name of a webserver
-     * @param string $version|null the version of a webserver
+     * @param integer $version the version of a webserver
      */
     public function __construct($name, $version = null)
     {
