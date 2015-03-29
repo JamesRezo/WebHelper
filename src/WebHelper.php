@@ -134,7 +134,7 @@ class WebHelper
             }
 
             $host = parse_url($repo, PHP_URL_HOST);
-            if (!is_null($host)) {
+            if (is_string($host)) {
                 $config = null;
                 $rfs = new RemoteFilesystem($this->io);
                 $contents = $rfs->getContents($host, $repo.'/webhelper.json', false);
