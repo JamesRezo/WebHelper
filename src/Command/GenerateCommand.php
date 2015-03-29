@@ -102,7 +102,7 @@ EOT
                 ->setWebProject($project)
                 ->setRepository($input->getOption('repository'))
                 ->setTwigEnvironment();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $output->writeln('<error>Error while processing :'.$e->getMessage().'</error>');
 
             return 1;
