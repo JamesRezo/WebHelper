@@ -46,12 +46,12 @@ class GenerateCommand extends Command
                 ),
                 new InputOption(
                     'repository',
-                    false,
+                    'r',
                     InputOption::VALUE_REQUIRED,
                     'Directory or url of a WebHelper Repository',
                     null
                 ),
-                new InputOption('url', false, InputOption::VALUE_REQUIRED, 'The target url', null),
+                new InputOption('url', 'u', InputOption::VALUE_REQUIRED, 'The target url', null),
             ))
             ->setHelp(
 <<<EOT
@@ -77,7 +77,7 @@ EOT
         $io->loadConfiguration($this->getConfiguration());
         $file = new JsonFile('./composer.json');
         if (!$file->exists()) {
-            $output->writeln('<error>File not found: '.$configFile.'</error>');
+            $output->writeln('<error>File not found: '.$file.'</error>');
 
             return 1;
         }
@@ -86,16 +86,27 @@ EOT
 
         $wsFactory = new WebServerFactory();
         $webserver = $wsFactory->create($name, $version);
+        if (is_null($webserver)) {
+            $output->writeln('<error>Web Server "'.$webserver.'" unknown.</error>');
+
+            return 1;
+        }
 
         $pjFactory = new WebProjectFactory();
         $project = $pjFactory->create($composer->getPackage(), $input->getOption('url'));
 
-        $helper = new WebHelper($composer, $io);
-        $helper
-            ->setWebServer($webserver)
-            ->setWebProject($project)
-            ->setRepository($input->getOption('repository'))
-            ->setTwigEnvironment();
+        try {
+            $helper = new WebHelper($composer, $io);
+            $helper
+                ->setWebServer($webserver)
+                ->setWebProject($project)
+                ->setRepository($input->getOption('repository'))
+                ->setTwigEnvironment();
+        } catch (Exception $e) {
+            $output->writeln('<error>Error while processing :'.$e->getMessage().'</error>');
+
+            return 1;
+        }
 
         $directives = $input->getArgument('directive');
         $statements = array();

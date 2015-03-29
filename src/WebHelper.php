@@ -115,6 +115,9 @@ class WebHelper
     /**
      * Sets the absolute path to the related repository.
      *
+     * @throws RuntimeException If directory parameter does not exist
+     * @throws RuntimeException If it's impossible to write cache files
+     *
      * @param string $repo path to an alternative repository
      */
     public function setRepository($repo = null)
@@ -137,7 +140,9 @@ class WebHelper
             //feed the cache
             foreach ($config['files'] as $file) {
                 $contents = $rfs->getContents(parse_url($repo, PHP_URL_HOST), $repo.'/'.$file, false);
-                @mkdir($cache->getRoot().dirname($file), 0777, true);
+                if (@mkdir($cache->getRoot().dirname($file), 0777, true) === false) {
+                    throw new \RuntimeException('The directory '.$dir.' could not be created.');
+                }
                 $cache->write($file, $contents);
             }
 
@@ -147,7 +152,6 @@ class WebHelper
                 $this->io->writeError('<error>Repository not found: '.$repo.'</error>');
 
                 throw new \RuntimeException('Repository not found');
-                exit(1);
             }
         }
         $this->resDir = realpath($repo);
