@@ -72,7 +72,7 @@ abstract class WebProject implements WebProjectInterface
      * Constructor.
      *
      * @param string $kind         the type of a WebProject
-     * @param string $version|null the version of a WebProject
+     * @param integer $version the version of a WebProject
      */
     public function __construct($kind, $version = null)
     {

@@ -35,8 +35,7 @@ class SymfonyWebProject extends WebProject
         $this->setWebDir('/web');
         $this->setWriteables(
             version_compare($this->getVersion(), '3', '>=') ?
-            array('/var') :
-            array('/app/cache', '/app/logs')
+            array('/var') : array('/app/cache', '/app/logs')
         );
 
         return $this;
