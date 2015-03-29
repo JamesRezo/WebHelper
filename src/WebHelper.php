@@ -133,17 +133,28 @@ class WebHelper
                 $this->io->writeError("<info>Cache is not enabled (webhelper-cache-dir): $cacheRepoDir</info>");
             }
 
-            $rfs = new RemoteFilesystem($this->io);
-            $contents = $rfs->getContents(parse_url($repo, PHP_URL_HOST), $repo.'/webhelper.json', false);
-            $config = JsonFile::parseJson($contents, $repo.'/webhelper.json');
-
-            //feed the cache
-            foreach ($config['files'] as $file) {
-                $contents = $rfs->getContents(parse_url($repo, PHP_URL_HOST), $repo.'/'.$file, false);
-                if (@mkdir($cache->getRoot().dirname($file), 0777, true) === false) {
-                    throw new \RuntimeException('The directory '.$dir.' could not be created.');
+            $host = parse_url($repo, PHP_URL_HOST);
+            if (!is_null($host)) {
+                $config = null;
+                $rfs = new RemoteFilesystem($this->io);
+                $contents = $rfs->getContents($host, $repo.'/webhelper.json', false);
+                if ($contents) {
+                    $config = JsonFile::parseJson($contents, $repo.'/webhelper.json');
                 }
-                $cache->write($file, $contents);
+
+                //feed the cache
+                if (is_array($config['files'])) {
+                    foreach ($config['files'] as $file) {
+                        $contents = $rfs->getContents($host, $repo.'/'.$file, false);
+                        if (@mkdir($cache->getRoot().dirname($file), 0777, true) === false) {
+                            throw new \RuntimeException('The directory '.$dir.' could not be created.');
+                        }
+                        $cache->write($file, $contents);
+                    }
+                }
+            }
+            else {
+                $this->io->writeError("<info>Bad URL: $repo</info>");
             }
 
             $repo = $cacheRepoDir;

@@ -55,7 +55,6 @@ class WebProjectFactory
     protected function detectKind(PackageInterface $package)
     {
         $kind = '';
-        $project = null;
 
         if (SymfonyWebProject::check($package)) {
             $kind = 'symfony';

@@ -62,7 +62,7 @@ class Application extends BaseApplication
     /**
      * @return Composer
      */
-    public function getComposer($required = true, $config = null)
+    public function getComposer($config = null)
     {
         if (null === $this->composer) {
             try {
