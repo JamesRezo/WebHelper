@@ -20,7 +20,7 @@ class NginxWebServer extends WebServer
      *
      * @param integer $version the version of the nginx webserver
      */
-    public function __construct($version = 0)
+    public function __construct($version = '')
     {
         parent::__construct('nginx', $version);
     }

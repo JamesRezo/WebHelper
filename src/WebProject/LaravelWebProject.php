@@ -20,9 +20,9 @@ class LaravelWebProject extends WebProject
     /**
      * Constructor.
      *
-     * @param integer $version the version of the Laravel project
+     * @param string $version the version of the Laravel project
      */
-    public function __construct($version = 0)
+    public function __construct($version = '')
     {
         parent::__construct('laravel', $version);
     }

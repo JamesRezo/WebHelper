@@ -20,9 +20,9 @@ class BaseWebProject extends WebProject
     /**
      * Constructor.
      *
-     * @param integer $version the version of the project
+     * @param string $version the version of the project
      */
-    public function __construct($version = 0)
+    public function __construct($version = '')
     {
         parent::__construct('base', $version);
     }

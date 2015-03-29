@@ -20,9 +20,9 @@ class SymfonyWebProject extends WebProject
     /**
      * Constructor.
      *
-     * @param integer $version the version of the Symfony project
+     * @param string $version the version of the Symfony project
      */
-    public function __construct($version = 0)
+    public function __construct($version = '')
     {
         parent::__construct('symfony', $version);
     }
@@ -34,7 +34,7 @@ class SymfonyWebProject extends WebProject
     {
         $this->setWebDir('/web');
         $this->setWriteables(
-            version_compare($this->getVersion(), '3', '>=') ?
+            version_compare(intval($this->getVersion()), '3', '>=') ?
             array('/var') : array('/app/cache', '/app/logs')
         );
 
