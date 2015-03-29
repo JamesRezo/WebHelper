@@ -259,7 +259,7 @@ class WebHelper
             return '';
         }
 
-        $sortByVersion = function(\SplFileInfo $aFile, \SplFileInfo $bFile) {
+        $sortByVersion = function (\SplFileInfo $aFile, \SplFileInfo $bFile) {
             $aVersion = basename($aFile->getRelativePath());
             $bVersion = basename($bFile->getRelativePath());
 

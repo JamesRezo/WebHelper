@@ -62,7 +62,12 @@ EOT
     }
 
     /**
-     * {@inheritDoc}
+     * Execute the command.
+     *
+     * {@inheritdoc}
+     *
+     * @param InputInterface  $input  the input interface
+     * @param OutputInterface $output the output interface
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {

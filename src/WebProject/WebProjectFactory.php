@@ -52,6 +52,13 @@ class WebProjectFactory
         return $project;
     }
 
+    /**
+     * Try to find what kind of project it is.
+     *
+     * @param PackageInterface $package Package datas
+     *
+     * @return string the type of web project
+     */
     protected function detectKind(PackageInterface $package)
     {
         $kind = '';
@@ -69,6 +76,13 @@ class WebProjectFactory
         return $kind;
     }
 
+    /**
+     * Helper to set what does a project need to be configured in a web server.
+     *
+     * @param string $url the target url
+     *
+     * @return array a parsed url
+     */
     protected function setUrlNeeds($url)
     {
         if (is_null($url)) {

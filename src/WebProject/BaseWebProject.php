@@ -28,7 +28,11 @@ class BaseWebProject extends WebProject
     }
 
     /**
-     * {@inheritDoc}
+     * Sets the web sub-directory and the writeable directories of the project.
+     *
+     * {@inheritdoc}
+     *
+     * @return WebProjectInterface the instance of the web project
      */
     public function setDirProperties()
     {
@@ -38,11 +42,17 @@ class BaseWebProject extends WebProject
         return $this;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public static function check(PackageInterface $package)
-    {
-        return true;
-    }
+   /**
+    * Check if $package matches the specificities of a web project.
+    *
+    * {@inheritdoc}
+    *
+    * @param  PackageInterface $package Package datas
+    *
+    * @return bool                      always true
+    */
+   public static function check(PackageInterface $package)
+   {
+       return true;
+   }
 }

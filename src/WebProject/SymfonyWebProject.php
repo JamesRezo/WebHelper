@@ -28,7 +28,11 @@ class SymfonyWebProject extends WebProject
     }
 
     /**
-     * {@inheritDoc}
+     * Sets the web sub-directory and the writeable directories of the Symfony project.
+     *
+     * {@inheritdoc}
+     *
+     * @return WebProjectInterface the instance of the web project
      */
     public function setDirProperties()
     {
@@ -42,7 +46,13 @@ class SymfonyWebProject extends WebProject
     }
 
     /**
-     * {@inheritDoc}
+     * Check if $package matches the specificities of a Symfony web project.
+     *
+     * {@inheritdoc}
+     *
+     * @param PackageInterface $package Package datas
+     *
+     * @return bool always true
      */
     public static function check(PackageInterface $package)
     {

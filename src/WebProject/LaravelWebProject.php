@@ -27,19 +27,29 @@ class LaravelWebProject extends WebProject
         parent::__construct('laravel', $version);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function setDirProperties()
-    {
-        $this->setWebDir('/public');
-        $this->setWriteables(array('/storage/logs'));
+     /**
+      * Sets the web sub-directory and the writeable directories of the Laravel project.
+      *
+      * {@inheritdoc}
+      *
+      * @return WebProjectInterface the instance of the web project
+      */
+     public function setDirProperties()
+     {
+         $this->setWebDir('/public');
+         $this->setWriteables(array('/storage/logs'));
 
-        return $this;
-    }
+         return $this;
+     }
 
     /**
-     * {@inheritDoc}
+     * Check if $package matches the specificities of a Laravel web project.
+     *
+     * {@inheritdoc}
+     *
+     * @param PackageInterface $package Package datas
+     *
+     * @return bool always true
      */
     public static function check(PackageInterface $package)
     {
