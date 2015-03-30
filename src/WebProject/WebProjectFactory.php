@@ -39,6 +39,9 @@ class WebProjectFactory
             case 'laravel':
                 $project = new LaravelWebProject($package->getVersion());
                 break;
+            case 'dokuwiki':
+                $project = new DokuwikiWebProject($package->getVersion());
+                break;
             case 'base':
             default:
                 $project = new BaseWebProject($package->getVersion());
@@ -68,6 +71,9 @@ class WebProjectFactory
         }
         if (LaravelWebProject::check($package)) {
             $kind = 'laravel';
+        }
+        if (DokuwikiWebProject::check($package)) {
+            $kind = 'dokuwiki';
         }
         if (BaseWebProject::check($package)) {
             $kind = 'base';
