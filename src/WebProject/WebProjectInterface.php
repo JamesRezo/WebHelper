@@ -69,6 +69,13 @@ interface WebProjectInterface
     public function setWriteables($dir);
 
     /**
+     * Sets the directories to be denied by webserver.
+     *
+     * @param Array $dir List of denied directories
+     */
+    public function setDenied($dir);
+
+    /**
      * Get the datas of a WebProject.
      *
      * @return array the datas of the WebProject

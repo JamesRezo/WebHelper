@@ -1,0 +1,9 @@
+<Location "{{ project.aliasname }}/">
+	Order allow,deny
+	allow from all
+</Location>
+<LocationMatch "{{ project.aliasname }}/{{ project.securedlocation }}/">
+	Order allow,deny
+	Deny from all
+	Satisfy All
+</LocationMatch>

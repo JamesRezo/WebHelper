@@ -48,6 +48,13 @@ abstract class WebProject implements WebProjectInterface
     private $writeables;
 
     /**
+     * Files or directories the web server must deny access.
+     *
+     * @var array the list of files and directories the web server must deny access
+     */
+    private $denied;
+
+    /**
      * The host part of an url.
      *
      * @var string the host part of an url
@@ -118,6 +125,18 @@ abstract class WebProject implements WebProjectInterface
     public function setWriteables($dir)
     {
         $this->writeables = $dir;
+
+        return $this;
+    }
+
+    /**
+     * Sets the directories to be denied by webserver.
+     *
+     * @param Array $dir List of denied directories
+     */
+    public function setDenied($dir)
+    {
+        $this->denied = $dir;
 
         return $this;
     }
