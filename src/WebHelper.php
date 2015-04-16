@@ -232,7 +232,7 @@ class WebHelper
      */
     private function validateDirective($directive)
     {
-        return preg_match(',^[a-z]+$,i', $directive);
+        return preg_match(',^[a-z\.]+$,i', $directive);
     }
 
     /**

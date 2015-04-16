@@ -49,7 +49,7 @@ class LaravelWebProject extends WebProject
      *
      * @param PackageInterface $package Package datas
      *
-     * @return bool always true
+     * @return bool TRUE if a Laravel boostrap file if found
      */
     public static function check(PackageInterface $package)
     {

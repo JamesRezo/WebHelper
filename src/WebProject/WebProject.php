@@ -172,6 +172,7 @@ abstract class WebProject implements WebProjectInterface
                 'aliasname' => $this->location,
                 'vhostname' => $this->host,
                 'portnumber' => $this->port,
+                'location.secured' => $this->denied,
             ),
         );
     }
