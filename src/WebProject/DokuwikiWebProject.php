@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is, guess what, part of WebHelper.
  *
@@ -38,23 +39,23 @@ class DokuwikiWebProject extends WebProject
     {
         $this->setWebDir('');
         $this->setWriteables(array());
-        $this->setDenied('(data|conf|bin|inc)'); //WIP array structure to regexp format
+        $this->setDenied(array('data', 'conf', 'bin', 'inc'));
 
         return $this;
     }
 
-   /**
-    * Check if $package matches the specificities of a web project.
-    *
-    * {@inheritdoc}
-    *
-    * @param  PackageInterface $package Package datas
-    *
-    * @return bool                      always true
-    */
-   public static function check(PackageInterface $package)
-   {
+    /**
+     * Check if $package matches the specificities of a web project.
+     *
+     * {@inheritdoc}
+     *
+     * @param PackageInterface $package Package datas
+     *
+     * @return bool always true
+     */
+    public static function check(PackageInterface $package)
+    {
         //WIP
-       return false;
-   }
+        return false;
+    }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is, guess what, part of WebHelper.
  *
@@ -33,7 +34,7 @@ interface WebProjectInterface
      *
      * @param PackageInterface $package The Package to check
      *
-     * @return boolean true if the Package is kind of the concrete class WebProject
+     * @return bool true if the Package is kind of the concrete class WebProject
      */
     public static function check(PackageInterface $package);
 
@@ -64,16 +65,16 @@ interface WebProjectInterface
     /**
      * Sets Files or directories the web server needs to write.
      *
-     * @param string $dir the sub-directories or special files of the package that will be exposed on the web
+     * @param array $dir the sub-directories or special files of the package that will be exposed on the web
      */
-    public function setWriteables($dir);
+    public function setWriteables(array $dir);
 
     /**
      * Sets the directories to be denied by webserver.
      *
      * @param Array $dir List of denied directories
      */
-    public function setDenied($dir);
+    public function setDenied(array $dir);
 
     /**
      * Get the datas of a WebProject.

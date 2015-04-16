@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is, guess what, part of WebHelper.
  *
@@ -18,7 +19,7 @@ class ApacheWebServer extends WebServer
     /**
      * Constructor.
      *
-     * @param integer $version the version of the apache webserver
+     * @param int $version the version of the apache webserver
      */
     public function __construct($version = '')
     {

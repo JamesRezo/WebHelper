@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is, guess what, part of WebHelper.
  *
@@ -38,21 +39,22 @@ class BaseWebProject extends WebProject
     {
         $this->setWebDir('');
         $this->setWriteables(array());
+        $this->setDenied(array());
 
         return $this;
     }
 
-   /**
-    * Check if $package matches the specificities of a web project.
-    *
-    * {@inheritdoc}
-    *
-    * @param  PackageInterface $package Package datas
-    *
-    * @return bool                      always true
-    */
-   public static function check(PackageInterface $package)
-   {
-       return true;
-   }
+    /**
+     * Check if $package matches the specificities of a web project.
+     *
+     * {@inheritdoc}
+     *
+     * @param PackageInterface $package Package datas
+     *
+     * @return bool always true
+     */
+    public static function check(PackageInterface $package)
+    {
+        return true;
+    }
 }

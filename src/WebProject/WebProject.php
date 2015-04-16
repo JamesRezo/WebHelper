@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is, guess what, part of WebHelper.
  *
@@ -38,21 +39,21 @@ abstract class WebProject implements WebProjectInterface
      *
      * @var string the sub-directory to be exposed on the web
      */
-    private $webDir;
+    private $webDir = '';
 
     /**
      * Files or directories the web server needs to write.
      *
      * @var array the list of files and directories the web server needs to write
      */
-    private $writeables;
+    private $writeables = array();
 
     /**
      * Files or directories the web server must deny access.
      *
      * @var array the list of files and directories the web server must deny access
      */
-    private $denied;
+    private $denied = array();
 
     /**
      * The host part of an url.
@@ -122,7 +123,7 @@ abstract class WebProject implements WebProjectInterface
      *
      * @param Array $dir List of writeables directories
      */
-    public function setWriteables($dir)
+    public function setWriteables(array $dir)
     {
         $this->writeables = $dir;
 
@@ -134,7 +135,7 @@ abstract class WebProject implements WebProjectInterface
      *
      * @param Array $dir List of denied directories
      */
-    public function setDenied($dir)
+    public function setDenied(array $dir)
     {
         $this->denied = $dir;
 
@@ -172,7 +173,7 @@ abstract class WebProject implements WebProjectInterface
                 'aliasname' => $this->location,
                 'vhostname' => $this->host,
                 'portnumber' => $this->port,
-                'location.secured' => $this->denied,
+                'location.secured' => '('.implode('|', $this->denied).')',
             ),
         );
     }

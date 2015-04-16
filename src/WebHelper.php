@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is, guess what, part of WebHelper.
  *
@@ -228,7 +229,7 @@ class WebHelper
      *
      * @param string $directive the directive to be tested
      *
-     * @return boolean TRUE if the $directive is known word
+     * @return bool TRUE if the $directive is known word
      */
     private function validateDirective($directive)
     {
