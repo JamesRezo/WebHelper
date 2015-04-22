@@ -11,77 +11,28 @@
 
 namespace JamesRezo\WebHelper\Console;
 
-use Symfony\Component\Console\Application as BaseApplication;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
+use Composer\Console\Application as BaseApplication;
 use JamesRezo\WebHelper\Command;
-use Composer\IO\ConsoleIO;
-use Composer\Factory;
-use Composer\Util\ErrorHandler;
+use Symfony\Component\Console\Command as DefaultCommand;
 
 /**
  * @author James Hautot <james@rezo.net>
  */
 class Application extends BaseApplication
 {
-    protected $io;
-    protected $composer;
 
     public function __construct()
     {
-        parent::__construct('WebHelper', '0.1');
-        ErrorHandler::register();
+        parent::__construct();
+        $this->setName('WebHelper');
+        $this->setVersion('0.1');
     }
 
-    /**
-     * Returns the IO Interface.
-     *
-     * @return ConsoleIO the Application IO Interface
-     */
-    public function getIO()
+    protected function getDefaultCommands()
     {
-        return $this->io;
-    }
+        $commands = array(new DefaultCommand\HelpCommand(), new DefaultCommand\ListCommand());
+        $commands[] = new Command\GenerateCommand();
 
-    /**
-     * {@inheritDoc}
-     */
-    public function doRun(InputInterface $input, OutputInterface $output)
-    {
-        $this->registerCommands();
-
-        $styles = Factory::createAdditionalStyles();
-        foreach ($styles as $name => $style) {
-            $output->getFormatter()->setStyle($name, $style);
-        }
-
-        $this->io = new ConsoleIO($input, $output, $this->getHelperSet());
-
-        return parent::doRun($input, $output);
-    }
-
-    /**
-     * @return Composer
-     */
-    public function getComposer($config = null)
-    {
-        if (null === $this->composer) {
-            try {
-                $this->composer = Factory::create($this->io, $config);
-            } catch (\InvalidArgumentException $e) {
-                $this->io->write($e->getMessage());
-                exit(1);
-            }
-        }
-
-        return $this->composer;
-    }
-
-    /**
-     * Initializes all the composer commands.
-     */
-    protected function registerCommands()
-    {
-        $this->add(new Command\GenerateCommand());
+        return $commands;
     }
 }
