@@ -131,6 +131,16 @@ abstract class WebProject implements WebProjectInterface
     }
 
     /**
+     * Gets the directories to be written by webserver.
+     *
+     * @return Array List of writeables directories
+     */
+    public function getWriteables()
+    {
+        return $this->writeables;
+    }
+
+    /**
      * Sets the directories to be denied by webserver.
      *
      * @param Array $dir List of denied directories
