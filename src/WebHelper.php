@@ -71,6 +71,9 @@ class WebHelper
 
     /**
      * Constructor.
+     *
+     * @param Composer $composer Composer object
+     * @param IOInterface $io IO Interface object
      */
     public function __construct(Composer $composer = null, IOInterface $io = null)
     {
@@ -79,6 +82,11 @@ class WebHelper
         $this->setRepository();
     }
 
+    /**
+     * Get the Cache Directory Realpath.
+     *
+     * @return string cache absolute path
+     */
     private function getcacheDir()
     {
         $cacheDir = $this->composer->getConfig()->get('webhelper-cache-dir');

@@ -16,11 +16,16 @@ use JamesRezo\WebHelper\Command;
 use Symfony\Component\Console\Command as DefaultCommand;
 
 /**
+ * {@inheritdoc}
+ *
  * @author James Hautot <james@rezo.net>
  */
 class Application extends BaseApplication
 {
 
+    /**
+     * {@inheritdoc}
+     */
     public function __construct()
     {
         parent::__construct();
@@ -28,6 +33,9 @@ class Application extends BaseApplication
         $this->setVersion('0.1');
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function getDefaultCommands()
     {
         $commands = array(new DefaultCommand\HelpCommand(), new DefaultCommand\ListCommand());
