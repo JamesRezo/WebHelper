@@ -13,8 +13,6 @@ namespace JamesRezo\WebHelper\Command;
 
 use Composer\Command\Command;
 use Composer\Json\JsonFile;
-use Composer\Config;
-use Composer\Config\JsonConfigSource;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
