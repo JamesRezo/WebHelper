@@ -1,5 +1,6 @@
-composer.phar
 /vendor/
 phpunit.xml
 /build/
 !/build/.gitkeep
+/var/
+!/var/.gitkeep

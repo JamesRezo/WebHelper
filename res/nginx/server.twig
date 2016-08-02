@@ -1,7 +1,0 @@
-server {
-    listen       {{ project.portnumber }};
-    server_name  {{ project.vhostname }};
-    location  {{ project.aliasname }} {
-        root     {{ project.documentroot }};
-    }
-}
