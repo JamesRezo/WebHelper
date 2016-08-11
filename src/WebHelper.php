@@ -22,24 +22,43 @@ use \Twig_Environment;
  */
 class WebHelper
 {
+    /** @var Finder [description] */
     private $finder;
 
+    /** @var VersionParser [description] */
     private $versionParser;
 
+    /** @var Comparator [description] */
+    private $comparator;
+
+    /** @var array [description] */
     private $memoize = [];
 
+    /** @var Twig_Environment [description] */
     private $twig;
 
+    /** @var string [description] */
     private $server;
 
+    /** @var string [description] */
     private $version;
 
+    /**
+     * Base constructor.
+     */
     public function __construct()
     {
         $this->finder = new Finder();
         $this->versionParser = new VersionParser();
+        $this->comparator = new Comparator();
     }
 
+    /**
+     * Initialize the Twig Environment.
+     *
+     * @param  string           $resDir [description]
+     * @return Twig_Environment         [description]
+     */
     private function initialize($resDir)
     {
         $loader = new Twig_Loader_Filesystem($resDir);
@@ -50,6 +69,12 @@ class WebHelper
         return $twig;
     }
 
+    /**
+     * Initialize the structured array of a repository of directives.
+     *
+     * @param  string $resDir [description]
+     * @return array          [description]
+     */
     private function memoize($resDir)
     {
         $memoize = [];
@@ -70,6 +95,11 @@ class WebHelper
         return $memoize;
     }
 
+    /**
+     * Set the Twig Environment.
+     *
+     * @param string $resDir [description]
+     */
     public function setTwig($resDir = '')
     {
         $this->twig = $resDir == '' ? null : $this->initialize($resDir);
@@ -77,11 +107,20 @@ class WebHelper
         return $this;
     }
 
+    /**
+     * Get Twig Environment.
+     *
+     * @return [type] [description]
+     */
     public function getTwig()
     {
         return $this->twig;
     }
 
+    /**
+     * [setMemoize description]
+     * @param string $resDir [description]
+     */
     public function setMemoize($resDir = '')
     {
         $this->memoize = $resDir == '' ? [] : $this->memoize($resDir);
@@ -89,11 +128,19 @@ class WebHelper
         return $this;
     }
 
+    /**
+     * [getMemoize description]
+     * @return [type] [description]
+     */
     public function getMemoize()
     {
         return $this->memoize;
     }
 
+    /**
+     * [setServer description]
+     * @param [type] $server [description]
+     */
     public function setServer($server)
     {
         $this->server = $server;
@@ -101,11 +148,19 @@ class WebHelper
         return $this;
     }
 
+    /**
+     * [getServer description]
+     * @return [type] [description]
+     */
     public function getServer()
     {
         return $this->server;
     }
 
+    /**
+     * [setVersion description]
+     * @param [type] $version [description]
+     */
     public function setVersion($version)
     {
         $this->version = $this->versionParser->normalize($version);
@@ -113,18 +168,28 @@ class WebHelper
         return $this;
     }
 
+    /**
+     * [getVersion description]
+     * @return [type] [description]
+     */
     public function getVersion()
     {
         return $this->version;
     }
 
+    /**
+     * [find description]
+     * @param  [type] $directive [description]
+     * @return [type]            [description]
+     */
     public function find($directive)
     {
         $return = '';
         $versions = array_keys($this->getMemoize()[$this->getServer()]);
         sort($versions);
+
         foreach ($versions as $version) {
-            if (Comparator::greaterThanOrEqualTo($this->getVersion(), $version) &&
+            if ($this->comparator->greaterThanOrEqualTo($this->getVersion(), $version) &&
                 array_key_exists($directive, $this->memoize[$this->getServer()][$version])
             ) {
                 $return = $this->memoize[$this->getServer()][$version][$directive];
@@ -134,6 +199,12 @@ class WebHelper
         return $return;
     }
 
+    /**
+     * [render description]
+     * @param  [type] $twigFile [description]
+     * @param  array  $params   [description]
+     * @return [type]           [description]
+     */
     public function render($twigFile, array $params = array())
     {
         return $this->twig->render($twigFile, $params);

@@ -8,13 +8,28 @@
         "composer/semver": "^1.4",
         "symfony/console": "^3.1",
         "twig/twig": "^1.24",
-        "symfony/finder": "^3.1"
+        "symfony/finder": "^3.1",
+        "symfony/process": "^3.1"
     },
     "require-dev": {
-        "phpunit/phpunit": "^5.4"
+        "phpunit/phpunit": "^5.4",
+        "theseer/phpdox": "0.8.1.1",
+        "phpmd/phpmd": "^2.4",
+        "squizlabs/php_codesniffer": "^2.6"
     },
     "scripts": {
-        "test": "phpunit"
+        "loc":  "phploc --count-tests --log-xml=build/phploc.xml src/ tests/",
+        "pmd":  "phpmd src/ xml cleancode,codesize,controversial,design,naming,unusedcode --reportfile build/pmd.xml",
+        "cs":   "phpcs",
+        "test": "phpunit",
+        "dox":  "phpdox",
+        "build": [
+            "@loc",
+            "@pmd",
+            "@cs",
+            "@test",
+            "@dox"
+        ]
     },
     "autoload": {
         "psr-4": {

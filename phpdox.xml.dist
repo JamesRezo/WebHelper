@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<phpdox xmlns="http://xml.phpdox.net/config" silent="false">
+    <project name="WebHelper" source="${basedir}/src" workdir="${basedir}/build/phpdox/xml">
+        <!--  Additional configuration for the collecting process (parsing of php code, generation of xml data) -->
+        <collector publiconly="false" backend="parser" encoding="auto">
+            <include mask="*.php" />
+            <exclude mask="" />
+            <inheritance resolve="true" />
+        </collector>
+
+        <generator output="${basedir}/docs">
+            <enrich base="${basedir}/build">
+                <source type="phploc">
+                    <file name="phploc.xml" />
+                </source>
+
+                <source type="git">
+                    <history enabled="true" limit="15" cache="${phpDox.project.workdir}/gitlog.xml" />
+                </source>
+
+                <source type="phpcs">
+                    <file name="phpcs.xml" />
+                </source>
+
+                <source type="pmd">
+                    <file name="pmd.xml" />
+                </source>
+
+                <source type="phpunit">
+                    <filter directory="${phpDox.project.source}" />
+                    <coverage path="coverage" />
+                </source>
+            </enrich>
+
+            <build engine="html" enabled="true" output="html">
+                <template dir="${phpDox.home}/templates/html" />
+                <file extension="xhtml" />
+            </build>
+        </generator>
+    </project>
+</phpdox>

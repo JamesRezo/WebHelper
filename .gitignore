@@ -1,5 +1,7 @@
 /vendor/
 phpunit.xml
+phpdox.xml
+phpcs.xml
 /build/
 !/build/.gitkeep
 /var/

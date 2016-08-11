@@ -1,0 +1,33 @@
+#!/usr/bin/env php
+<?php
+/**
+ * This file is, guess what, part of WebHelper.
+ *
+ * (c) James <james@rezo.net>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+require_once __DIR__ . '/../vendor/autoload.php';
+
+use JamesRezo\WebHelper\WebHelper;
+
+$wh = new WebHelper();
+$wh
+    ->setMemoize(__DIR__ . '/../res')
+    ->setTwig(__DIR__ . '/../res')
+    ->setServer('apache')
+    ->setVersion('2.4.18');
+
+foreach (['alias', 'directory'] as $directive) {
+    $twigFile = $wh->find($directive);
+    echo $wh->render($twigFile, [
+        'project' => [
+            'aliasname' => 'webhelper',
+            'documentroot' => realpath(__DIR__ . '/../')
+        ]
+    ]);
+}
+
+exit(0);
