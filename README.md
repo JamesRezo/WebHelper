@@ -6,6 +6,7 @@ A Generic Httpd Configuration Helper
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/JamesRezo/WebHelper/badges/quality-score.png?b=new-architecture)](https://scrutinizer-ci.com/g/JamesRezo/WebHelper/?branch=new-architecture)
 [![Code Coverage](https://scrutinizer-ci.com/g/JamesRezo/WebHelper/badges/coverage.png?b=new-architecture)](https://scrutinizer-ci.com/g/JamesRezo/WebHelper/?branch=new-architecture)
 [![Dependency Status](https://www.versioneye.com/user/projects/57aacb4bf27cc20050102f19/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/57aacb4bf27cc20050102f19)
+[![Code Climate](https://codeclimate.com/github/JamesRezo/WebHelper/badges/gpa.svg)](https://codeclimate.com/github/JamesRezo/WebHelper)
 
 ## Installation
 
