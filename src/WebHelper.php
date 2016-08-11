@@ -22,25 +22,25 @@ use \Twig_Environment;
  */
 class WebHelper
 {
-    /** @var Finder [description] */
+    /** @var Finder a Finder instance */
     private $finder;
 
-    /** @var VersionParser [description] */
+    /** @var VersionParser a VersionParser instance */
     private $versionParser;
 
-    /** @var Comparator [description] */
+    /** @var Comparator a Comparator instance */
     private $comparator;
 
-    /** @var array [description] */
+    /** @var array a structured array of a directives repository */
     private $memoize = [];
 
-    /** @var Twig_Environment [description] */
+    /** @var Twig_Environment a Twig_Environment instance */
     private $twig;
 
-    /** @var string [description] */
+    /** @var string a Web Server name */
     private $server;
 
-    /** @var string [description] */
+    /** @var string a normalized version of a web server */
     private $version;
 
     /**
@@ -56,8 +56,8 @@ class WebHelper
     /**
      * Initialize the Twig Environment.
      *
-     * @param  string           $resDir [description]
-     * @return Twig_Environment         [description]
+     * @param  string           $resDir the Path of a Directives Repository
+     * @return Twig_Environment         the Twig Environment
      */
     private function initialize($resDir)
     {
@@ -70,10 +70,10 @@ class WebHelper
     }
 
     /**
-     * Initialize the structured array of a repository of directives.
+     * Initialize the structured array of a directives repository.
      *
-     * @param  string $resDir [description]
-     * @return array          [description]
+     * @param  string $resDir the Path of a Directives Repository
+     * @return array          the structured array of a directives repository
      */
     private function memoize($resDir)
     {
@@ -98,7 +98,7 @@ class WebHelper
     /**
      * Set the Twig Environment.
      *
-     * @param string $resDir [description]
+     * @param string $resDir a Path of a Directives Repository
      */
     public function setTwig($resDir = '')
     {
@@ -110,7 +110,7 @@ class WebHelper
     /**
      * Get Twig Environment.
      *
-     * @return [type] [description]
+     * @return Twig_Environment the Twig_Environment instance
      */
     public function getTwig()
     {
@@ -118,8 +118,9 @@ class WebHelper
     }
 
     /**
-     * [setMemoize description]
-     * @param string $resDir [description]
+     * Sets the structure array of a directives repository.
+     *
+     * @param string $resDir a Path of a Directives Repository
      */
     public function setMemoize($resDir = '')
     {
@@ -129,8 +130,9 @@ class WebHelper
     }
 
     /**
-     * [getMemoize description]
-     * @return [type] [description]
+     * Sets the structure array of a directives repository.
+     *
+     * @return array the structure array of a directives repository
      */
     public function getMemoize()
     {
@@ -138,8 +140,9 @@ class WebHelper
     }
 
     /**
-     * [setServer description]
-     * @param [type] $server [description]
+     * Sets the web server name.
+     *
+     * @param string $server a web server name
      */
     public function setServer($server)
     {
@@ -149,8 +152,9 @@ class WebHelper
     }
 
     /**
-     * [getServer description]
-     * @return [type] [description]
+     * Gets the web server name.
+     *
+     * @return string the web server name
      */
     public function getServer()
     {
@@ -158,8 +162,9 @@ class WebHelper
     }
 
     /**
-     * [setVersion description]
-     * @param [type] $version [description]
+     * Sets the web server normalized version.
+     *
+     * @param string $version a semver version
      */
     public function setVersion($version)
     {
@@ -169,8 +174,9 @@ class WebHelper
     }
 
     /**
-     * [getVersion description]
-     * @return [type] [description]
+     * Gets the web server normalized version.
+     *
+     * @return string the normalized version of a web server
      */
     public function getVersion()
     {
@@ -178,9 +184,10 @@ class WebHelper
     }
 
     /**
-     * [find description]
-     * @param  [type] $directive [description]
-     * @return [type]            [description]
+     * Finds the best template for a web server directive according to its version.
+     *
+     * @param  string $directive a directive
+     * @return string            the relative path to the template
      */
     public function find($directive)
     {
@@ -200,10 +207,11 @@ class WebHelper
     }
 
     /**
-     * [render description]
-     * @param  [type] $twigFile [description]
-     * @param  array  $params   [description]
-     * @return [type]           [description]
+     * Outputs a webserver directive.
+     *
+     * @param  string $twigFile a relative path of a template
+     * @param  array  $params   parameters
+     * @return string           the directive output
      */
     public function render($twigFile, array $params = array())
     {
