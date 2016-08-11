@@ -6,3 +6,5 @@ phpcs.xml
 !/build/.gitkeep
 /var/
 !/var/.gitkeep
+docs/html/
+!docs/html/.gitkeep
