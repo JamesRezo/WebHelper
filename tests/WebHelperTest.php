@@ -24,8 +24,7 @@ class WebHelperTest extends PHPUnit_Framework_TestCase
         $this->webhelper
             ->setMemoize(__DIR__ . '/dummyrepo')
             ->setTwig(__DIR__ . '/dummyrepo')
-            ->setServer('dummywebserver')
-            ->setVersion('1.2.14');
+            ->setServer('dummywebserver', '1.2.14');
     }
 
     public function dataFind()
@@ -38,7 +37,7 @@ class WebHelperTest extends PHPUnit_Framework_TestCase
         ];
 
         $data['Found'] = [
-            'dummywebserver/1.2/directory.twig',
+            'null/1.2/directory.twig',
             'directory',
         ];
 
@@ -71,7 +70,7 @@ class WebHelperTest extends PHPUnit_Framework_TestCase
 
         $data['0.0.0.0'] = [
             'Directory res/dummy'."\n",
-            'dummywebserver/directory.twig',
+            'null/directory.twig',
             []
         ];
 

@@ -37,6 +37,7 @@ class WebServerFactory
                 break;
             default:
                 $webserver = new NullWebServer($version);
+                break;
         }
 
         return $webserver;

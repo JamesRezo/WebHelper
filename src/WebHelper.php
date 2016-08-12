@@ -16,6 +16,7 @@ use Composer\Semver\VersionParser;
 use Composer\Semver\Comparator;
 use \Twig_Loader_Filesystem;
 use \Twig_Environment;
+use JamesRezo\WebHelper\WebServer\WebServerFactory;
 
 /**
  * WebHelper.
@@ -37,11 +38,8 @@ class WebHelper
     /** @var Twig_Environment a Twig_Environment instance */
     private $twig;
 
-    /** @var string a Web Server name */
+    /** @var WebServerInterface a Web Server instance */
     private $server;
-
-    /** @var string a normalized version of a web server */
-    private $version;
 
     /**
      * Base constructor.
@@ -140,47 +138,28 @@ class WebHelper
     }
 
     /**
-     * Sets the web server name.
+     * Sets the web server instance.
      *
      * @param string $server a web server name
+     * @param string $version a semver-like version
      */
-    public function setServer($server)
+    public function setServer($server, $version)
     {
-        $this->server = $server;
+        $factory = new WebServerFactory();
+        $version = $this->versionParser->normalize($version);
+        $this->server = $factory->create($server, $version);
 
         return $this;
     }
 
     /**
-     * Gets the web server name.
+     * Gets the web server instance.
      *
-     * @return string the web server name
+     * @return WebServerInterface the web server instance
      */
     public function getServer()
     {
         return $this->server;
-    }
-
-    /**
-     * Sets the web server normalized version.
-     *
-     * @param string $version a semver version
-     */
-    public function setVersion($version)
-    {
-        $this->version = $this->versionParser->normalize($version);
-
-        return $this;
-    }
-
-    /**
-     * Gets the web server normalized version.
-     *
-     * @return string the normalized version of a web server
-     */
-    public function getVersion()
-    {
-        return $this->version;
     }
 
     /**
@@ -192,14 +171,14 @@ class WebHelper
     public function find($directive)
     {
         $return = '';
-        $versions = array_keys($this->getMemoize()[$this->getServer()]);
+        $versions = array_keys($this->getMemoize()[$this->getServer()->getName()]);
         sort($versions);
 
         foreach ($versions as $version) {
-            if ($this->comparator->greaterThanOrEqualTo($this->getVersion(), $version) &&
-                array_key_exists($directive, $this->memoize[$this->getServer()][$version])
+            if ($this->comparator->greaterThanOrEqualTo($this->getServer()->getVersion(), $version) &&
+                array_key_exists($directive, $this->memoize[$this->getServer()->getName()][$version])
             ) {
-                $return = $this->memoize[$this->getServer()][$version][$directive];
+                $return = $this->memoize[$this->getServer()->getName()][$version][$directive];
             }
         }
 
