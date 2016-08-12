@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <phpdox xmlns="http://xml.phpdox.net/config" silent="false">
     <project name="WebHelper" source="${basedir}/src" workdir="${basedir}/build/phpdox/xml">
-        <!--  Additional configuration for the collecting process (parsing of php code, generation of xml data) -->
         <collector publiconly="false" backend="parser" encoding="auto">
             <include mask="*.php" />
             <exclude mask="" />

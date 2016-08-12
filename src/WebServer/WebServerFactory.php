@@ -28,8 +28,6 @@ class WebServerFactory
      */
     public function create($name, $version)
     {
-        $webserver = null;
-
         switch ($name) {
             case 'apache':
                 $webserver = new ApacheWebServer($version);
