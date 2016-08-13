@@ -77,6 +77,8 @@ class WebHelperRepository
     {
         try {
             $this->finder->files()->name('*.twig')->in($resDir);
+        } catch (\RuntimeException $e) {
+            return [];
         } catch (\InvalidArgumentException $e) {
             return [];
         }
