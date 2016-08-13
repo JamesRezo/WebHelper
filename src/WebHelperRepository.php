@@ -31,7 +31,7 @@ class WebHelperRepository
     private $memoize = [];
 
     /** @var Twig_Environment a Twig_Environment instance */
-    private $twig;
+    private $twig = null;
 
     /**
      * Base constructor.
@@ -42,8 +42,10 @@ class WebHelperRepository
     {
         $this->finder = new Finder();
         $this->versionParser = new VersionParser();
-        $this->memoize = $this->memoize($resDir);
-        $this->twig = $this->initialize($resDir);
+        if ($resDir !== '') {
+            $this->memoize = $this->memoize($resDir);
+            $this->twig = $this->initialize($resDir);            
+        }
     }
 
     /**
@@ -77,8 +79,6 @@ class WebHelperRepository
     {
         try {
             $this->finder->files()->name('*.twig')->in($resDir);
-        } catch (\RuntimeException $e) {
-            return [];
         } catch (\InvalidArgumentException $e) {
             return [];
         }
