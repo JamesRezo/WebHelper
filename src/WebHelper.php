@@ -14,6 +14,7 @@ namespace JamesRezo\WebHelper;
 use Composer\Semver\VersionParser;
 use Composer\Semver\Comparator;
 use JamesRezo\WebHelper\WebServer\WebServerFactory;
+use JamesRezo\WebHelper\WebServer\WebServerInterface;
 use JamesRezo\WebHelper\WebHelperRepository;
 
 /**
@@ -121,6 +122,6 @@ class WebHelper
      */
     public function render($twigFile, array $params = array())
     {
-        return $this->repository->getTwig()->render($twigFile, $params);
+        return $this->getRepository()->getTwig()->render($twigFile, $params);
     }
 }

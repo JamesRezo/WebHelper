@@ -44,7 +44,7 @@ class WebHelperRepository
         $this->versionParser = new VersionParser();
         if ($resDir !== '') {
             $this->memoize = $this->memoize($resDir);
-            $this->twig = $this->initialize($resDir);            
+            $this->twig = $this->initialize($resDir);
         }
     }
 
