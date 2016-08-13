@@ -11,32 +11,24 @@
 
 namespace JamesRezo\WebHelper;
 
-use Symfony\Component\Finder\Finder;
 use Composer\Semver\VersionParser;
 use Composer\Semver\Comparator;
-use \Twig_Loader_Filesystem;
-use \Twig_Environment;
 use JamesRezo\WebHelper\WebServer\WebServerFactory;
+use JamesRezo\WebHelper\WebHelperRepository;
 
 /**
  * WebHelper.
  */
 class WebHelper
 {
-    /** @var Finder a Finder instance */
-    private $finder;
+    /** @var WebHelperRepository a Repository instance */
+    private $repository;
 
     /** @var VersionParser a VersionParser instance */
     private $versionParser;
 
     /** @var Comparator a Comparator instance */
     private $comparator;
-
-    /** @var array a structured array of a directives repository */
-    private $memoize = [];
-
-    /** @var Twig_Environment a Twig_Environment instance */
-    private $twig;
 
     /** @var WebServerInterface a Web Server instance */
     private $server;
@@ -46,95 +38,30 @@ class WebHelper
      */
     public function __construct()
     {
-        $this->finder = new Finder();
         $this->versionParser = new VersionParser();
         $this->comparator = new Comparator();
     }
 
     /**
-     * Initialize the Twig Environment.
-     *
-     * @param  string           $resDir the Path of a Directives Repository
-     * @return Twig_Environment         the Twig Environment
-     */
-    private function initialize($resDir)
-    {
-        $loader = new Twig_Loader_Filesystem($resDir);
-        $twig = new Twig_Environment($loader, array(
-            'cache' => __DIR__ . '/../var/cache',
-        ));
-
-        return $twig;
-    }
-
-    /**
-     * Initialize the structured array of a directives repository.
-     *
-     * @param  string $resDir the Path of a Directives Repository
-     * @return array          the structured array of a directives repository
-     */
-    private function memoize($resDir)
-    {
-        $memoize = [];
-        $this->finder->files()->name('*.twig')->in($resDir);
-
-        foreach ($this->finder as $file) {
-            $parsedPath = explode('/', $file->getRelativePathname());
-            if (count($parsedPath) == 2) {
-                $parsedPath[2] = $parsedPath[1];
-                $parsedPath[1] = 0;
-            }
-            $parsedPath[2] = str_replace('.twig', '', $parsedPath[2]);
-            $memoize[$parsedPath[0]]
-                [$this->versionParser->normalize($parsedPath[1])]
-                [$parsedPath[2]] = $file->getRelativePathname();
-        }
-
-        return $memoize;
-    }
-
-    /**
-     * Set the Twig Environment.
+     * Sets the Repository Instance.
      *
      * @param string $resDir a Path of a Directives Repository
      */
-    public function setTwig($resDir = '')
+    public function setRepository($resDir = '')
     {
-        $this->twig = $resDir == '' ? null : $this->initialize($resDir);
+        $this->repository = new WebHelperRepository($resDir);
 
         return $this;
     }
 
     /**
-     * Get Twig Environment.
+     * Gets the Repository Instance.
      *
-     * @return Twig_Environment the Twig_Environment instance
+     * @return WebHelperRepository the Repository Instance
      */
-    public function getTwig()
+    public function getRepository()
     {
-        return $this->twig;
-    }
-
-    /**
-     * Sets the structure array of a directives repository.
-     *
-     * @param string $resDir a Path of a Directives Repository
-     */
-    public function setMemoize($resDir = '')
-    {
-        $this->memoize = $resDir == '' ? [] : $this->memoize($resDir);
-
-        return $this;
-    }
-
-    /**
-     * Sets the structure array of a directives repository.
-     *
-     * @return array the structure array of a directives repository
-     */
-    public function getMemoize()
-    {
-        return $this->memoize;
+        return $this->repository;
     }
 
     /**
@@ -146,8 +73,7 @@ class WebHelper
     public function setServer($server, $version)
     {
         $factory = new WebServerFactory();
-        $version = $this->versionParser->normalize($version);
-        $this->server = $factory->create($server, $version);
+        $this->server = $factory->create($server, $this->versionParser->normalize($version));
 
         return $this;
     }
@@ -170,15 +96,16 @@ class WebHelper
      */
     public function find($directive)
     {
+        $memoize = $this->getRepository()->getMemoize();
         $return = '';
-        $versions = array_keys($this->getMemoize()[$this->getServer()->getName()]);
+        $versions = array_keys($memoize[$this->getServer()->getName()]);
         sort($versions);
 
         foreach ($versions as $version) {
             if ($this->comparator->greaterThanOrEqualTo($this->getServer()->getVersion(), $version) &&
-                array_key_exists($directive, $this->memoize[$this->getServer()->getName()][$version])
+                array_key_exists($directive, $memoize[$this->getServer()->getName()][$version])
             ) {
-                $return = $this->memoize[$this->getServer()->getName()][$version][$directive];
+                $return = $memoize[$this->getServer()->getName()][$version][$directive];
             }
         }
 
@@ -194,6 +121,6 @@ class WebHelper
      */
     public function render($twigFile, array $params = array())
     {
-        return $this->twig->render($twigFile, $params);
+        return $this->repository->getTwig()->render($twigFile, $params);
     }
 }

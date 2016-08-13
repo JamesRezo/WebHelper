@@ -14,19 +14,19 @@ require_once __DIR__ . '/../vendor/autoload.php';
 use JamesRezo\WebHelper\WebHelper;
 
 $wh = new WebHelper();
-$wh
-    ->setMemoize(__DIR__ . '/../res')
-    ->setTwig(__DIR__ . '/../res')
-    ->setServer('apache', '2.4.18');
+$wh->setRepository(__DIR__ . '/../res');
 
-foreach (['alias', 'directory'] as $directive) {
-    $twigFile = $wh->find($directive);
-    echo $wh->render($twigFile, [
-        'project' => [
-            'aliasname' => 'webhelper',
-            'documentroot' => realpath(__DIR__ . '/../')
-        ]
-    ]);
+if ($wh->getRepository()->okGo()) {
+    $wh->setServer('apache', '2.4.18');
+    foreach (['alias', 'directory'] as $directive) {
+        $twigFile = $wh->find($directive);
+        echo $wh->render($twigFile, [
+            'project' => [
+                'aliasname' => 'webhelper',
+                'documentroot' => realpath(__DIR__ . '/../')
+            ]
+        ]);
+    }    
 }
 
 exit(0);

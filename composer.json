@@ -20,6 +20,9 @@
     "scripts": {
         "loc":  "phploc --count-tests --log-xml=build/phploc.xml src/ tests/",
         "pmd":  "phpmd src/ xml cleancode,codesize,controversial,design,naming,unusedcode --reportfile build/pmd.xml",
+        "ci":  [
+            "phpmd src/ text cleancode,codesize,controversial,design,naming,unusedcode"
+        ],
         "cs":   "phpcs",
         "test": "phpunit",
         "dox":  "phpdox",

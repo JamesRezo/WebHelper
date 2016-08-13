@@ -22,8 +22,7 @@ class WebHelperTest extends PHPUnit_Framework_TestCase
     {
         $this->webhelper = new WebHelper();
         $this->webhelper
-            ->setMemoize(__DIR__ . '/dummyrepo')
-            ->setTwig(__DIR__ . '/dummyrepo')
+            ->setRepository(__DIR__ . '/dummyrepo')
             ->setServer('dummywebserver', '1.2.14');
     }
 
@@ -50,18 +49,6 @@ class WebHelperTest extends PHPUnit_Framework_TestCase
     public function testFind($expected, $directive)
     {
         $this->assertEquals($expected, $this->webhelper->find($directive));
-    }
-
-    public function testUnsetMemoize()
-    {
-        $this->webhelper->setMemoize();
-        $this->assertEmpty($this->webhelper->getMemoize());
-    }
-
-    public function testUnsetTwig()
-    {
-        $this->webhelper->setTwig();
-        $this->assertNull($this->webhelper->getTwig());
     }
 
     public function dataRender()
