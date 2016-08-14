@@ -19,7 +19,7 @@ class NullWebServer extends WebServer
     /**
      * Constructor.
      *
-     * @param int $version the version of the apache webserver
+     * @param string $version the semver-like version of the apache webserver
      */
     public function __construct($version = '')
     {
