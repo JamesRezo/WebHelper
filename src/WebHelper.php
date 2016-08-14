@@ -14,7 +14,6 @@ namespace JamesRezo\WebHelper;
 use Composer\Semver\VersionParser;
 use Composer\Semver\Comparator;
 use JamesRezo\WebHelper\WebServer\WebServerFactory;
-use JamesRezo\WebHelper\WebServer\WebServerInterface;
 use JamesRezo\WebHelper\WebHelperRepository;
 
 /**
@@ -31,7 +30,7 @@ class WebHelper
     /** @var Comparator a Comparator instance */
     private $comparator;
 
-    /** @var WebServerInterface a Web Server instance */
+    /** @var JamesRezo\WebHelper\WebServer\WebServerInterface a Web Server instance */
     private $server;
 
     /**
@@ -68,7 +67,7 @@ class WebHelper
     /**
      * Sets the web server instance.
      *
-     * @param string $server a web server name
+     * @param string $server  a web server name
      * @param string $version a semver-like version
      */
     public function setServer($server, $version)
