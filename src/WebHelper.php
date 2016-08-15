@@ -123,6 +123,10 @@ class WebHelper
      */
     public function render($twigFile, array $params = array())
     {
-        return $this->getRepository()->getTwig()->render($twigFile, $params);
+        try {
+            return $this->getRepository()->getTwig()->render($twigFile, $params);
+        } catch (\Twig_Error_Loader $e) {
+            return '';
+        }
     }
 }

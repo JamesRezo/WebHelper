@@ -61,6 +61,12 @@ class WebHelperTest extends PHPUnit_Framework_TestCase
             []
         ];
 
+        $data['directive not found'] = [
+            '',
+            'null/notfound.twig',
+            []
+        ];
+
         return $data;
     }
 
