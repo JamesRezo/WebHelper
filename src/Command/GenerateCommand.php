@@ -49,8 +49,8 @@ class GenerateCommand extends Command
     {
         $webserver = $input->getArgument('webserver');
         $version = 0;
-        if (preg_match(',([^:]+):([\.\d]+)$,', $webserver, $matches)) {
-            $version = $matches[2];
+        if (preg_match(',([^:]+)(:([\.\d]+))$,', $webserver, $matches)) {
+            $version = $matches[3];
             $webserver = $matches[1];
         }
 
