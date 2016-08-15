@@ -27,7 +27,7 @@ class GenerateCommandTest extends PHPUnit_Framework_TestCase
         $commandTester = new CommandTester($command);
         $commandTester->execute(array(
             'command'  => $command->getName(),
-
+            'webserver' => 'apache:2.4',
             'directives' => ['alias', 'directory'],
         ));
 
