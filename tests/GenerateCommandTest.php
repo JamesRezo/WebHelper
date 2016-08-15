@@ -37,8 +37,8 @@ class GenerateCommandTest extends PHPUnit_Framework_TestCase
 
         // the output of the command in the console
         $output = $commandTester->getDisplay();
-        $this->assertEquals('Alias webhelper/ "/Users/klike/Sites/JamesRezo/WebHelper"
-<Directory "/Users/klike/Sites/JamesRezo/WebHelper">
+        $this->assertEquals('Alias webhelper/ "'.realpath(__DIR__ . '/../').'"
+<Directory "'.realpath(__DIR__ . '/../').'">
     Options Indexes FollowSymLinks MultiViews
     Require all granted
 </Directory>
