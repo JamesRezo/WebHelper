@@ -30,7 +30,7 @@ class WebHelper
     /** @var Comparator a Comparator instance */
     private $comparator;
 
-    /** @var JamesRezo\WebHelper\WebServer\WebServerInterface a Web Server instance */
+    /** @var WebServer\WebServerInterface a Web Server instance */
     private $server;
 
     /**

@@ -28,14 +28,9 @@ class GenerateCommandTest extends PHPUnit_Framework_TestCase
         $commandTester->execute(array(
             'command'  => $command->getName(),
 
-            // pass arguments to the helper
-            //'username' => 'Wouter',
-
-            // prefix the key with a double slash when passing options,
-            // e.g: '--some-option' => 'option_value',
+            'directives' => ['alias', 'directory'],
         ));
 
-        // the output of the command in the console
         $output = $commandTester->getDisplay();
         $this->assertEquals('Alias webhelper/ "'.realpath(__DIR__ . '/../').'"
 <Directory "'.realpath(__DIR__ . '/../').'">

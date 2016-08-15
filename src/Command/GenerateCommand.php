@@ -14,6 +14,7 @@ namespace JamesRezo\WebHelper\Command;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Input\InputArgument;
 use JamesRezo\WebHelper\WebHelper;
 
 class GenerateCommand extends Command
@@ -24,18 +25,19 @@ class GenerateCommand extends Command
             ->setName('generate')
             ->setDescription('Output statements for a webserver')
             ->setHelp('The <info>generate</info> command creates one or many statements for the specified webserver.')
+            ->addArgument('directives', InputArgument::IS_ARRAY, 'List of directives to generate.')
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $input = $input;
+        $directives = $input->getArgument('directives');
         $webhelper = new WebHelper();
         $webhelper->setRepository(__DIR__ . '/../../res');
 
         if ($webhelper->getRepository()->okGo()) {
             $webhelper->setServer('apache', '2.4.18');
-            foreach (['alias', 'directory'] as $directive) {
+            foreach ($directives as $directive) {
                 $twigFile = $webhelper->find($directive);
                 $output->write($webhelper->render($twigFile, [
                     'project' => [
