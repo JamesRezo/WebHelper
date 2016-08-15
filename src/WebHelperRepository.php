@@ -63,7 +63,7 @@ class WebHelperRepository
         }
 
         $twig = new Twig_Environment($loader, array(
-            'cache' => __DIR__ . '/../var/cache',
+            'cache' => __DIR__.'/../var/cache',
         ));
 
         return $twig;

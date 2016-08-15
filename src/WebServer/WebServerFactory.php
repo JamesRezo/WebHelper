@@ -25,7 +25,7 @@ class WebServerFactory
     public function __construct()
     {
         $yaml = new Yaml();
-        $config = $yaml->parse(file_get_contents(__DIR__ . '/../../app/config/parameters.yml'));
+        $config = $yaml->parse(file_get_contents(__DIR__.'/../../app/config/parameters.yml'));
         $this->webservers = $config['webservers'];
     }
 

@@ -33,7 +33,7 @@ class GenerateCommand extends Command
     {
         $directives = $input->getArgument('directives');
         $webhelper = new WebHelper();
-        $webhelper->setRepository(__DIR__ . '/../../res');
+        $webhelper->setRepository(__DIR__.'/../../res');
 
         if ($webhelper->getRepository()->okGo()) {
             $webhelper->setServer('apache', '2.4.18');
@@ -42,7 +42,7 @@ class GenerateCommand extends Command
                 $output->write($webhelper->render($twigFile, [
                     'project' => [
                         'aliasname' => 'webhelper',
-                        'documentroot' => realpath(__DIR__ . '/../../')
+                        'documentroot' => realpath(__DIR__.'/../../')
                     ]
                 ]));
             }
