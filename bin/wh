@@ -11,22 +11,7 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use JamesRezo\WebHelper\WebHelper;
+use JamesRezo\WebHelper\Console\Application;
 
-$wh = new WebHelper();
-$wh->setRepository(__DIR__ . '/../res');
-
-if ($wh->getRepository()->okGo()) {
-    $wh->setServer('apache', '2.4.18');
-    foreach (['alias', 'directory'] as $directive) {
-        $twigFile = $wh->find($directive);
-        echo $wh->render($twigFile, [
-            'project' => [
-                'aliasname' => 'webhelper',
-                'documentroot' => realpath(__DIR__ . '/../')
-            ]
-        ]);
-    }    
-}
-
-exit(0);
+$application = new Application();
+$application->run();

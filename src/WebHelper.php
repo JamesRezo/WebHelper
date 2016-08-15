@@ -97,15 +97,17 @@ class WebHelper
     public function find($directive)
     {
         $memoize = $this->getRepository()->getMemoize();
+        $serverName = $this->getServer()->getName();
         $return = '';
-        $versions = array_keys($memoize[$this->getServer()->getName()]);
+
+        $versions = array_keys($memoize[$serverName]);
         sort($versions);
 
         foreach ($versions as $version) {
             if ($this->comparator->greaterThanOrEqualTo($this->getServer()->getVersion(), $version) &&
-                array_key_exists($directive, $memoize[$this->getServer()->getName()][$version])
+                array_key_exists($directive, $memoize[$serverName][$version])
             ) {
-                $return = $memoize[$this->getServer()->getName()][$version][$directive];
+                $return = $memoize[$serverName][$version][$directive];
             }
         }
 
