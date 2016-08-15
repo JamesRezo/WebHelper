@@ -11,6 +11,8 @@
 
 namespace JamesRezo\WebHelper\WebServer;
 
+use Symfony\Component\Yaml\Yaml;
+
 /**
  * WebServer Factory Class.
  *
@@ -18,6 +20,15 @@ namespace JamesRezo\WebHelper\WebServer;
  */
 class WebServerFactory
 {
+    private $webservers;
+
+    public function __construct()
+    {
+        $yaml = new Yaml();
+        $config = $yaml->parse(file_get_contents(__DIR__ . '/../../app/config/parameters.yml'));
+        $this->webservers = $config['webservers'];
+    }
+
     /**
      * Create a WebServerInterface Object.
      *
@@ -28,18 +39,10 @@ class WebServerFactory
      */
     public function create($name, $version)
     {
-        switch ($name) {
-            case 'apache':
-                $webserver = new ApacheWebServer($version);
-                break;
-            case 'nginx':
-                $webserver = new NginxWebServer($version);
-                break;
-            default:
-                $webserver = new NullWebServer($version);
-                break;
+        if (in_array($name, array_keys($this->webservers))) {
+            return new $this->webservers[$name]($version);
         }
 
-        return $webserver;
+        return new NullWebServer($version);
     }
 }

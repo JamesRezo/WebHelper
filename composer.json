@@ -18,6 +18,8 @@
         "squizlabs/php_codesniffer": "^2.6"
     },
     "scripts": {
+        "post-install-cmd": "bin/post-install-cmd.sh",
+        "lint": "find src -name *.php -exec php -l {} \\;",
         "loc":  "phploc --count-tests --log-xml=build/phploc.xml src/ tests/",
         "pmd":  "phpmd src/ xml cleancode,codesize,controversial,design,naming,unusedcode --reportfile build/pmd.xml",
         "ci":  [

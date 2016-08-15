@@ -7,4 +7,4 @@ phpcs.xml
 /var/
 !/var/.gitkeep
 docs/html/
-!docs/html/.gitkeep
+app/config/parameters.yml
