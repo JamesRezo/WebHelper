@@ -9,7 +9,8 @@
         "symfony/console": "^3.1",
         "twig/twig": "^1.24",
         "symfony/finder": "^3.1",
-        "symfony/process": "^3.1"
+        "symfony/process": "^3.1",
+        "league/container": "^2.2"
     },
     "require-dev": {
         "phpunit/phpunit": "^5.4",
@@ -22,16 +23,19 @@
         "lint": "find src -name *.php -exec php -l {} \\;",
         "loc":  "phploc --count-tests --log-xml=build/phploc.xml src/ tests/",
         "pmd":  "phpmd src/ xml cleancode,codesize,controversial,design,naming,unusedcode --reportfile build/pmd.xml",
-        "ci":  [
-            "phpmd src/ text cleancode,codesize,controversial,design,naming,unusedcode"
-        ],
         "cs":   "phpcs",
         "test": "phpunit",
+        "ci":  [
+            "@lint",
+            "phpcs --report-full=php://output",
+            "phpmd src/ text cleancode,codesize,controversial,design,naming,unusedcode"
+        ],
         "dox":  "phpdox",
         "build": [
+            "@lint",
             "@loc",
-            "@pmd",
             "@cs",
+            "@pmd",
             "@test",
             "@dox"
         ]
