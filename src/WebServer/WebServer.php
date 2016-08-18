@@ -35,6 +35,13 @@ abstract class WebServer implements WebServerInterface
     private $version;
 
     /**
+     * binaries that can be used to control the webserver.
+     *
+     * @var array
+     */
+    private $binaries = [];
+
+    /**
      * Constructor.
      *
      * @param string $name    the name of a webserver
@@ -64,5 +71,22 @@ abstract class WebServer implements WebServerInterface
     public function getVersion()
     {
         return $this->version;
+    }
+
+    /**
+     * Get the list of binaries that can be run to analyze.
+     *
+     * @return array the list of binaries that can be run
+     */
+    public function getBinaries()
+    {
+        return $this->binaries;
+    }
+
+    public function setBinaries(array $binaries)
+    {
+        $this->binaries = $binaries;
+
+        return $this;
     }
 }

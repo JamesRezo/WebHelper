@@ -1,4 +1,8 @@
 # WebHelper parameters
 webservers:
-    apache: JamesRezo\WebHelper\WebServer\ApacheWebServer
-    nginx: JamesRezo\WebHelper\WebServer\NginxWebServer
+    apache:
+        - JamesRezo\WebHelper\WebServer\ApacheWebServer
+        - ['httpd', 'apachectl', 'apache2ctl']
+    nginx:
+        - JamesRezo\WebHelper\WebServer\NginxWebServer
+        - ['nginx']

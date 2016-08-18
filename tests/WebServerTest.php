@@ -65,6 +65,36 @@ class WebServerTest extends PHPUnit_Framework_TestCase
     public function testGetVersion()
     {
         $apache = new ApacheWebServer(1);
-        $this->assertEquals(1, $apache->getVersion());        
+        $this->assertEquals(1, $apache->getVersion());
+    }
+
+    public function dataGetBinaries()
+    {
+        $data = [];
+
+        $data['Null'] = [
+            [],
+            'test'
+        ];
+
+        $data['Apache'] = [
+            ['httpd', 'apachectl', 'apache2ctl'],
+            'apache'
+        ];
+
+        $data['Nginx'] = [
+            ['nginx'],
+            'nginx'
+        ];
+
+        return $data;
+    }
+
+    /**
+     * @dataProvider dataGetBinaries
+     */
+    public function testGetBinaries($expected, $webservername)
+    {
+        $this->assertEquals($expected, $this->factory->create($webservername, 1)->getBinaries());
     }
 }

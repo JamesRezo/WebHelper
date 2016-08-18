@@ -39,10 +39,17 @@ class WebServerFactory
      */
     public function create($name, $version)
     {
-        if (in_array($name, array_keys($this->webservers))) {
-            return new $this->webservers[$name]($version);
+        if (in_array($name, $this->getKnownWebServers())) {
+            $webserver = new $this->webservers[$name][0]($version);
+            $webserver->setBinaries($this->webservers[$name][1]);
+            return $webserver;
         }
 
         return new NullWebServer($version);
+    }
+
+    public function getKnownWebServers()
+    {
+        return array_keys($this->webservers);
     }
 }
