@@ -31,7 +31,7 @@ class NullWebProject extends WebProject
         return [
             'project' => [
                 'aliasname' => $this->getName(),
-                'documentroot' => realpath(__DIR__.'/../../'),
+                'documentroot' => getcwd(),
                 'vhostname' => $this->getName(),
                 'portnumber' => 80
             ]
