@@ -63,7 +63,7 @@ abstract class WebServer implements WebServerInterface
     }
 
     /**
-     * Get the name of a webserver.
+     * Gets the name of a webserver.
      *
      * @return string the name of the webserver
      */
@@ -73,7 +73,7 @@ abstract class WebServer implements WebServerInterface
     }
 
     /**
-     * Get the version of a webserver.
+     * Gets the version of a webserver.
      *
      * @return string the version of the webserver
      */
@@ -83,7 +83,7 @@ abstract class WebServer implements WebServerInterface
     }
 
     /**
-     * Get the list of binaries that can be run to analyze.
+     * Gets the list of binaries that can be run to analyze.
      *
      * @return array the list of binaries that can be run
      */
@@ -117,6 +117,15 @@ abstract class WebServer implements WebServerInterface
 
     abstract public function extractRootConfigurationFile($settings = '');
 
+    /**
+     * Finds and return a specific information in a string.
+     *
+     * the regexp must contain delimiters.
+     * 
+     * @param  string $regexp   a regular expression to find
+     * @param  string $settings a string where to find
+     * @return string           the found value or an empty string
+     */
     protected function match($regexp, $settings)
     {
         $matches = [];
@@ -126,5 +135,24 @@ abstract class WebServer implements WebServerInterface
         }
 
         return '';
+    }
+
+    /**
+     * Loads et cleans a config file.
+     *
+     * @param  string $file a Configuration file
+     * @return string       the cleaned directives a the config file
+     */
+    public function getActiveConfig($file = '')
+    {
+        $activeConfig = file_get_contents($file);
+
+        #Comon to both apache and nginx
+        #delete commented lines
+        $activeConfig = preg_replace('/^\s*#(.+)?/m', '', $activeConfig);
+        #delete blank lines
+        $activeConfig = preg_replace('/^\h*\v+/m', '', $activeConfig);
+
+        return $activeConfig;
     }
 }
