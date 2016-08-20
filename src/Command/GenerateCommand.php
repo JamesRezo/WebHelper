@@ -58,20 +58,14 @@ class GenerateCommand extends Command
 
         $webhelper = new WebHelper();
         $webhelper->setRepository(__DIR__.'/../../res');
+        $webhelper->setProject('webhelper', '0.2');
 
         if ($webhelper->getRepository()->okGo()) {
             $webhelper->setServer($webserver, $version);
             if (!($webhelper->getServer() instanceof NullWebServer)) {
                 foreach ($directives as $directive) {
                     $twigFile = $webhelper->find($directive);
-                    $output->write($webhelper->render($twigFile, [
-                        'project' => [
-                            'aliasname' => 'webhelper',
-                            'documentroot' => realpath(__DIR__.'/../../'),
-                            'vhostname' => 'webhelper',
-                            'portnumber' => 80
-                        ]
-                    ]));
+                    $output->write($webhelper->render($twigFile, $webhelper->getProject()->getParameters()));
                 }
             }
         }

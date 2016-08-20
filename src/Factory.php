@@ -13,6 +13,7 @@ namespace JamesRezo\WebHelper;
 
 use Symfony\Component\Yaml\Yaml;
 use JamesRezo\WebHelper\WebServer\NullWebServer;
+use JamesRezo\WebHelper\WebProject\NullWebProject;
 
 /**
  * WebHelper Factory Class.
@@ -67,5 +68,11 @@ class Factory
     public function getKnownWebServers()
     {
         return array_keys($this->webservers);
+    }
+
+    public function createWebProject($name, $version = '')
+    {
+        $name = '';
+        return new NullWebProject($version);
     }
 }

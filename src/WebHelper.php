@@ -33,6 +33,9 @@ class WebHelper
     /** @var WebServer\WebServerInterface a Web Server instance */
     private $server;
 
+    /** @var WebProject\WebProjectInterface the PHP Webapp to configure */
+    private $project;
+
     /**
      * Base constructor.
      */
@@ -86,6 +89,19 @@ class WebHelper
     public function getServer()
     {
         return $this->server;
+    }
+
+    public function setProject($projectname, $version)
+    {
+        $factory = new Factory();
+        $this->project = $factory->createWebProject($projectname, $this->versionParser->normalize($version));
+
+        return $this;
+    }
+
+    public function getProject()
+    {
+        return $this->project;
     }
 
     /**
