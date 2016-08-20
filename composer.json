@@ -15,19 +15,22 @@
         "phpunit/phpunit": "^5.4",
         "theseer/phpdox": "0.8.1.1",
         "phpmd/phpmd": "^2.4",
-        "squizlabs/php_codesniffer": "^2.6"
+        "squizlabs/php_codesniffer": "^2.6",
+        "sebastian/phpdcd": "^1.0"
     },
     "scripts": {
         "post-install-cmd": "bin/post-install-cmd.sh",
         "lint": "find src -name *.php -exec php -l {} \\;",
         "loc":  "phploc --count-tests --log-xml=build/phploc.xml src/ tests/",
         "pmd":  "phpmd src/ xml cleancode,codesize,controversial,design,naming,unusedcode --reportfile build/pmd.xml",
+        "duplicates": "phpdcd -q --recursive src/",
         "cs":   "phpcs",
         "test": "phpunit",
         "ci":  [
             "@lint",
             "phpcs --report-full=php://output",
-            "phpmd src/ text cleancode,codesize,controversial,design,naming,unusedcode"
+            "phpmd src/ text cleancode,codesize,controversial,design,naming,unusedcode",
+            "@duplicates"
         ],
         "dox":  "phpdox",
         "build": [
@@ -35,6 +38,7 @@
             "@loc",
             "@cs",
             "@pmd",
+            "@duplicates",
             "@test",
             "@dox"
         ]

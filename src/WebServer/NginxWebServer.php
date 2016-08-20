@@ -28,24 +28,11 @@ class NginxWebServer extends WebServer
 
     public function extractVersion($settings = '')
     {
-        $matches = [];
-        $regexp = '/^nginx version: nginx\/([0-9\.]+).*/';
-
-        if (preg_match($regexp, $settings, $matches)) {
-            return $matches[1];
-        }
-
-        return '';
+        return $this->match('/^nginx version: nginx\/([0-9\.]+).*/', $settings);
     }
 
     public function extractRootConfigurationFile($settings = '')
     {
-        $matches = [];
-        $regexp = '/--conf-path=([^\s]+) /';
-        if (preg_match($regexp, $settings, $matches)) {
-            return $matches[1];
-        }
-
-        return '';
+        return $this->match('/--conf-path=([^\s]+) /', $settings);
     }
 }

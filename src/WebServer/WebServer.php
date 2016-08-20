@@ -116,4 +116,15 @@ abstract class WebServer implements WebServerInterface
     abstract public function extractVersion($settings = '');
 
     abstract public function extractRootConfigurationFile($settings = '');
+
+    protected function match($regexp, $settings)
+    {
+        $matches = [];
+
+        if (preg_match($regexp, $settings, $matches)) {
+            return $matches[1];
+        }
+
+        return '';
+    }
 }

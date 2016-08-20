@@ -28,24 +28,11 @@ class ApacheWebServer extends WebServer
 
     public function extractVersion($settings = '')
     {
-        $matches = [];
-        $regexp = '/^Server version: Apache\/([0-9\.]+) .*/';
-
-        if (preg_match($regexp, $settings, $matches)) {
-            return $matches[1];
-        }
-
-        return '';
+        return $this->match('/^Server version: Apache\/([0-9\.]+) .*/', $settings);
     }
 
     public function extractRootConfigurationFile($settings = '')
     {
-        $matches = [];
-        $regexp = '/ -D SERVER_CONFIG_FILE="([^"]+)"/';
-        if (preg_match($regexp, $settings, $matches)) {
-            return $matches[1];
-        }
-
-        return '';
+        return $this->match('/ -D SERVER_CONFIG_FILE="([^"]+)"/', $settings);
     }
 }
