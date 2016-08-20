@@ -11,6 +11,8 @@
 
 namespace JamesRezo\WebHelper\WebServer;
 
+use Symfony\Component\Process\Process;
+
 /**
  * Base class for webserver classes.
  *
@@ -40,6 +42,13 @@ abstract class WebServer implements WebServerInterface
      * @var array
      */
     private $binaries = [];
+
+    /**
+     * the parameter string to use to detect version and config file.
+     *
+     * @var string
+     */
+    private $detectionParameter = '';
 
     /**
      * Constructor.
@@ -89,4 +98,22 @@ abstract class WebServer implements WebServerInterface
 
         return $this;
     }
+
+    public function setDetectionParameter($parameter = '')
+    {
+        $this->detectionParameter = $parameter;
+
+        return $this;
+    }
+
+    public function getSettings($fullPathBinary)
+    {
+        $process = new Process($fullPathBinary.$this->detectionParameter);
+        $process->run();
+        return $process->getOutput();
+    }
+
+    abstract public function extractVersion($settings = '');
+
+    abstract public function extractRootConfigurationFile($settings = '');
 }

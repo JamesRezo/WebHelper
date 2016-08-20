@@ -25,4 +25,27 @@ class NginxWebServer extends WebServer
     {
         parent::__construct('nginx', $version);
     }
+
+    public function extractVersion($settings = '')
+    {
+        $matches = [];
+        $regexp = '/^nginx version: nginx\/([0-9\.]+).*/';
+
+        if (preg_match($regexp, $settings, $matches)) {
+            return $matches[1];
+        }
+
+        return '';
+    }
+
+    public function extractRootConfigurationFile($settings = '')
+    {
+        $matches = [];
+        $regexp = '/--conf-path=([^\s]+) /';
+        if (preg_match($regexp, $settings, $matches)) {
+            return $matches[1];
+        }
+
+        return '';
+    }
 }

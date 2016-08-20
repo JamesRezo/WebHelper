@@ -25,4 +25,18 @@ class NullWebServer extends WebServer
     {
         parent::__construct('null', $version);
     }
+
+    public function extractVersion($settings = '')
+    {
+        $settings = '';
+
+        return $settings;
+    }
+
+    public function extractRootConfigurationFile($settings = '')
+    {
+        $settings = '';
+
+        return $settings;
+    }
 }

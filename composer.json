@@ -16,7 +16,8 @@
         "phpunit/phpunit": "^5.4",
         "theseer/phpdox": "0.8.1.1",
         "phpmd/phpmd": "^2.4",
-        "squizlabs/php_codesniffer": "^2.6"
+        "squizlabs/php_codesniffer": "^2.6",
+        "mikey179/vfsStream": "^1.6"
     },
     "scripts": {
         "post-install-cmd": "bin/post-install-cmd.sh",

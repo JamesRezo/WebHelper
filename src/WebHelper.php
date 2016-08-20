@@ -13,7 +13,7 @@ namespace JamesRezo\WebHelper;
 
 use Composer\Semver\VersionParser;
 use Composer\Semver\Comparator;
-use JamesRezo\WebHelper\WebServer\WebServerFactory;
+use JamesRezo\WebHelper\Factory;
 use JamesRezo\WebHelper\WebHelperRepository;
 
 /**
@@ -72,8 +72,8 @@ class WebHelper
      */
     public function setServer($server, $version)
     {
-        $factory = new WebServerFactory();
-        $this->server = $factory->create($server, $this->versionParser->normalize($version));
+        $factory = new Factory();
+        $this->server = $factory->createWebServer($server, $this->versionParser->normalize($version));
 
         return $this;
     }

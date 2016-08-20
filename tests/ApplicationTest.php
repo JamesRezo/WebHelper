@@ -19,10 +19,11 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
 {
     public function testRun()
     {
-        $applicationTest = new Application();
-        $applicationTest->setAutoExit(false);
-        $application = new ApplicationTester($applicationTest);
-        $application->run([]);
-        $this->assertContains('generate', $application->getDisplay([]));
+        $application = new Application();
+        $application->setAutoExit(false);
+        $applicationTester = new ApplicationTester($application);
+        $applicationTester->run([]);
+
+        $this->assertContains('WebHelper version 0.2', $applicationTester->getDisplay([]));
     }
 }

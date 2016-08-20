@@ -12,7 +12,7 @@
 namespace JamesRezo\WebHelper\Test;
 
 use PHPUnit_Framework_TestCase;
-use JamesRezo\WebHelper\WebServer\WebServerFactory;
+use JamesRezo\WebHelper\Factory;
 use JamesRezo\WebHelper\WebServer\NullWebServer;
 use JamesRezo\WebHelper\WebServer\ApacheWebServer;
 use JamesRezo\WebHelper\WebServer\NginxWebServer;
@@ -23,7 +23,7 @@ class WebServerTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->factory = new WebServerFactory();
+        $this->factory = new Factory();
     }
 
     public function dataFactory()
@@ -53,7 +53,7 @@ class WebServerTest extends PHPUnit_Framework_TestCase
      */
     public function testFactory($expected, $webservername)
     {
-        $this->assertInstanceOf($expected, $this->factory->create($webservername, 1));
+        $this->assertInstanceOf($expected, $this->factory->createWebServer($webservername));
     }
 
     public function testGetName()
@@ -95,6 +95,97 @@ class WebServerTest extends PHPUnit_Framework_TestCase
      */
     public function testGetBinaries($expected, $webservername)
     {
-        $this->assertEquals($expected, $this->factory->create($webservername, 1)->getBinaries());
+        $this->assertEquals($expected, $this->factory->createWebServer($webservername)->getBinaries());
+    }
+
+    public function dataExtractVersion()
+    {
+        $data = [];
+
+        $data['Null'] = [
+            '',
+            '',
+            'test'
+        ];
+
+        $data['Apache'] = [
+            '2.4.18',
+            'Server version: Apache/2.4.18 (Unix)'."\netc...",
+            'apache'
+        ];
+
+        $data['wrong Apache settings'] = [
+            '',
+            'fake line'."\n"."Server version: "."\nfake lines...",
+            'apache'
+        ];
+
+        $data['Nginx'] = [
+            '1.10.1',
+            'nginx version: nginx/1.10.1'."\netc...",
+            'nginx'
+        ];
+
+        $data['wrong Nginx settings'] = [
+            '',
+            "\n".'nginx version: nginx',
+            'nginx'
+        ];
+        return $data;
+    }
+
+    /**
+     * @dataProvider dataExtractVersion
+     */
+    public function testExtractVersion($expected, $settings, $webservername)
+    {
+        $this->assertEquals($expected, $this->factory->createWebServer($webservername)->extractVersion($settings));
+    }
+
+    public function dataExtractConfigFile()
+    {
+        $data = [];
+
+        $data['Null'] = [
+            '',
+            '',
+            'test'
+        ];
+
+        $data['Apache'] = [
+            '/some/file.conf',
+            'Server version: Apache/2.4.18 (Unix)'."\n".' -D SERVER_CONFIG_FILE="/some/file.conf"',
+            'apache'
+        ];
+
+        $data['wrong Apache settings'] = [
+            '',
+            'fake line'."\n"."Server version: "."\n".' -D SERVER_CONFIG_FILE=""',
+            'apache'
+        ];
+
+        $data['Nginx'] = [
+            '/some/file.conf',
+            'nginx version: nginx/1.10.1'."\nconfigure arguments: --conf-path=/some/file.conf --extra...",
+            'nginx'
+        ];
+
+        $data['wrong Nginx settings'] = [
+            '',
+            "\n".'nginx version: nginx',
+            'nginx'
+        ];
+        return $data;
+    }
+
+    /**
+     * @dataProvider dataExtractConfigFile
+     */
+    public function testExtractRootConfigurationFile($expected, $settings, $webservername)
+    {
+        $this->assertEquals(
+            $expected,
+            $this->factory->createWebServer($webservername)->extractRootConfigurationFile($settings)
+        );
     }
 }

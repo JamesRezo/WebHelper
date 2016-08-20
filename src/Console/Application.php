@@ -13,14 +13,22 @@ namespace JamesRezo\WebHelper\Console;
 
 use Symfony\Component\Console\Application as BaseApplication;
 use JamesRezo\WebHelper\Command\GenerateCommand;
+use JamesRezo\WebHelper\Command\DetectCommand;
 
+/**
+ * The CLI Application.
+ */
 class Application extends BaseApplication
 {
+    /**
+     * Base Constructor.
+     */
     public function __construct()
     {
         parent::__construct();
         $this->setName('WebHelper');
         $this->setVersion('0.2');
         $this->add(new GenerateCommand());
+        $this->add(new DetectCommand());
     }
 }

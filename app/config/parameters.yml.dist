@@ -3,6 +3,8 @@ webservers:
     apache:
         - JamesRezo\WebHelper\WebServer\ApacheWebServer
         - ['httpd', 'apachectl', 'apache2ctl']
+        - ' -V'
     nginx:
         - JamesRezo\WebHelper\WebServer\NginxWebServer
         - ['nginx']
+        - ' -V 2>&1'
