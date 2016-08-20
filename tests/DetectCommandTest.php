@@ -15,50 +15,32 @@ use PHPUnit_Framework_TestCase;
 use JamesRezo\WebHelper\Command\DetectCommand;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
-use org\bovigo\vfs\vfsStream,
-    org\bovigo\vfs\vfsStreamDirectory;
 
 class DetectCommandTest extends PHPUnit_Framework_TestCase
 {
     private $bin;
 
-    private $sbin;
-
     protected function setUp()
     {
-        $this->bin = vfsStream::setup('bin');
-        $this->sbin = vfsStream::setup('sbin');
-        vfsStream::newFile('nginx', 0755)->at($this->sbin)->setContent(
-            '#!/bin/bash'."\n\n".'echo "nginx version: nginx/1.0.0"'
-        );
-        vfsStream::newFile('httpd', 0644)->at($this->sbin)->setContent(
-            'fake httpd controler'
-        );
+        $this->bin = realpath(__DIR__.'/dummyfilesystem/bin');
     }
 
     public function dataExecute()
     {
         $data = [];
 
-        $data['using PATH env variable'] = [
-            'detected',
-            [],
-            32,
-            true
-        ];
-
         $data['empty path'] = [
             '',
-            [vfsStream::url('bin')],
+            [],
             32,
             false
         ];
 
         $data['path to nginx'] = [
             'detected for nginx',
-            [vfsStream::url('sbin')],
+            [realpath(__DIR__.'/dummyfilesystem/bin')],
             128,
-            false
+            true
         ];
 
         return $data;
@@ -69,9 +51,11 @@ class DetectCommandTest extends PHPUnit_Framework_TestCase
      */
     public function testExecute($expected, $path, $verbosity, $setPath)
     {
+        $homePath = getenv('PATH');
+        putenv('PATH=');
+
         if ($setPath) {
-            $homePath = getenv('PATH');
-            putenv('PATH='.vfsStream::url('sbin').PATH_SEPARATOR.$homePath);
+            putenv('PATH='.$this->bin);
         }
 
         $application = new Application();
@@ -97,7 +81,6 @@ class DetectCommandTest extends PHPUnit_Framework_TestCase
             $this->assertEmpty($output);
         }
 
-        if ($setPath)
-            putenv('PATH='.$homePath);
+        putenv('PATH='.$homePath);
     }
 }
