@@ -43,19 +43,22 @@ class DetectCommandTest extends PHPUnit_Framework_TestCase
         $data['using PATH env variable'] = [
             'detected',
             [],
-            32
+            32,
+            true
         ];
 
         $data['empty path'] = [
             '',
             [vfsStream::url('bin')],
-            32
+            32,
+            false
         ];
 
         $data['path to nginx'] = [
             'detected for nginx',
             [vfsStream::url('sbin')],
-            128
+            128,
+            false
         ];
 
         return $data;
@@ -64,8 +67,13 @@ class DetectCommandTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider dataExecute
      */
-    public function testExecute($expected, $path, $verbosity)
+    public function testExecute($expected, $path, $verbosity, $setPath)
     {
+        if ($setPath) {
+            $homePath = getenv('PATH');
+            putenv('PATH='.vfsStream::url('sbin').PATH_SEPARATOR.$homePath);
+        }
+
         $application = new Application();
         $application->add(new DetectCommand());
 
@@ -88,5 +96,8 @@ class DetectCommandTest extends PHPUnit_Framework_TestCase
         } else {
             $this->assertEmpty($output);
         }
+
+        if ($setPath)
+            putenv('PATH='.$homePath);
     }
 }
