@@ -11,36 +11,26 @@
 
 namespace JamesRezo\WebHelper\Console;
 
-use Composer\Console\Application as BaseApplication;
-use JamesRezo\WebHelper\Command;
-use Symfony\Component\Console\Command as DefaultCommand;
+use Symfony\Component\Console\Application as BaseApplication;
+use JamesRezo\WebHelper\Command\GenerateCommand;
+use JamesRezo\WebHelper\Command\DetectCommand;
+use JamesRezo\WebHelper\Command\AnalyzeCommand;
 
 /**
- * {@inheritdoc}
- *
- * @author James Hautot <james@rezo.net>
+ * The CLI Application.
  */
 class Application extends BaseApplication
 {
-
     /**
-     * {@inheritdoc}
+     * Base Constructor.
      */
     public function __construct()
     {
         parent::__construct();
         $this->setName('WebHelper');
-        $this->setVersion('0.1');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getDefaultCommands()
-    {
-        $commands = array(new DefaultCommand\HelpCommand(), new DefaultCommand\ListCommand());
-        $commands[] = new Command\GenerateCommand();
-
-        return $commands;
+        $this->setVersion('0.2');
+        $this->add(new GenerateCommand());
+        $this->add(new DetectCommand());
+        $this->add(new AnalyzeCommand());
     }
 }

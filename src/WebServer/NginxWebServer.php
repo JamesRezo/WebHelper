@@ -19,10 +19,20 @@ class NginxWebServer extends WebServer
     /**
      * Constructor.
      *
-     * @param int $version the version of the nginx webserver
+     * @param string $version the semver-like version of the apache webserver
      */
     public function __construct($version = '')
     {
         parent::__construct('nginx', $version);
+    }
+
+    public function extractVersion($settings = '')
+    {
+        return $this->match('/^nginx version: nginx\/([0-9\.]+).*/', $settings);
+    }
+
+    public function extractRootConfigurationFile($settings = '')
+    {
+        return $this->match('/--conf-path=([^\s]+) /', $settings);
     }
 }

@@ -1,0 +1,4 @@
+#!/bin/bash
+
+echo "nginx version: nginx/1.0.0"
+echo "configure arguments: --conf-path=/some/file.conf --extra..."

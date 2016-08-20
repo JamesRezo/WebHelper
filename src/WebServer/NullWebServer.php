@@ -12,9 +12,9 @@
 namespace JamesRezo\WebHelper\WebServer;
 
 /**
- * ApacheWebServer is the webserver class for apache httpd webserver.
+ * NullWebServer is the webserver class used when no web server found.
  */
-class ApacheWebServer extends WebServer
+class NullWebServer extends WebServer
 {
     /**
      * Constructor.
@@ -23,16 +23,20 @@ class ApacheWebServer extends WebServer
      */
     public function __construct($version = '')
     {
-        parent::__construct('apache', $version);
+        parent::__construct('null', $version);
     }
 
     public function extractVersion($settings = '')
     {
-        return $this->match('/^Server version: Apache\/([0-9\.]+) .*/', $settings);
+        $settings = '';
+
+        return $settings;
     }
 
     public function extractRootConfigurationFile($settings = '')
     {
-        return $this->match('/ -D SERVER_CONFIG_FILE="([^"]+)"/', $settings);
+        $settings = '';
+
+        return $settings;
     }
 }

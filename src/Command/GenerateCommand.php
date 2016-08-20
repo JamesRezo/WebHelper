@@ -11,52 +11,29 @@
 
 namespace JamesRezo\WebHelper\Command;
 
-use Composer\Command\Command;
-use Composer\Json\JsonFile;
-use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use JamesRezo\WebHelper\WebServer\WebServerFactory;
-use JamesRezo\WebHelper\WebProject\WebProjectFactory;
+use Symfony\Component\Console\Input\InputArgument;
 use JamesRezo\WebHelper\WebHelper;
+use JamesRezo\WebHelper\WebServer\NullWebServer;
 
 /**
- * Output a statement for a webserver.
- *
- * @author James <james@rezo.net>
+ * Generates Configuration Statements given a webserver and known directives.
  */
 class GenerateCommand extends Command
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function configure()
     {
         $this
-            ->setName('web:generate')
-            ->setDescription('Output a statement for a webserver')
-            ->setDefinition(array(
-                new InputArgument('webserver', InputArgument::REQUIRED, 'The webserver to configure'),
-                new InputArgument(
-                    'directive',
-                    InputArgument::IS_ARRAY | InputArgument::REQUIRED,
-                    'Directives to generate'
-                ),
-                new InputOption(
-                    'repository',
-                    'r',
-                    InputOption::VALUE_REQUIRED,
-                    'Directory or url of a WebHelper Repository',
-                    null
-                ),
-                new InputOption('url', 'u', InputOption::VALUE_REQUIRED, 'The target url', null),
-            ))
-            ->setHelp(
-<<<EOT
-The <info>web:generate</info> command creates one or many statements for the specified webserver.
-EOT
-            )
+            ->setName('generate')
+            ->setDescription('Output statements for a webserver')
+            ->setHelp('The <info>generate</info> command creates one or many statements for the specified webserver.')
+            ->addArgument('webserver', InputArgument::REQUIRED, 'a webserver name.')
+            ->addArgument('directives', InputArgument::IS_ARRAY, 'List of directives to generate.')
         ;
     }
 
@@ -70,53 +47,33 @@ EOT
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $version = '';
-        $name = $input->getArgument('webserver');
-        if (preg_match(',([^\.\d]+)([\.\d]+)$,', $name, $matches)) {
-            $version = $matches[2];
-            $name = $matches[1];
+        $webserver = $input->getArgument('webserver');
+        $version = 0;
+        if (preg_match(',([^:]+)(:([\.\d]+))$,', $webserver, $matches)) {
+            $version = $matches[3];
+            $webserver = $matches[1];
         }
 
-        $io = $this->getIO();
-        $file = new JsonFile('./composer.json');
-        if (!$file->exists()) {
-            $output->writeln('<error>File not found: '.$file.'</error>');
+        $directives = $input->getArgument('directives');
 
-            return 1;
+        $webhelper = new WebHelper();
+        $webhelper->setRepository(__DIR__.'/../../res');
+
+        if ($webhelper->getRepository()->okGo()) {
+            $webhelper->setServer($webserver, $version);
+            if (!($webhelper->getServer() instanceof NullWebServer)) {
+                foreach ($directives as $directive) {
+                    $twigFile = $webhelper->find($directive);
+                    $output->write($webhelper->render($twigFile, [
+                        'project' => [
+                            'aliasname' => 'webhelper',
+                            'documentroot' => realpath(__DIR__.'/../../'),
+                            'vhostname' => 'webhelper',
+                            'portnumber' => 80
+                        ]
+                    ]));
+                }
+            }
         }
-        $config = $file->read();
-        $composer = $this->getApplication()->getComposer(true, $config);
-
-        $wsFactory = new WebServerFactory();
-        $webserver = $wsFactory->create($name, $version);
-        if (is_null($webserver)) {
-            $output->writeln('<error>Web Server "'.$webserver.'" unknown.</error>');
-
-            return 1;
-        }
-
-        $pjFactory = new WebProjectFactory();
-        $project = $pjFactory->create($composer->getPackage(), $input->getOption('url'));
-
-        try {
-            $helper = new WebHelper($composer, $io);
-            $helper
-                ->setWebServer($webserver)
-                ->setWebProject($project)
-                ->setRepository($input->getOption('repository'))
-                ->setTwigEnvironment();
-        } catch (\Exception $e) {
-            $output->writeln('<error>Error while processing :'.$e->getMessage().'</error>');
-
-            return 1;
-        }
-
-        $directives = $input->getArgument('directive');
-        $statements = array();
-        foreach ($directives as $directive) {
-            $statements[] = $helper->findDirective($directive);
-        }
-
-        $output->writeln($helper->render($statements));
     }
 }

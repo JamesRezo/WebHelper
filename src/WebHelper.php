@@ -11,304 +11,122 @@
 
 namespace JamesRezo\WebHelper;
 
-use JamesRezo\WebHelper\WebServer\WebServerInterface;
-use JamesRezo\WebHelper\WebProject\WebProjectInterface;
-use Symfony\Component\Finder\Finder;
-use Composer\Composer;
-use Composer\Factory;
-use Composer\Cache;
-use Composer\IO\IOInterface;
-use Composer\IO\NullIO;
-use Composer\Util\RemoteFilesystem;
-use Composer\Json\JsonFile;
+use Composer\Semver\VersionParser;
+use Composer\Semver\Comparator;
+use JamesRezo\WebHelper\Factory;
+use JamesRezo\WebHelper\WebHelperRepository;
 
 /**
  * WebHelper.
  */
 class WebHelper
 {
-    /**
-     * Repository path.
-     *
-     * @var string the repository related to the helper
-     */
-    private $resDir;
+    /** @var WebHelperRepository a Repository instance */
+    private $repository;
+
+    /** @var VersionParser a VersionParser instance */
+    private $versionParser;
+
+    /** @var Comparator a Comparator instance */
+    private $comparator;
+
+    /** @var WebServer\WebServerInterface a Web Server instance */
+    private $server;
 
     /**
-     * the twig engine.
-     *
-     * @var \Twig_Environment the twig engine
+     * Base constructor.
      */
-    private $twigEnvironment;
-
-    /**
-     * A webserver to generate the directives statements.
-     *
-     * @var WebServerInterface a webserver to generate the directives statements
-     */
-    private $webserver = null;
-
-    /**
-     * A webproject to transmit the directives parameters.
-     *
-     * @var WebProjectInterface a webproject to transmit the directives parameters
-     */
-    private $webproject = null;
-
-    /**
-     * The Compsoer instance.
-     *
-     * @var Composer
-     */
-    private $composer;
-
-    /**
-     * The IO Interface.
-     *
-     * @var IOInterface
-     */
-    private $io;
-
-    /**
-     * Constructor.
-     *
-     * @param Composer $composer Composer object
-     * @param IOInterface $io IO Interface object
-     */
-    public function __construct(Composer $composer = null, IOInterface $io = null)
+    public function __construct()
     {
-        $this->io = $io ?: new NullIO();
-        $this->composer = $composer ?: Factory::create($this->io, getcwd().'/composer.json');
-        $this->setRepository();
+        $this->versionParser = new VersionParser();
+        $this->comparator = new Comparator();
     }
 
     /**
-     * Get the Cache Directory Realpath.
+     * Sets the Repository Instance.
      *
-     * @return string cache absolute path
+     * @param string $resDir a Path of a Directives Repository
      */
-    private function getcacheDir()
+    public function setRepository($resDir = '')
     {
-        $cacheDir = $this->composer->getConfig()->get('webhelper-cache-dir');
-        $cacheDir = $cacheDir ?: $this->composer->getConfig()->get('cache-dir').'/webhelper';
-        $cache = new Cache($this->io, $cacheDir);
-        if (!$cache->isEnabled()) {
-            $this->io->writeError("<info>Cache is not enabled (webhelper-cache-dir): $cacheDir</info>");
-        }
-
-        return $cache->getRoot();
-    }
-
-    /**
-     * Sets the Twig Environment.
-     */
-    public function setTwigEnvironment()
-    {
-        $cacheTwigDir = $this->getcacheDir().'/twig';
-        $cache = new Cache($this->io, $cacheTwigDir);
-        if (!$cache->isEnabled()) {
-            $this->io->writeError("<info>Cache is not enabled (webhelper-cache-dir): $cacheTwigDir</info>");
-        }
-
-        $cacheDir = $cache->getRoot();
-        if ($this->resDir && $cacheDir) {
-            $loader = new \Twig_Loader_Filesystem($this->resDir);
-            $this->twigEnvironment = new \Twig_Environment($loader, array(
-                'cache' => $cacheDir,
-            ));
-        }
+        $this->repository = new WebHelperRepository($resDir);
 
         return $this;
     }
 
     /**
-     * Sets the absolute path to the related repository.
+     * Gets the Repository Instance.
      *
-     * @throws RuntimeException If directory parameter does not exist
-     * @throws RuntimeException If it's impossible to write cache files
-     *
-     * @param string $repo path to an alternative repository
-     */
-    public function setRepository($repo = null)
-    {
-        if (is_null($repo)) {
-            $repo = $this->composer->getConfig()->get('webhelper-repository-path');
-            $repo = $repo ?: __DIR__.'/../res';
-        }
-        if (preg_match('{^https?://}i', $repo)) {
-            $cacheRepoDir = $this->getcacheDir().'/res';
-            $cache = new Cache($this->io, $cacheRepoDir, 'a-z0-9./');
-            if (!$cache->isEnabled()) {
-                $this->io->writeError("<info>Cache is not enabled (webhelper-cache-dir): $cacheRepoDir</info>");
-            }
-
-            $host = parse_url($repo, PHP_URL_HOST);
-            if (is_string($host)) {
-                $config = null;
-                $rfs = new RemoteFilesystem($this->io);
-                $contents = $rfs->getContents($host, $repo.'/webhelper.json', false);
-                if (is_string($contents)) {
-                    $config = JsonFile::parseJson($contents, $repo.'/webhelper.json');
-                }
-
-                //feed the cache
-                if (is_array($config['files'])) {
-                    foreach ($config['files'] as $file) {
-                        $contents = $rfs->getContents($host, $repo.'/'.$file, false);
-                        if (@mkdir($cache->getRoot().dirname($file), 0777, true) === false) {
-                            throw new \RuntimeException('The directory '.$dir.' could not be created.');
-                        }
-                        $cache->write($file, $contents);
-                    }
-                }
-            } else {
-                $this->io->writeError("<info>Bad URL: $repo</info>");
-            }
-
-            $repo = $cacheRepoDir;
-        } else {
-            if (!file_exists($repo)) {
-                $this->io->writeError('<error>Repository not found: '.$repo.'</error>');
-
-                throw new \RuntimeException('Repository not found');
-            }
-        }
-        $this->resDir = realpath($repo);
-
-        return $this;
-    }
-
-    /**
-     * Absolute path to the related repository.
-     *
-     * @return string Absolute path to the related repository
+     * @return WebHelperRepository the Repository Instance
      */
     public function getRepository()
     {
-        return $this->resDir;
+        return $this->repository;
     }
 
     /**
-     * Get the current webserver to be configured.
+     * Sets the web server instance.
      *
-     * @return WebServerInterface $webserver the current webserver to be configured
+     * @param string $server  a web server name
+     * @param string $version a semver-like version
      */
-    public function getWebServer()
+    public function setServer($server, $version)
     {
-        return $this->webserver;
-    }
-
-    /**
-     * Sets the webserver to generate the directives statements.
-     *
-     * @param WebServerInterface $webserver the webserver to generate the directives statements
-     */
-    public function setWebServer(WebServerInterface $webserver)
-    {
-        $this->webserver = $webserver;
+        $factory = new Factory();
+        $this->server = $factory->createWebServer($server, $this->versionParser->normalize($version));
 
         return $this;
     }
 
     /**
-     * Get the current webproject to be configured.
+     * Gets the web server instance.
      *
-     * @return WebProjectInterface $webproject the current webproject to be configured
+     * @return WebServerInterface the web server instance
      */
-    public function getWebProject()
+    public function getServer()
     {
-        return $this->webproject;
+        return $this->server;
     }
 
     /**
-     * Sets the webproject to generate the directives statements.
+     * Finds the best template for a web server directive according to its version.
      *
-     * @param WebProjectInterface $webproject the webproject to generate the directives statements
+     * @param  string $directive a directive
+     * @return string            the relative path to the template
      */
-    public function setWebProject(WebProjectInterface $webproject)
+    public function find($directive)
     {
-        $this->webproject = $webproject;
+        $memoize = $this->getRepository()->getMemoize();
+        $serverName = $this->getServer()->getName();
+        $return = '';
 
-        return $this;
-    }
+        $versions = array_keys($memoize[$serverName]);
+        sort($versions);
 
-    /**
-     * Validates a Directive.
-     *
-     * @param string $directive the directive to be tested
-     *
-     * @return bool TRUE if the $directive is known word
-     */
-    private function validateDirective($directive)
-    {
-        return preg_match(',^[a-z\.]+$,i', $directive);
-    }
-
-    /**
-     * Looks for the best version of directive twig file.
-     *
-     * @param string $directive the directive to be generated
-     *
-     * @return string the relative pathname for the $directive
-     */
-    public function findDirective($directive)
-    {
-        if (!$this->validateDirective($directive) || is_null($this->webserver)) {
-            return '';
-        }
-
-        $finder = new Finder();
-        $name = $this->webserver->getName();
-        $version = $this->webserver->getVersion();
-        if (strlen($version) == 0) {
-            $version = 0;
-        }
-        $finder->files()->path($name)->name($directive.'.twig')->in($this->getRepository());
-        if (iterator_count($finder) == 0) {
-            return '';
-        }
-
-        $sortByVersion = function (\SplFileInfo $aFile, \SplFileInfo $bFile) {
-            $aVersion = basename($aFile->getRelativePath());
-            $bVersion = basename($bFile->getRelativePath());
-
-            return version_compare(
-                $aVersion == $this->webserver->getName() ? 0 : $aVersion,
-                $bVersion == $this->webserver->getName() ? 0 : $bVersion,
-                '>='
-            );
-        };
-        $finder->sort($sortByVersion);
-        $files = iterator_to_array($finder);
-        $relativePathname = '';
-        foreach ($files as $file) {
-            $fileVersion = basename($file->getRelativePath());
-            if ($fileVersion === $name) {
-                $fileVersion = 0;
-            }
-            if (version_compare($fileVersion, $version, '<=')) {
-                $relativePathname = $file->getRelativePathname();
+        foreach ($versions as $version) {
+            if ($this->comparator->greaterThanOrEqualTo($this->getServer()->getVersion(), $version) &&
+                array_key_exists($directive, $memoize[$serverName][$version])
+            ) {
+                $return = $memoize[$serverName][$version][$directive];
             }
         }
 
-        return $relativePathname;
+        return $return;
     }
 
     /**
-     * Output the generated Directives statements.
+     * Outputs a webserver directive.
      *
-     * @param array $models List of Twig files
-     *
-     * @return string the statements
+     * @param  string $twigFile a relative path of a template
+     * @param  array  $params   parameters
+     * @return string           the directive output
      */
-    public function render($models)
+    public function render($twigFile, array $params = array())
     {
-        $text = '';
-
-        foreach ($models as $model) {
-            $text .= $this->twigEnvironment->render($model, $this->getWebProject()->getDatas());
+        try {
+            return $this->getRepository()->getTwig()->render($twigFile, $params);
+        } catch (\Twig_Error_Loader $e) {
+            return '';
         }
-
-        return $text;
     }
 }
