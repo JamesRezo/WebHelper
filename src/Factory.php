@@ -21,13 +21,25 @@ use JamesRezo\WebHelper\WebServer\NullWebServer;
  */
 class Factory
 {
-    private $webservers;
+    private $webservers = [];
 
     public function __construct()
     {
-        $yaml = new Yaml();
-        $config = $yaml->parse(file_get_contents(__DIR__.'/../app/config/parameters.yml'));
-        $this->webservers = $config['webservers'];
+        $file = '';
+        foreach ([
+            getenv('HOME').'/.config/webhelper/parameters.yml',
+            __DIR__.'/../app/config/parameters.yml'
+        ] as $file) {
+            if (is_readable($file)) {
+                break;
+            }
+        }
+
+        if ($file) {
+            $yaml = new Yaml();
+            $config = $yaml->parse(file_get_contents($file));
+            $this->webservers = $config['webservers'];
+        }
     }
 
     /**

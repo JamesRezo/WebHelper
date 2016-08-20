@@ -69,7 +69,7 @@ class DetectCommand extends Command
                     if ($output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE) {
                         $output->writeln(
                             '<comment>You should analyze this with </comment>'.
-                            'bin/wh analyze '.$webserver.':'.$version.' '.$configFile
+                            'wh analyze '.$webserver.':'.$version.' '.$configFile
                         );
                     }
                     break;

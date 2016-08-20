@@ -3,26 +3,18 @@ A Generic Httpd Configuration Helper
 
 [![Build Status](https://api.travis-ci.org/JamesRezo/WebHelper.svg?branch=new-architecture)](https://travis-ci.org/JamesRezo/WebHelper)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/57e3dc27-e915-42d4-9bde-863a8f3bf5f8/mini.png)](https://insight.sensiolabs.com/projects/57e3dc27-e915-42d4-9bde-863a8f3bf5f8)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/JamesRezo/WebHelper/badges/quality-score.png?b=new-architecture)](https://scrutinizer-ci.com/g/JamesRezo/WebHelper/?branch=new-architecture)
-[![Code Coverage](https://scrutinizer-ci.com/g/JamesRezo/WebHelper/badges/coverage.png?b=new-architecture)](https://scrutinizer-ci.com/g/JamesRezo/WebHelper/?branch=new-architecture)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/JamesRezo/WebHelper/badges/quality-score.png?b=new-architecture)](https://scrutinizer-ci.com/g/JamesRezo/WebHelper/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/JamesRezo/WebHelper/badges/coverage.png?b=new-architecture)](https://scrutinizer-ci.com/g/JamesRezo/WebHelper/?branch=master)
 [![Dependency Status](https://www.versioneye.com/user/projects/57aacb4bf27cc20050102f19/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/57aacb4bf27cc20050102f19)
 [![Code Climate](https://codeclimate.com/github/JamesRezo/WebHelper/badges/gpa.svg)](https://codeclimate.com/github/JamesRezo/WebHelper)
 
 ## Installation
 
- Just add a dependency on `jamesrezo/webhelper` to your project's `composer.json` file because you obviously will use [Composer](https://getcomposer.org) to manage the dependencies of your project. For example:
-
-```
-{
-    "require": {
-        "jamesrezo/webhelper": "dev-master"
-    }
-}
-```
-
 For a global installation via Composer, run:
 
-```composer global require "jamesrezo/webhelper=0.2"```
+```composer global require jamesrezo/webhelper=dev-master```
+
+Then, copy ```app/config/parameters.yml.dist``` into ```~/.config/webhelper/parameters.yml```
 
 Make sure you have `~/.composer/vendor/bin/` or `~/.config/composer/vendor/bin/` in your path. 
 

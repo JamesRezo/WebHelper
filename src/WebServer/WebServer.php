@@ -121,7 +121,7 @@ abstract class WebServer implements WebServerInterface
      * Finds and return a specific information in a string.
      *
      * the regexp must contain delimiters.
-     * 
+     *
      * @param  string $regexp   a regular expression to find
      * @param  string $settings a string where to find
      * @return string           the found value or an empty string

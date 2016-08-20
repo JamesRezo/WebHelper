@@ -64,7 +64,7 @@ class AnalyzeCommand extends Command
         $configfile = $input->getArgument('configfile');
         if (!is_readable($configfile)) {
             $output->writeln('<error>Configuration file "'.$configfile.'" does not exist.</error>');
-            return 1;            
+            return 1;
         }
 
         //For now, just outputs a cleaned list of directives
