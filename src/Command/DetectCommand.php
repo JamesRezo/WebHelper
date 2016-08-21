@@ -11,16 +11,16 @@
 
 namespace JamesRezo\WebHelper\Command;
 
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use JamesRezo\WebHelper\Factory;
+use JamesRezo\WebHelper\WebServer\WebServerInterface;
 
 /**
  * Detects webservers.
  */
-class DetectCommand extends Command
+class DetectCommand extends BaseCommand
 {
     /**
      * {@inheritdoc}
@@ -46,46 +46,96 @@ class DetectCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $path = $input->getArgument('path');
-        if (empty($path)) {
-            $path = explode(PATH_SEPARATOR, getenv('PATH'));
-        }
+        $path = $this->getPath($input);
 
         $factory = new Factory();
-        foreach ($factory->getKnownWebServers() as $webserver) {
-            $wsObject = $factory->createWebServer($webserver);
-            foreach ($wsObject->getBinaries() as $binary) {
-                $file = $this->getFromPath($binary, $path);
-                if ($file) {
-                    $output->writeln('<comment>'.$file.' detected for '.$webserver.'.</comment>');
-                    $settings = $wsObject->getSettings($file);
-                    $version = $wsObject->extractVersion($settings);
-                    $configFile = $wsObject->extractRootConfigurationFile($settings);
-                    if ($output->getVerbosity() >= OutputInterface::VERBOSITY_VERY_VERBOSE) {
-                        $output->write($settings);
-                    }
-                    $output->writeln('<info>Detected version:</info>'.$version);
-                    $output->writeln('<info>Detected config file:</info>'.$configFile);
-                    if ($output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE) {
-                        $output->writeln(
-                            '<comment>You should analyze this with </comment>'.
-                            'wh analyze '.$webserver.':'.$version.' '.$configFile
-                        );
-                    }
-                    break;
-                }
-            }
+        $files = false;
+        foreach ($factory->getKnownWebServers() as $webservername) {
+            $webserver = $factory->createWebServer($webservername);
+            $file = $this->searchBinary($path, $webserver, $output);
+            $files = $files || (strlen($file) > 0);
+        }
+        if (!$files) {
+            $output->writeln('<error>No Web Server Found.</error>');
+
+            return 1;
         }
     }
 
-    private function getFromPath($binary, array $path = array())
+    /**
+     * Finds the first binary available to manage a webserver.
+     *
+     * Validity of a binary is to retrieve a version and and default config file
+     *
+     * @param  array              $path      a list of directories to scan
+     * @param  WebServerInterface $webserver the webserver to detect
+     * @param  OutputInterface    $output    the output interface
+     *
+     * @return string the absolute path of the binary if found and valid, empty string elsewhere
+     */
+    private function searchBinary(array $path, WebServerInterface $webserver, OutputInterface $output)
     {
         $file = '';
 
-        foreach ($path as $loop) {
-            $loop = preg_replace('#('.preg_quote(DIRECTORY_SEPARATOR).')*$#', '', $loop).DIRECTORY_SEPARATOR;
-            if (is_executable($loop.$binary)) {
-                $file = $loop.$binary;
+        foreach ($webserver->getBinaries() as $binary) {
+            $file = $this->which($binary, $path);
+            if ($file) {
+                $output->writeln('<comment>'.$file.' detected for '.$webserver->getName().'.</comment>');
+                $settings = $webserver->getSettings($file);
+
+                $version = $webserver->extractVersion($settings);
+                if (!$version) {
+                    $output->writeln('<error>No version found for "'.$file.'".</error>');
+                    $file = '';
+                    continue;
+                }
+
+                $configFile = $webserver->extractRootConfigurationFile($settings);
+                if (!$configFile) {
+                    $output->writeln('<error>No conf. file found for "'.$file.'".</error>');
+                    $file = '';
+                    continue;
+                }
+
+                if ($output->getVerbosity() >= OutputInterface::VERBOSITY_VERY_VERBOSE) {
+                    $output->writeln('<comment>That says:</comment>');
+                    $output->write($settings);
+                }
+
+                $output->writeln('<info>Detected version:</info>'.$version);
+                $output->writeln('<info>Detected conf. file:</info>'.$configFile);
+
+                if ($output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE) {
+                    $output->writeln(
+                        '<comment>You should analyze this with </comment>'.
+                        'wh analyze '.$webserver->getName().':'.$version.' '.$configFile
+                    );
+                }
+                break;
+            }
+        }
+
+        return $file;
+    }
+
+    /**
+     * A `which`-like function.
+     *
+     * Finds the absolute path of a binary in a list of directories
+     *
+     * @param string $binary the binary to find in a list of directories
+     * @param array  $paths  a list of directories to scan
+     *
+     * @return string the absolute path of the binary if found, empty string elsewhere
+     */
+    private function which($binary, array $paths = array())
+    {
+        $file = '';
+
+        foreach ($paths as $path) {
+            $path = preg_replace('#('.preg_quote(DIRECTORY_SEPARATOR).')*$#', '', $path).DIRECTORY_SEPARATOR;
+            if (is_executable($path.$binary) && !is_dir($path.$binary)) {
+                $file = $path.$binary;
             }
         }
 

@@ -32,17 +32,17 @@ class WebServerTest extends PHPUnit_Framework_TestCase
 
         $data['Null'] = [
             NullWebServer::class,
-            'test'
+            'test',
         ];
 
         $data['Apache'] = [
             ApacheWebServer::class,
-            'apache'
+            'apache',
         ];
 
         $data['Nginx'] = [
             NginxWebServer::class,
-            'nginx'
+            'nginx',
         ];
 
         return $data;
@@ -74,17 +74,17 @@ class WebServerTest extends PHPUnit_Framework_TestCase
 
         $data['Null'] = [
             [],
-            'test'
+            'test',
         ];
 
         $data['Apache'] = [
             ['httpd', 'apachectl', 'apache2ctl'],
-            'apache'
+            'apache',
         ];
 
         $data['Nginx'] = [
             ['nginx'],
-            'nginx'
+            'nginx',
         ];
 
         return $data;
@@ -105,32 +105,33 @@ class WebServerTest extends PHPUnit_Framework_TestCase
         $data['Null'] = [
             '',
             '',
-            'test'
+            'test',
         ];
 
         $data['Apache'] = [
             '2.4.18',
             'Server version: Apache/2.4.18 (Unix)'."\netc...",
-            'apache'
+            'apache',
         ];
 
         $data['wrong Apache settings'] = [
             '',
-            'fake line'."\n"."Server version: "."\nfake lines...",
-            'apache'
+            'fake line'."\n".'Server version: '."\nfake lines...",
+            'apache',
         ];
 
         $data['Nginx'] = [
             '1.10.1',
             'nginx version: nginx/1.10.1'."\netc...",
-            'nginx'
+            'nginx',
         ];
 
         $data['wrong Nginx settings'] = [
             '',
             "\n".'nginx version: nginx',
-            'nginx'
+            'nginx',
         ];
+
         return $data;
     }
 
@@ -149,32 +150,33 @@ class WebServerTest extends PHPUnit_Framework_TestCase
         $data['Null'] = [
             '',
             '',
-            'test'
+            'test',
         ];
 
         $data['Apache'] = [
             '/some/file.conf',
             'Server version: Apache/2.4.18 (Unix)'."\n".' -D SERVER_CONFIG_FILE="/some/file.conf"',
-            'apache'
+            'apache',
         ];
 
         $data['wrong Apache settings'] = [
             '',
-            'fake line'."\n"."Server version: "."\n".' -D SERVER_CONFIG_FILE=""',
-            'apache'
+            'fake line'."\n".'Server version: '."\n".' -D SERVER_CONFIG_FILE=""',
+            'apache',
         ];
 
         $data['Nginx'] = [
             '/some/file.conf',
             'nginx version: nginx/1.10.1'."\nconfigure arguments: --conf-path=/some/file.conf --extra...",
-            'nginx'
+            'nginx',
         ];
 
         $data['wrong Nginx settings'] = [
             '',
             "\n".'nginx version: nginx',
-            'nginx'
+            'nginx',
         ];
+
         return $data;
     }
 

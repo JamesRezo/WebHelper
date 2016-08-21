@@ -22,7 +22,7 @@ class WebHelperTest extends PHPUnit_Framework_TestCase
     {
         $this->webhelper = new WebHelper();
         $this->webhelper
-            ->setRepository(__DIR__ . '/dummyrepo')
+            ->setRepository(__DIR__.'/dummyrepo')
             ->setServer('dummywebserver', '1.2.14');
     }
 
@@ -58,13 +58,13 @@ class WebHelperTest extends PHPUnit_Framework_TestCase
         $data['0.0.0.0'] = [
             'Directory res/dummy'."\n",
             'null/directory.twig',
-            []
+            [],
         ];
 
         $data['directive not found'] = [
             '',
             'null/notfound.twig',
-            []
+            [],
         ];
 
         return $data;

@@ -18,7 +18,42 @@ use Symfony\Component\Console\Tester\CommandTester;
 
 class GenerateCommandTest extends PHPUnit_Framework_TestCase
 {
-    public function testExecute()
+    public function dataExecute()
+    {
+        $data = [];
+
+        $data['Unknown Web Server'] = [
+            'Web Server "test" unknown.
+Known Web Servers are apache or nginx.
+',
+            'test',
+            ['alias', 'directory'],
+        ];
+
+        $data['No knwon directives'] = [
+            '',
+            'apache:2.4',
+            ['test1', 'test2'],
+        ];
+
+        $data['Apache 2.4.x'] = [
+            'Alias webhelper/ "'.getcwd().'"
+<Directory "'.getcwd().'">
+    Options Indexes FollowSymLinks MultiViews
+    Require all granted
+</Directory>
+',
+            'apache:2.4',
+            ['alias', 'directory'],
+        ];
+
+        return $data;
+    }
+
+    /**
+     * @dataProvider dataExecute
+     */
+    public function testExecute($expected, $webservername, $directives)
     {
         $application = new Application();
         $application->add(new GenerateCommand());
@@ -26,17 +61,12 @@ class GenerateCommandTest extends PHPUnit_Framework_TestCase
         $command = $application->find('generate');
         $commandTester = new CommandTester($command);
         $commandTester->execute(array(
-            'command'  => $command->getName(),
-            'webserver' => 'apache:2.4',
-            'directives' => ['alias', 'directory'],
+            'command' => $command->getName(),
+            'webserver' => $webservername,
+            'directives' => $directives,
         ));
 
         $output = $commandTester->getDisplay();
-        $this->assertEquals('Alias webhelper/ "'.getcwd().'"
-<Directory "'.getcwd().'">
-    Options Indexes FollowSymLinks MultiViews
-    Require all granted
-</Directory>
-', $output);
+        $this->assertEquals($expected, $output);
     }
 }

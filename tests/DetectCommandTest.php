@@ -22,7 +22,9 @@ class DetectCommandTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->bin = realpath(__DIR__.'/dummyfilesystem/bin');
+        $this->bin = realpath(__DIR__.'/dummyfilesystem/bin').':'.
+            realpath(__DIR__.'/dummyfilesystem/fakebin1').':'.
+            realpath(__DIR__.'/dummyfilesystem/fakebin2');
     }
 
     public function dataExecute()
@@ -30,17 +32,31 @@ class DetectCommandTest extends PHPUnit_Framework_TestCase
         $data = [];
 
         $data['empty path'] = [
-            '',
+            'No Web Server Found.',
             [],
             32,
-            false
+            false,
+        ];
+
+        $data['wrong version for a webserver'] = [
+            'No version found for',
+            [realpath(__DIR__.'/dummyfilesystem/fakebin1')],
+            32,
+            true,
+        ];
+
+        $data['no config file for a webserver'] = [
+            'No conf. file found for',
+            [realpath(__DIR__.'/dummyfilesystem/fakebin2')],
+            32,
+            true,
         ];
 
         $data['path to nginx'] = [
             'detected for nginx',
             [realpath(__DIR__.'/dummyfilesystem/bin')],
             128,
-            true
+            true,
         ];
 
         return $data;
@@ -65,20 +81,16 @@ class DetectCommandTest extends PHPUnit_Framework_TestCase
         $commandTester = new CommandTester($command);
         $commandTester->execute(
             [
-                'command'  => $command->getName(),
-                'path' => $path
+                'command' => $command->getName(),
+                'path' => $path,
             ],
             ['verbosity' => $verbosity]
         );
 
         $output = $commandTester->getDisplay();
-        if ($expected) {
-            $this->assertContains($expected, $output);
-            if ($verbosity == 128) {
-                $this->assertContains('You should analyze this with', $output);
-            }
-        } else {
-            $this->assertEmpty($output);
+        $this->assertContains($expected, $output);
+        if ($verbosity == 128) {
+            $this->assertContains('You should analyze this with', $output);
         }
 
         putenv('PATH='.$homePath);

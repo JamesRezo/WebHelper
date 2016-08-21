@@ -11,7 +11,6 @@
 
 namespace JamesRezo\WebHelper\Command;
 
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
@@ -21,7 +20,7 @@ use JamesRezo\WebHelper\WebServer\NullWebServer;
 /**
  * Generates Configuration Statements given a webserver and known directives.
  */
-class GenerateCommand extends Command
+class GenerateCommand extends BaseCommand
 {
     /**
      * {@inheritdoc}
@@ -47,26 +46,25 @@ class GenerateCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $webserver = $input->getArgument('webserver');
-        $version = 0;
-        if (preg_match(',([^:]+)(:([\.\d]+))$,', $webserver, $matches)) {
-            $version = $matches[3];
-            $webserver = $matches[1];
+        $webserver = $this->getWebServer($input, $output);
+        if ($webserver instanceof NullWebServer) {
+            return 1;
         }
+
+        $webservername = $webserver->getName();
+        $version = $webserver->getVersion();
 
         $directives = $input->getArgument('directives');
 
         $webhelper = new WebHelper();
         $webhelper->setRepository(__DIR__.'/../../res');
         $webhelper->setProject('webhelper', '0.2');
+        $webhelper->setServer($webservername, $version);
 
         if ($webhelper->getRepository()->okGo()) {
-            $webhelper->setServer($webserver, $version);
-            if (!($webhelper->getServer() instanceof NullWebServer)) {
-                foreach ($directives as $directive) {
-                    $twigFile = $webhelper->find($directive);
-                    $output->write($webhelper->render($twigFile, $webhelper->getProject()->getParameters()));
-                }
+            foreach ($directives as $directive) {
+                $twigFile = $webhelper->find($directive);
+                $output->write($webhelper->render($twigFile, $webhelper->getProject()->getParameters()));
             }
         }
     }
