@@ -162,7 +162,11 @@ abstract class WebServer implements WebServerInterface
         $activeConfig = str_replace("\r\n", "\n", $activeConfig);
         //convert old macos to unix format
         $activeConfig = str_replace("\r", "\n", $activeConfig);
+        //convert into an array
+        $activeConfig = explode("\n", $activeConfig);
+        //trim spaces
+        $activeConfig = array_map('trim', $activeConfig);
 
-        return explode("\n", $activeConfig);
+        return $activeConfig;
     }
 }

@@ -11,6 +11,8 @@
 
 namespace JamesRezo\WebHelper\WebServer;
 
+use JamesRezo\WebHelper\WebServer\ApacheWebServer\Directive;
+
 /**
  * ApacheWebServer is the webserver class for apache httpd webserver.
  */
@@ -41,17 +43,14 @@ class ApacheWebServer extends WebServer
         $parsedActiveConfig = [];
 
         foreach ($activeConfig as $line => $directive) {
-            if (preg_match('/^<If(Module|Define)\s+(\w+)>/i', trim($directive), $matches)) {
+            if (preg_match('/^<If(Module|Define)\s+(\w+)>/i', $directive, $matches)) {
                 $parsedActiveConfig[$line] = ['module section', $matches[2]];
             }
-            if (preg_match('/^<(((Directory|Files|Location)(Match)?)|VirtualHost)/i', trim($directive), $matches)) {
+            if (preg_match('/^<(((Directory|Files|Location)(Match)?)|VirtualHost)/i', $directive, $matches)) {
                 $parsedActiveConfig[$line] = ['scope section', $matches[2]];
             }
-            /*if (preg_match('/^Include(Optional)?\s+(.+)/i', trim($directive), $matches)) {
-                $parsedActiveConfig[$line] = ['include directive', $matches[2]];
-            }*/
-            if (preg_match('/^(\w+)\s+(.+)/i', trim($directive), $matches)) {
-                $parsedActiveConfig[$line] = ['directive', [$matches[1], $matches[2]]];
+            if (preg_match('/^(\w+)\s+(.+)/i', $directive, $matches)) {
+                $parsedActiveConfig[$line] = new Directive($matches[1], $matches[2]);
             }
         }
 

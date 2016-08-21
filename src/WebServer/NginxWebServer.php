@@ -11,6 +11,8 @@
 
 namespace JamesRezo\WebHelper\WebServer;
 
+use JamesRezo\WebHelper\WebServer\NginxWebServer\Directive;
+
 /**
  * NginxWebServer is the webserver class for nginx httpd webserver.
  */
@@ -41,13 +43,13 @@ class NginxWebServer extends WebServer
         $parsedActiveConfig = [];
 
         foreach ($activeConfig as $line => $directive) {
-            if (preg_match('/(?P<key>\w+)\s+(?P<value>[^;]+);/', $directive, $matches)) {
-                $parsedActiveConfig[$line] = ['simple directive', [$matches['key'] => $matches['value']]];
+            if (preg_match('/(?P<key>\w+)\s+(?P<value>[^;]+);/', trim($directive), $matches)) {
+                $parsedActiveConfig[$line] = new Directive($matches['key'],$matches['value']);
             }
-            if (preg_match('/(?P<key>\w+)\s+(?P<value>[^\s{+])\s*{/', $directive, $matches)) {
+            if (preg_match('/(?P<key>\w+)\s+(?P<value>[^\s{+])\s*{/', trim($directive), $matches)) {
                 $parsedActiveConfig[$line] = ['block directive', [$matches['key'] => $matches['value']]];
             }
-            if (preg_match('/(?P<key>\w+)\s*{/', $directive, $matches)) {
+            if (preg_match('/(?P<key>\w+)\s*{/', trim($directive), $matches)) {
                 $parsedActiveConfig[$line] = ['context', $matches['key']];
             }
         }
