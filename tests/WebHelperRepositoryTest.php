@@ -22,22 +22,22 @@ class WebHelperRepositoryTest extends PHPUnit_Framework_TestCase
 
         $data['unset'] = [
             false,
-            ''
+            '',
         ];
 
         $data['finder can\'t find resDir'] = [
             false,
-            'doesntexist'
+            'doesntexist',
         ];
 
         $data['twig can\'t find resDir'] = [
             false,
-            'doesntexist'
+            'doesntexist',
         ];
 
         $data['resDir does exist'] = [
             true,
-            __DIR__ . '/dummyrepo'
+            __DIR__.'/dummyrepo',
         ];
 
         return $data;

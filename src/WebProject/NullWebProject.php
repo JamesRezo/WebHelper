@@ -33,8 +33,8 @@ class NullWebProject extends WebProject
                 'aliasname' => $this->getName(),
                 'documentroot' => getcwd(),
                 'vhostname' => $this->getName(),
-                'portnumber' => 80
-            ]
+                'portnumber' => 80,
+            ],
         ];
     }
 }

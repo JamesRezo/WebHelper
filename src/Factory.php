@@ -29,7 +29,7 @@ class Factory
         $file = '';
         foreach ([
             getenv('HOME').'/.config/webhelper/parameters.yml',
-            __DIR__.'/../app/config/parameters.yml'
+            __DIR__.'/../app/config/parameters.yml',
         ] as $file) {
             if (is_readable($file)) {
                 break;
@@ -73,6 +73,7 @@ class Factory
     public function createWebProject($name, $version = '')
     {
         $name = '';
+
         return new NullWebProject($version);
     }
 }

@@ -11,8 +11,6 @@
 
 namespace JamesRezo\WebHelper\WebProject;
 
-use Symfony\Component\Process\Process;
-
 /**
  * Base class for webproject classes.
  *

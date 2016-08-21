@@ -13,8 +13,6 @@ namespace JamesRezo\WebHelper;
 
 use Composer\Semver\VersionParser;
 use Composer\Semver\Comparator;
-use JamesRezo\WebHelper\Factory;
-use JamesRezo\WebHelper\WebHelperRepository;
 
 /**
  * WebHelper.
@@ -91,6 +89,12 @@ class WebHelper
         return $this->server;
     }
 
+    /**
+     * Sets the PHP Webapp to configure.
+     *
+     * @param string $server  a PHP Webapp name
+     * @param string $version a semver-like version
+     */
     public function setProject($projectname, $version)
     {
         $factory = new Factory();
@@ -99,6 +103,11 @@ class WebHelper
         return $this;
     }
 
+    /**
+     * Gets the PHP Webapp to configure.
+     *
+     * @return WebProjectInterface the PHP Webapp instance
+     */
     public function getProject()
     {
         return $this->project;
@@ -107,8 +116,9 @@ class WebHelper
     /**
      * Finds the best template for a web server directive according to its version.
      *
-     * @param  string $directive a directive
-     * @return string            the relative path to the template
+     * @param string $directive a directive
+     *
+     * @return string the relative path to the template
      */
     public function find($directive)
     {
@@ -133,9 +143,10 @@ class WebHelper
     /**
      * Outputs a webserver directive.
      *
-     * @param  string $twigFile a relative path of a template
-     * @param  array  $params   parameters
-     * @return string           the directive output
+     * @param string $twigFile a relative path of a template
+     * @param array  $params   parameters
+     *
+     * @return string the directive output
      */
     public function render($twigFile, array $params = array())
     {

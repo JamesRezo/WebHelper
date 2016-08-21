@@ -13,8 +13,8 @@ namespace JamesRezo\WebHelper;
 
 use Symfony\Component\Finder\Finder;
 use Composer\Semver\VersionParser;
-use \Twig_Loader_Filesystem;
-use \Twig_Environment;
+use Twig_Loader_Filesystem;
+use Twig_Environment;
 
 /**
  * WebHelper Repository.
@@ -51,8 +51,9 @@ class WebHelperRepository
     /**
      * Initialize the Twig Environment.
      *
-     * @param  string           $resDir the Path of a Directives Repository
-     * @return Twig_Environment         the Twig Environment
+     * @param string $resDir the Path of a Directives Repository
+     *
+     * @return Twig_Environment the Twig Environment
      */
     private function initialize($resDir)
     {
@@ -72,8 +73,9 @@ class WebHelperRepository
     /**
      * Initialize the structured array of a directives repository.
      *
-     * @param  string $resDir the Path of a Directives Repository
-     * @return array          the structured array of a directives repository
+     * @param string $resDir the Path of a Directives Repository
+     *
+     * @return array the structured array of a directives repository
      */
     private function memoize($resDir)
     {
@@ -122,7 +124,7 @@ class WebHelperRepository
     /**
      * Tells if the Repository can be used.
      *
-     * @return boolean true if there are some directives in the Path of a Directives Repository
+     * @return bool true if there are some directives in the Path of a Directives Repository
      */
     public function okGo()
     {

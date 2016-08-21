@@ -23,27 +23,27 @@ class AnalyzeCommandTest extends PHPUnit_Framework_TestCase
         $data = [];
 
         $data['Null'] = [
-            'Web Server "test" unknown.'."\n",
+            'Web Server "test" unknown.',
             'test',
-            ''
+            '',
         ];
 
         $data['config file does not exist'] = [
-            'Configuration file "nginx.conf" does not exist.'."\n",
+            'Configuration file "nginx.conf" does not exist.',
             'nginx',
-            'nginx.conf'
+            'nginx.conf',
         ];
 
         $data['nginx'] = [
             '',
             'nginx',
-            realpath(__DIR__.'/dummyfilesystem/etc/nginx.conf')
+            realpath(__DIR__.'/dummyfilesystem/etc/nginx.conf'),
         ];
 
         $data['Apache 2.4'] = [
             '',
             'apache:2.4.18',
-            realpath(__DIR__.'/dummyfilesystem/etc/httpd.conf')
+            realpath(__DIR__.'/dummyfilesystem/etc/httpd.conf'),
         ];
 
         return $data;
@@ -60,12 +60,15 @@ class AnalyzeCommandTest extends PHPUnit_Framework_TestCase
         $command = $application->find('analyze');
         $commandTester = new CommandTester($command);
         $commandTester->execute(array(
-            'command'  => $command->getName(),
+            'command' => $command->getName(),
             'webserver' => $webserver,
-            'configfile' => $configfile
+            'configfile' => $configfile,
         ));
 
-        $output = $commandTester->getDisplay();
-        $this->assertEquals($expected, $output);
+        if ($expected) {
+            $this->assertContains($expected, $commandTester->getDisplay());
+        } else {
+            $this->assertEquals($expected, $commandTester->getDisplay());
+        }
     }
 }

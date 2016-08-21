@@ -4,7 +4,7 @@
         <collector publiconly="false" backend="parser" encoding="auto">
             <include mask="*.php" />
             <exclude mask="" />
-            <inheritance resolve="true" />
+            <inheritance resolve="false" />
         </collector>
 
         <generator output="${basedir}/docs">
@@ -33,7 +33,7 @@
 
             <build engine="html" enabled="true" output="html">
                 <template dir="${phpDox.home}/templates/html" />
-                <file extension="xhtml" />
+                <file extension="html" />
             </build>
         </generator>
     </project>

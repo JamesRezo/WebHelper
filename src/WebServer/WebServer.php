@@ -110,6 +110,7 @@ abstract class WebServer implements WebServerInterface
     {
         $process = new Process($fullPathBinary.$this->detectionParameter);
         $process->run();
+
         return $process->getOutput();
     }
 
@@ -117,14 +118,17 @@ abstract class WebServer implements WebServerInterface
 
     abstract public function extractRootConfigurationFile($settings = '');
 
+    abstract public function parseActiveConfig(array $activeConfig = array());
+
     /**
      * Finds and return a specific information in a string.
      *
      * the regexp must contain delimiters.
      *
-     * @param  string $regexp   a regular expression to find
-     * @param  string $settings a string where to find
-     * @return string           the found value or an empty string
+     * @param string $regexp   a regular expression to find
+     * @param string $settings a string where to find
+     *
+     * @return string the found value or an empty string
      */
     protected function match($regexp, $settings)
     {
@@ -140,19 +144,25 @@ abstract class WebServer implements WebServerInterface
     /**
      * Loads et cleans a config file.
      *
-     * @param  string $file a Configuration file
-     * @return string       the cleaned directives a the config file
+     * @param string $file a Configuration file
+     *
+     * @return array an array of the cleaned directives of a the config per entry
      */
     public function getActiveConfig($file = '')
     {
         $activeConfig = file_get_contents($file);
 
-        #Comon to both apache and nginx
-        #delete commented lines
+        //Comon to both apache and nginx
+        //delete commented lines and comments at end of line
         $activeConfig = preg_replace('/^\s*#(.+)?/m', '', $activeConfig);
-        #delete blank lines
+        $activeConfig = preg_replace('/^#(.+)$/m', '', $activeConfig);
+        //delete blank lines
         $activeConfig = preg_replace('/^\h*\v+/m', '', $activeConfig);
+        //convert dos to unix format
+        $activeConfig = str_replace("\r\n", "\n", $activeConfig);
+        //convert old macos to unix format
+        $activeConfig = str_replace("\r", "\n", $activeConfig);
 
-        return $activeConfig;
+        return explode("\n", $activeConfig);
     }
 }
