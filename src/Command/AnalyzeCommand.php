@@ -11,17 +11,15 @@
 
 namespace JamesRezo\WebHelper\Command;
 
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
-use JamesRezo\WebHelper\Factory;
 use JamesRezo\WebHelper\WebServer\NullWebServer;
 
 /**
  * Analyze a webserver configuration.
  */
-class AnalyzeCommand extends Command
+class AnalyzeCommand extends BaseCommand
 {
     /**
      * {@inheritdoc}
@@ -47,27 +45,27 @@ class AnalyzeCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $webservername = $input->getArgument('webserver');
-        $version = 0;
-        if (preg_match(',([^:]+)(:([\.\d]+))$,', $webservername, $matches)) {
-            $version = $matches[3];
-            $webservername = $matches[1];
-        }
-
-        $factory = new Factory();
-        $webserver = $factory->createWebServer($webservername, $version);
+        $webserver = $this->getWebServer($input, $output);
         if ($webserver instanceof NullWebServer) {
-            $output->writeln('<error>Web Server "'.$webservername.'" unknown.</error>');
             return 1;
         }
 
         $configfile = $input->getArgument('configfile');
         if (!is_readable($configfile)) {
             $output->writeln('<error>Configuration file "'.$configfile.'" does not exist.</error>');
+
             return 1;
         }
 
         //For now, just outputs a cleaned list of directives
-        $output->write($webserver->getActiveConfig($configfile));
+        $activeConfig = $webserver->getActiveConfig($configfile);
+        if ($output->getVerbosity() >= OutputInterface::VERBOSITY_VERY_VERBOSE) {
+            $output->write(implode(PHP_EOL, $activeConfig));
+        }
+
+        $parsedActiveConfig = $webserver->parseActiveConfig($activeConfig);
+        if ($output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE) {
+            $output->writeln(var_export($parsedActiveConfig, true));
+        }
     }
 }

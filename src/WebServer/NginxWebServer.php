@@ -35,4 +35,23 @@ class NginxWebServer extends WebServer
     {
         return $this->match('/--conf-path=([^\s]+) /', $settings);
     }
+
+    public function parseActiveConfig(array $activeConfig = array())
+    {
+        $parsedActiveConfig = [];
+
+        foreach ($activeConfig as $line => $directive) {
+            if (preg_match('/(?P<key>\w+)\s+(?P<value>[^;]+);/', $directive, $matches)) {
+                $parsedActiveConfig[$line] = ['simple directive', [$matches['key'] => $matches['value']]];
+            }
+            if (preg_match('/(?P<key>\w+)\s+(?P<value>[^\s{+])\s*{/', $directive, $matches)) {
+                $parsedActiveConfig[$line] = ['block directive', [$matches['key'] => $matches['value']]];
+            }
+            if (preg_match('/(?P<key>\w+)\s*{/', $directive, $matches)) {
+                $parsedActiveConfig[$line] = ['context', $matches['key']];
+            }
+        }
+
+        return $parsedActiveConfig;
+    }
 }

@@ -39,4 +39,9 @@ class NullWebServer extends WebServer
 
         return $settings;
     }
+
+    public function parseActiveConfig(array $activeConfig = array())
+    {
+        return null;
+    }
 }

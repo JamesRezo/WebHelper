@@ -61,4 +61,6 @@ interface WebServerInterface
     public function extractVersion($settings = '');
 
     public function extractRootConfigurationFile($settings = '');
+
+    public function parseActiveConfig(array $activeConfig = array());
 }

@@ -35,4 +35,26 @@ class ApacheWebServer extends WebServer
     {
         return $this->match('/ -D SERVER_CONFIG_FILE="([^"]+)"/', $settings);
     }
+
+    public function parseActiveConfig(array $activeConfig = array())
+    {
+        $parsedActiveConfig = [];
+
+        foreach ($activeConfig as $line => $directive) {
+            if (preg_match('/^<If(Module|Define)\s+(\w+)>/i', trim($directive), $matches)) {
+                $parsedActiveConfig[$line] = ['module section', $matches[2]];
+            }
+            if (preg_match('/^<(((Directory|Files|Location)(Match)?)|VirtualHost)/i', trim($directive), $matches)) {
+                $parsedActiveConfig[$line] = ['scope section', $matches[2]];
+            }
+            /*if (preg_match('/^Include(Optional)?\s+(.+)/i', trim($directive), $matches)) {
+                $parsedActiveConfig[$line] = ['include directive', $matches[2]];
+            }*/
+            if (preg_match('/^(\w+)\s+(.+)/i', trim($directive), $matches)) {
+                $parsedActiveConfig[$line] = ['directive', [$matches[1], $matches[2]]];
+            }
+        }
+
+        return $parsedActiveConfig;
+    }
 }

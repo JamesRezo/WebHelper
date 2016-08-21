@@ -82,7 +82,7 @@ class WebHelper
     /**
      * Gets the web server instance.
      *
-     * @return WebServerInterface the web server instance
+     * @return WebServer\WebServerInterface the web server instance
      */
     public function getServer()
     {
@@ -92,8 +92,8 @@ class WebHelper
     /**
      * Sets the PHP Webapp to configure.
      *
-     * @param string $server  a PHP Webapp name
-     * @param string $version a semver-like version
+     * @param string $projectname a PHP Webapp name
+     * @param string $version     a semver-like version
      */
     public function setProject($projectname, $version)
     {
@@ -106,7 +106,7 @@ class WebHelper
     /**
      * Gets the PHP Webapp to configure.
      *
-     * @return WebProjectInterface the PHP Webapp instance
+     * @return WebProject\WebProjectInterface the PHP Webapp instance
      */
     public function getProject()
     {
