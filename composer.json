@@ -14,10 +14,11 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^5.4",
-        "theseer/phpdox": "0.8.1.1",
+        "theseer/phpdox": "^0.9",
         "phpmd/phpmd": "^2.4",
         "squizlabs/php_codesniffer": "^2.6",
-        "sebastian/phpcpd": "^2.0"
+        "sebastian/phpcpd": "^2.0",
+        "nikic/php-parser": "@alpha"
     },
     "scripts": {
         "post-install-cmd": "bin/post-install-cmd.sh",
