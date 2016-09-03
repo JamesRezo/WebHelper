@@ -44,7 +44,7 @@ class NginxWebServer extends WebServer
 
         foreach ($activeConfig as $line => $directive) {
             if (preg_match('/(?P<key>\w+)\s+(?P<value>[^;]+);/', trim($directive), $matches)) {
-                $parsedActiveConfig[$line] = new Directive($matches['key'],$matches['value']);
+                $parsedActiveConfig[$line] = new Directive($matches['key'], $matches['value']);
             }
             if (preg_match('/(?P<key>\w+)\s+(?P<value>[^\s{+])\s*{/', trim($directive), $matches)) {
                 $parsedActiveConfig[$line] = ['block directive', [$matches['key'] => $matches['value']]];

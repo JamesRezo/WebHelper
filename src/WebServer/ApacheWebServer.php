@@ -46,8 +46,14 @@ class ApacheWebServer extends WebServer
             if (preg_match('/^<If(Module|Define)\s+(\w+)>/i', $directive, $matches)) {
                 $parsedActiveConfig[$line] = ['module section', $matches[2]];
             }
+            if (preg_match('/^<\/If(Module|Define)>/i', $directive, $matches)) {
+                $parsedActiveConfig[$line] = ['end module section'];
+            }
             if (preg_match('/^<(((Directory|Files|Location)(Match)?)|VirtualHost)/i', $directive, $matches)) {
                 $parsedActiveConfig[$line] = ['scope section', $matches[2]];
+            }
+            if (preg_match('/^<\/(((Directory|Files|Location)(Match)?)|VirtualHost)/i', $directive, $matches)) {
+                $parsedActiveConfig[$line] = ['end scope section'];
             }
             if (preg_match('/^(\w+)\s+(.+)/i', $directive, $matches)) {
                 $parsedActiveConfig[$line] = new Directive($matches[1], $matches[2]);

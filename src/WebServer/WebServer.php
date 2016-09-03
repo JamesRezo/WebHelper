@@ -12,6 +12,7 @@
 namespace JamesRezo\WebHelper\WebServer;
 
 use Symfony\Component\Process\Process;
+use WebHelper\Parser\Parser;
 
 /**
  * Base class for webserver classes.
@@ -142,7 +143,7 @@ abstract class WebServer implements WebServerInterface
     }
 
     /**
-     * Loads et cleans a config file.
+     * Loads and cleans a config file.
      *
      * @param string $file a Configuration file
      *
@@ -150,23 +151,8 @@ abstract class WebServer implements WebServerInterface
      */
     public function getActiveConfig($file = '')
     {
-        $activeConfig = file_get_contents($file);
+        $parser = new Parser();
 
-        //Comon to both apache and nginx
-        //delete commented lines and comments at end of line
-        $activeConfig = preg_replace('/^\s*#(.+)?/m', '', $activeConfig);
-        $activeConfig = preg_replace('/^#(.+)$/m', '', $activeConfig);
-        //delete blank lines
-        $activeConfig = preg_replace('/^\h*\v+/m', '', $activeConfig);
-        //convert dos to unix format
-        $activeConfig = str_replace("\r\n", "\n", $activeConfig);
-        //convert old macos to unix format
-        $activeConfig = str_replace("\r", "\n", $activeConfig);
-        //convert into an array
-        $activeConfig = explode("\n", $activeConfig);
-        //trim spaces
-        $activeConfig = array_map('trim', $activeConfig);
-
-        return $activeConfig;
+        return $parser->setConfigFile($file)->getActiveConfig();
     }
 }

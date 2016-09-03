@@ -1,10 +1,10 @@
 # WebHelper
 A Generic Httpd Configuration Helper
 
-[![Build Status](https://api.travis-ci.org/JamesRezo/WebHelper.svg?branch=new-architecture)](https://travis-ci.org/JamesRezo/WebHelper)
+[![Build Status](https://api.travis-ci.org/JamesRezo/WebHelper.svg?branch=master)](https://travis-ci.org/JamesRezo/WebHelper)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/57e3dc27-e915-42d4-9bde-863a8f3bf5f8/mini.png)](https://insight.sensiolabs.com/projects/57e3dc27-e915-42d4-9bde-863a8f3bf5f8)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/JamesRezo/WebHelper/badges/quality-score.png?b=new-architecture)](https://scrutinizer-ci.com/g/JamesRezo/WebHelper/?branch=master)
-[![Code Coverage](https://scrutinizer-ci.com/g/JamesRezo/WebHelper/badges/coverage.png?b=new-architecture)](https://scrutinizer-ci.com/g/JamesRezo/WebHelper/?branch=master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/JamesRezo/WebHelper/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/JamesRezo/WebHelper/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/JamesRezo/WebHelper/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/JamesRezo/WebHelper/?branch=master)
 [![Dependency Status](https://www.versioneye.com/user/projects/57aacb4bf27cc20050102f19/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/57aacb4bf27cc20050102f19)
 [![Code Climate](https://codeclimate.com/github/JamesRezo/WebHelper/badges/gpa.svg)](https://codeclimate.com/github/JamesRezo/WebHelper)
 
