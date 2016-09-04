@@ -12,6 +12,7 @@
 namespace JamesRezo\WebHelper\WebServer;
 
 use Symfony\Component\Process\Process;
+use WebHelper\Parser\ParserInterface;
 
 /**
  * Base class for webserver classes.
@@ -49,6 +50,13 @@ abstract class WebServer implements WebServerInterface
      * @var string
      */
     private $detectionParameter = '';
+
+    /**
+     * a web config parser.
+     *
+     * @var ParserInterface
+     */
+    private $parser;
 
     /**
      * Constructor.
