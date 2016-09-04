@@ -56,7 +56,7 @@ abstract class WebServer implements WebServerInterface
      *
      * @var ParserInterface
      */
-    private $parser;
+    protected $parser;
 
     /**
      * Constructor.
