@@ -11,6 +11,8 @@
 
 namespace JamesRezo\WebHelper\WebServer;
 
+use WebHelper\Parser\NginxParser;
+
 /**
  * NginxWebServer is the webserver class for nginx httpd webserver.
  */
@@ -24,6 +26,7 @@ class NginxWebServer extends WebServer
     public function __construct($version = '')
     {
         parent::__construct('nginx', $version);
+        $this->parser = new NginxParser();
     }
 
     public function extractVersion($settings = '')
@@ -38,6 +41,6 @@ class NginxWebServer extends WebServer
 
     public function getActiveConfig($file = '')
     {
-        return [];
+        return $this->parser->setConfigFile($file)->getActiveConfig();
     }
 }

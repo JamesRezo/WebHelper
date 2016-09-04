@@ -349,16 +349,16 @@
         },
         {
             "name": "webhelper/parser",
-            "version": "0.2",
+            "version": "0.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/JamesRezo/webhelper-parser.git",
-                "reference": "1553c3ac244de87a3b9764c0b7168e8e509aae14"
+                "reference": "4f7554a45faacf50e877cbf56207c025091969df"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JamesRezo/webhelper-parser/zipball/1553c3ac244de87a3b9764c0b7168e8e509aae14",
-                "reference": "1553c3ac244de87a3b9764c0b7168e8e509aae14",
+                "url": "https://api.github.com/repos/JamesRezo/webhelper-parser/zipball/4f7554a45faacf50e877cbf56207c025091969df",
+                "reference": "4f7554a45faacf50e877cbf56207c025091969df",
                 "shasum": ""
             },
             "require-dev": {
@@ -381,7 +381,7 @@
                 }
             ],
             "description": "WebHelper Parser Interface",
-            "time": "2016-09-04 07:50:34"
+            "time": "2016-09-04 18:42:53"
         },
         {
             "name": "webmozart/assert",
