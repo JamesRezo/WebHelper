@@ -62,5 +62,12 @@ interface WebServerInterface
 
     public function extractRootConfigurationFile($settings = '');
 
-    public function parseActiveConfig(array $activeConfig = array());
+    /**
+     * Loads and cleans a config file.
+     *
+     * @param string $file a Configuration file
+     *
+     * @return array an array of the cleaned directives of a the config per entry
+     */
+    public function getActiveConfig($file = '');
 }

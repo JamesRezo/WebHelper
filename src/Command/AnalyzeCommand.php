@@ -62,10 +62,5 @@ class AnalyzeCommand extends BaseCommand
         if ($output->getVerbosity() >= OutputInterface::VERBOSITY_VERY_VERBOSE) {
             $output->write(implode(PHP_EOL, $activeConfig));
         }
-
-        $parsedActiveConfig = $webserver->parseActiveConfig($activeConfig);
-        if ($output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE) {
-            $output->writeln(var_export($parsedActiveConfig, true));
-        }
     }
 }

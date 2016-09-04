@@ -11,7 +11,7 @@
 
 namespace JamesRezo\WebHelper\WebServer;
 
-use JamesRezo\WebHelper\WebServer\ApacheWebServer\Directive;
+use WebHelper\Parser\ApacheParser;
 
 /**
  * ApacheWebServer is the webserver class for apache httpd webserver.
@@ -26,6 +26,7 @@ class ApacheWebServer extends WebServer
     public function __construct($version = '')
     {
         parent::__construct('apache', $version);
+        $this->parser = new ApacheParser();
     }
 
     public function extractVersion($settings = '')
@@ -38,28 +39,15 @@ class ApacheWebServer extends WebServer
         return $this->match('/ -D SERVER_CONFIG_FILE="([^"]+)"/', $settings);
     }
 
-    public function parseActiveConfig(array $activeConfig = array())
+    /**
+     * Loads and cleans a config file.
+     *
+     * @param string $file a Configuration file
+     *
+     * @return array an array of the cleaned directives of a the config per entry
+     */
+    public function getActiveConfig($file = '')
     {
-        $parsedActiveConfig = [];
-
-        foreach ($activeConfig as $line => $directive) {
-            if (preg_match('/^<If(Module|Define)\s+(\w+)>/i', $directive, $matches)) {
-                $parsedActiveConfig[$line] = ['module section', $matches[2]];
-            }
-            if (preg_match('/^<\/If(Module|Define)>/i', $directive, $matches)) {
-                $parsedActiveConfig[$line] = ['end module section'];
-            }
-            if (preg_match('/^<(((Directory|Files|Location)(Match)?)|VirtualHost)/i', $directive, $matches)) {
-                $parsedActiveConfig[$line] = ['scope section', $matches[2]];
-            }
-            if (preg_match('/^<\/(((Directory|Files|Location)(Match)?)|VirtualHost)/i', $directive, $matches)) {
-                $parsedActiveConfig[$line] = ['end scope section'];
-            }
-            if (preg_match('/^(\w+)\s+(.+)/i', $directive, $matches)) {
-                $parsedActiveConfig[$line] = new Directive($matches[1], $matches[2]);
-            }
-        }
-
-        return $parsedActiveConfig;
+        return $this->parser->setConfigFile($file)->getActiveConfig();
     }
 }

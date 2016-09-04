@@ -40,8 +40,8 @@ class NullWebServer extends WebServer
         return $settings;
     }
 
-    public function parseActiveConfig(array $activeConfig = array())
+    public function getActiveConfig($file = '')
     {
-        return null;
+        return [];
     }
 }

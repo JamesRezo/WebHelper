@@ -67,9 +67,9 @@ class DetectCommand extends BaseCommand
      *
      * Validity of a binary is to retrieve a version and and default config file
      *
-     * @param  array              $path      a list of directories to scan
-     * @param  WebServerInterface $webserver the webserver to detect
-     * @param  OutputInterface    $output    the output interface
+     * @param array              $path      a list of directories to scan
+     * @param WebServerInterface $webserver the webserver to detect
+     * @param OutputInterface    $output    the output interface
      *
      * @return string the absolute path of the binary if found and valid, empty string elsewhere
      */

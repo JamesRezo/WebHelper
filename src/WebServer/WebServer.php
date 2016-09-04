@@ -12,7 +12,6 @@
 namespace JamesRezo\WebHelper\WebServer;
 
 use Symfony\Component\Process\Process;
-use WebHelper\Parser\Parser;
 
 /**
  * Base class for webserver classes.
@@ -119,8 +118,6 @@ abstract class WebServer implements WebServerInterface
 
     abstract public function extractRootConfigurationFile($settings = '');
 
-    abstract public function parseActiveConfig(array $activeConfig = array());
-
     /**
      * Finds and return a specific information in a string.
      *
@@ -149,10 +146,5 @@ abstract class WebServer implements WebServerInterface
      *
      * @return array an array of the cleaned directives of a the config per entry
      */
-    public function getActiveConfig($file = '')
-    {
-        $parser = new Parser();
-
-        return $parser->setConfigFile($file)->getActiveConfig();
-    }
+    abstract public function getActiveConfig($file = '');
 }
