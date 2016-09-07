@@ -349,16 +349,16 @@
         },
         {
             "name": "webhelper/parser",
-            "version": "0.2.1",
+            "version": "0.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/JamesRezo/webhelper-parser.git",
-                "reference": "4f7554a45faacf50e877cbf56207c025091969df"
+                "reference": "faaf8df1a52617b09d8daa3e04d1d7da72c53d5e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JamesRezo/webhelper-parser/zipball/4f7554a45faacf50e877cbf56207c025091969df",
-                "reference": "4f7554a45faacf50e877cbf56207c025091969df",
+                "url": "https://api.github.com/repos/JamesRezo/webhelper-parser/zipball/faaf8df1a52617b09d8daa3e04d1d7da72c53d5e",
+                "reference": "faaf8df1a52617b09d8daa3e04d1d7da72c53d5e",
                 "shasum": ""
             },
             "require-dev": {
@@ -381,7 +381,7 @@
                 }
             ],
             "description": "WebHelper Parser Interface",
-            "time": "2016-09-04 18:42:53"
+            "time": "2016-09-07 16:53:14"
         },
         {
             "name": "webmozart/assert",
@@ -584,16 +584,16 @@
         },
         {
             "name": "myclabs/deep-copy",
-            "version": "1.5.1",
+            "version": "1.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/myclabs/DeepCopy.git",
-                "reference": "a8773992b362b58498eed24bf85005f363c34771"
+                "reference": "da8529775f14f4fdae33f916eb0cf65f6afbddbc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/a8773992b362b58498eed24bf85005f363c34771",
-                "reference": "a8773992b362b58498eed24bf85005f363c34771",
+                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/da8529775f14f4fdae33f916eb0cf65f6afbddbc",
+                "reference": "da8529775f14f4fdae33f916eb0cf65f6afbddbc",
                 "shasum": ""
             },
             "require": {
@@ -622,7 +622,7 @@
                 "object",
                 "object graph"
             ],
-            "time": "2015-11-20 12:04:31"
+            "time": "2016-09-06 16:07:05"
         },
         {
             "name": "nikic/php-parser",
@@ -1312,16 +1312,16 @@
         },
         {
             "name": "phpunit/phpunit-mock-objects",
-            "version": "3.2.6",
+            "version": "3.2.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit-mock-objects.git",
-                "reference": "46b249b43fd2ed8e127aa0fdb3cbcf56e9bc0e49"
+                "reference": "546898a2c0c356ef2891b39dd7d07f5d82c8ed0a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit-mock-objects/zipball/46b249b43fd2ed8e127aa0fdb3cbcf56e9bc0e49",
-                "reference": "46b249b43fd2ed8e127aa0fdb3cbcf56e9bc0e49",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit-mock-objects/zipball/546898a2c0c356ef2891b39dd7d07f5d82c8ed0a",
+                "reference": "546898a2c0c356ef2891b39dd7d07f5d82c8ed0a",
                 "shasum": ""
             },
             "require": {
@@ -1367,7 +1367,7 @@
                 "mock",
                 "xunit"
             ],
-            "time": "2016-08-26 05:51:59"
+            "time": "2016-09-06 16:07:45"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
