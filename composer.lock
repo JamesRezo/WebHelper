@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "d4014d00b05beab6b181d0fe32dec730",
-    "content-hash": "e6b344630f6cedbc924a98c8a80b8829",
+    "hash": "ce6b85ee2662ddce8ad79372c44db269",
+    "content-hash": "bad0662d6a7a2a29e21dea78ee7f900a",
     "packages": [
         {
             "name": "composer/semver",
@@ -287,6 +287,55 @@
             "time": "2016-08-16 14:58:24"
         },
         {
+            "name": "symfony/yaml",
+            "version": "v3.1.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/yaml.git",
+                "reference": "f291ed25eb1435bddbe8a96caaef16469c2a092d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/f291ed25eb1435bddbe8a96caaef16469c2a092d",
+                "reference": "f291ed25eb1435bddbe8a96caaef16469c2a092d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.9"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Yaml\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Yaml Component",
+            "homepage": "https://symfony.com",
+            "time": "2016-09-02 02:12:52"
+        },
+        {
             "name": "twig/twig",
             "version": "v1.24.2",
             "source": {
@@ -349,20 +398,25 @@
         },
         {
             "name": "webhelper/parser",
-            "version": "0.2.3",
+            "version": "0.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/JamesRezo/webhelper-parser.git",
-                "reference": "faaf8df1a52617b09d8daa3e04d1d7da72c53d5e"
+                "reference": "72f3803084c7205b3a0c82e9b4715629d5de2d7d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JamesRezo/webhelper-parser/zipball/faaf8df1a52617b09d8daa3e04d1d7da72c53d5e",
-                "reference": "faaf8df1a52617b09d8daa3e04d1d7da72c53d5e",
+                "url": "https://api.github.com/repos/JamesRezo/webhelper-parser/zipball/72f3803084c7205b3a0c82e9b4715629d5de2d7d",
+                "reference": "72f3803084c7205b3a0c82e9b4715629d5de2d7d",
                 "shasum": ""
             },
+            "require": {
+                "php": "^5.4 || ^7.0",
+                "symfony/yaml": "^2.8 || ^3.1",
+                "webmozart/glob": "^4.1"
+            },
             "require-dev": {
-                "phpunit/phpunit": "^5.5"
+                "phpunit/phpunit": "^4.8 || ^5.5"
             },
             "type": "library",
             "autoload": {
@@ -381,7 +435,16 @@
                 }
             ],
             "description": "WebHelper Parser Interface",
-            "time": "2016-09-07 16:53:14"
+            "keywords": [
+                "apache",
+                "configuration",
+                "devops",
+                "nginx",
+                "parser",
+                "server",
+                "web"
+            ],
+            "time": "2016-09-18 10:59:12"
         },
         {
             "name": "webmozart/assert",
@@ -584,16 +647,16 @@
         },
         {
             "name": "myclabs/deep-copy",
-            "version": "1.5.2",
+            "version": "1.5.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/myclabs/DeepCopy.git",
-                "reference": "da8529775f14f4fdae33f916eb0cf65f6afbddbc"
+                "reference": "ea74994a3dc7f8d2f65a06009348f2d63c81e61f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/da8529775f14f4fdae33f916eb0cf65f6afbddbc",
-                "reference": "da8529775f14f4fdae33f916eb0cf65f6afbddbc",
+                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/ea74994a3dc7f8d2f65a06009348f2d63c81e61f",
+                "reference": "ea74994a3dc7f8d2f65a06009348f2d63c81e61f",
                 "shasum": ""
             },
             "require": {
@@ -622,20 +685,20 @@
                 "object",
                 "object graph"
             ],
-            "time": "2016-09-06 16:07:05"
+            "time": "2016-09-16 13:37:59"
         },
         {
             "name": "nikic/php-parser",
-            "version": "v3.0.0alpha1",
+            "version": "v3.0.0beta1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "21b18eb2945aa4b887b98a11f0ef7d5fe24527fc"
+                "reference": "f5d334d9bff79bfe75c5fcb30c03e5a383b2b660"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/21b18eb2945aa4b887b98a11f0ef7d5fe24527fc",
-                "reference": "21b18eb2945aa4b887b98a11f0ef7d5fe24527fc",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/f5d334d9bff79bfe75c5fcb30c03e5a383b2b660",
+                "reference": "f5d334d9bff79bfe75c5fcb30c03e5a383b2b660",
                 "shasum": ""
             },
             "require": {
@@ -673,7 +736,7 @@
                 "parser",
                 "php"
             ],
-            "time": "2016-07-25 13:16:35"
+            "time": "2016-09-16 12:18:19"
         },
         {
             "name": "pdepend/pdepend",
@@ -2211,55 +2274,6 @@
             "description": "Symfony Filesystem Component",
             "homepage": "https://symfony.com",
             "time": "2016-07-20 05:44:26"
-        },
-        {
-            "name": "symfony/yaml",
-            "version": "v3.1.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/yaml.git",
-                "reference": "f291ed25eb1435bddbe8a96caaef16469c2a092d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/f291ed25eb1435bddbe8a96caaef16469c2a092d",
-                "reference": "f291ed25eb1435bddbe8a96caaef16469c2a092d",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.5.9"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.1-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Component\\Yaml\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony Yaml Component",
-            "homepage": "https://symfony.com",
-            "time": "2016-09-02 02:12:52"
         },
         {
             "name": "theseer/directoryscanner",
